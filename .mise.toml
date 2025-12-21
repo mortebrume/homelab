@@ -1,0 +1,19 @@
+[settings]
+pipx_uvx = true
+
+[env]
+KUBECONFIG = "{{config_root}}/kubeconfig"
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+
+_.file = ["{{config_root}}/.secrets.env"]
+
+[tools]
+"aqua:bitwarden/sdk-sm" = "latest"
+"aqua:charmbracelet/gum" = "latest"
+"aqua:helm/helm" = "latest"
+"aqua:helmfile/helmfile" = "latest"
+"aqua:k0sproject/k0sctl" = "latest"
+"aqua:mitsuhiko/minijinja" = "latest"
+"uv" = "latest"
+"pipx:flux-local" = "latest"
