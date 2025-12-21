@@ -23,11 +23,12 @@ spec:
         - notification-controller
       sync:
         kind: GitRepository
+        provider: github
         url: https://github.com/mortebrume/homelab
         ref: refs/heads/main
         path: kubernetes/flux/cluster
         interval: 1h
-        pullSecret: github-access-token
+        pullSecret: github-app-access
       kustomize:
         patches:
           - # Increase the number of workers
