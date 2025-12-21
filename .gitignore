@@ -1,0 +1,6 @@
+.venv/
+*.env
+*.key
+.decrypted~*
+.DS_Store
+Thumbs.db
