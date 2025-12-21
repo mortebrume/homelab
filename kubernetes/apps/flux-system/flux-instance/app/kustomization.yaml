@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./externalSecret.yaml
+  - ./grafanaDashboard.yaml
+  - ./helmRelease.yaml
+  - ./ociRepository.yaml
+  - ./httpRoute.yaml
+  - ./podMonitor.yaml
+  - ./prometheusRule.yaml
+  - ./receiver.yaml
