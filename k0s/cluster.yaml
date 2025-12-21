@@ -1,0 +1,42 @@
+---
+# yaml-language-server: $schema=./cluster.yaml
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: homelab
+spec:
+  hosts:
+    - role: controller+worker
+      noTaints: true
+      installFlags:
+        - --disable-components=coredns,metrics-server
+      openSSH:
+        address: server
+  k0s:
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: Cluster
+      metadata:
+        name: k0s
+      spec:
+        api:
+          address: 100.115.152.117
+          onlyBindToAddress: true
+          sans:
+            - server
+            - server.minuet-betelgeuse.ts.net
+            - 100.115.152.117
+            - fd7a:115c:a1e0::b901:9883
+            - 127.0.0.1
+            - localhost
+            - ::1
+        network:
+          kubeProxy:
+            disabled: true
+          provider: custom
+          podCIDR: 10.20.0.0/16
+          serviceCIDR: 10.40.0.0/16
+        storage:
+          type: kine
+        telemetry:
+          enabled: false
