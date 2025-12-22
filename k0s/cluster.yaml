@@ -21,7 +21,7 @@ spec:
       spec:
         api:
           address: 100.115.152.117
-          onlyBindToAddress: true
+          onlyBindToAddress: false
           sans:
             - server
             - server.minuet-betelgeuse.ts.net

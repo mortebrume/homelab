@@ -24,7 +24,7 @@ releases:
       - kube-system/cilium
 
   - name: cert-manager
-    namespace: cert-manager
+    namespace: security
     chart: oci://quay.io/jetstack/charts/cert-manager
     version: v1.19.2
     values:
@@ -33,13 +33,13 @@ releases:
       - kube-system/coredns
 
   - name: external-secrets
-    namespace: external-secrets
+    namespace: security
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
     version: 1.2.0
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - cert-manager/cert-manager
+      - security/cert-manager
 
   - name: flux-operator
     namespace: flux-system
@@ -48,7 +48,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - external-secrets/external-secrets
+      - security/external-secrets
 
   - name: flux-instance
     namespace: flux-system
