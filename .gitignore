@@ -4,3 +4,4 @@
 .decrypted~*
 .DS_Store
 Thumbs.db
+kubeconfig
