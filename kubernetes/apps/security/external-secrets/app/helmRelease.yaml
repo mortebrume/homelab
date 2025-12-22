@@ -17,3 +17,7 @@ spec:
       enabled: true
     webhook:
       replicaCount: 1
+    bitwarden-sdk-server:
+      enabled: true
+      podAnnotations:
+        secret.reloader.stakater.com/reload: "bitwarden,bitwarden-tls-certs"
