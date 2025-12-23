@@ -17,4 +17,4 @@ log lvl msg *args:
 
 [private]
 template file *args:
-    bws run --output env -- minijinja-cli "{{ file }}" {{ args }}
+    minijinja-cli "{{ file }}" {{ args }} | op inject
