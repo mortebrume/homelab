@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: externaldns-cloudflare
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: externaldns-cloudflare
+  interval: 30m
+  values:
+    fullnameOverride: externaldns-cloudflare
+    provider:
+      name: cloudflare
+    env:
+      - name: &name CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: externaldns-cloudflare
+            key: *name
+    extraArgs:
+      - --cloudflare-dns-records-per-page=1000
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --gateway-name=envoy-external
+    triggerLoopOnEvent: true
+    policy: sync
+    sources:
+      - gateway-httproute
+      - crd
+    txtOwnerId: main
+    txtPrefix: "k8s."
+    domainFilters:
+      - mortebrume.eu
+    serviceMonitor:
+      enabled: true
+    podAnnotations:
+      secret.reloader.stakater.com/reload: externaldns-cloudflare
