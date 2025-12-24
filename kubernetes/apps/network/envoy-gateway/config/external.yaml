@@ -13,8 +13,6 @@ spec:
   addresses:
     - type: IPAddress
       value: "${PUBLIC_IPV4}"
-    - type: IPAddress
-      value: "${PUBLIC_IPV6}"
   listeners:
     - name: http
       protocol: HTTP
