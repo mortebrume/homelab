@@ -19,3 +19,25 @@ metadata:
     reconcile.external-secrets.io/managed: 'true'
 stringData:
   token: op://homelab/cloudflare/CLOUDFLARE_DNS_TOKEN
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: network-ipv6-public
+  namespace: kube-system
+  labels:
+    reconcile.external-secrets.io/managed: 'true'
+stringData:
+  IPV6_START: op://homelab/network/IPV6_START
+  IPV6_STOP: op://homelab/network/IPV6_STOP
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: operator-oauth
+  namespace: kube-system
+  labels:
+    reconcile.external-secrets.io/managed: 'true'
+stringData:
+  client_id: op://homelab/tailscale/CLIENT_ID
+  client_secret: op://homelab/tailscale/CLIENT_SECRET

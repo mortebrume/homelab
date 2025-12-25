@@ -36,6 +36,10 @@ spec:
           provider: custom
           podCIDR: 10.20.0.0/16
           serviceCIDR: 10.40.0.0/16
+          dualStack:
+            enabled: true
+            IPv6podCIDR: fd00::/108
+            IPv6serviceCIDR: fd01::/108
         storage:
           type: kine
         telemetry:
