@@ -8,6 +8,7 @@ spec:
   logging:
     level:
       default: info
+  ipFamily: DualStack
   provider:
     type: Kubernetes
     kubernetes:
@@ -50,7 +51,7 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: "100.115.152.117"
+    external-dns.alpha.kubernetes.io/target: "100.115.152.117,fd7a:115c:a1e0::b901:9883"
 spec:
   gatewayClassName: envoy-internal
   infrastructure:
@@ -59,6 +60,8 @@ spec:
   addresses:
     - type: IPAddress
       value: "100.115.152.117"
+    - type: IPAddress
+      value: "fd7a:115c:a1e0::b901:9883"
   listeners:
     - name: http
       protocol: HTTP
