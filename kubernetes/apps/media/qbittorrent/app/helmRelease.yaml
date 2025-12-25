@@ -87,9 +87,7 @@ spec:
       bittorrent:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        ipFamilies:
-          - IPv4
-          - IPv6
+        ipFamilyPolicy: RequireDualStack
         annotations:
           io.cilium/lb-ipam-ips: 168.119.32.22
           lbipam.cilium.io/sharing-cross-namespace: "*"
