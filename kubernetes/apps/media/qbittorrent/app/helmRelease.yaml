@@ -72,7 +72,7 @@ spec:
           - "{{ .Release.Name }}.mortebrume.eu"
         parentRefs:
           - name: envoy-internal
-            namespace: networking
+            namespace: network
         rules:
           - backendRefs:
               - identifier: app
@@ -85,7 +85,7 @@ spec:
           http:
             port: *port
       bittorrent:
-        type: LoadBalancer
+        type: NodePort
         externalTrafficPolicy: Local
         ports:
           bittorrent-tcp:
