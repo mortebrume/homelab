@@ -46,6 +46,7 @@ spec:
     name: envoy-external
     namespace: network
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -68,6 +69,10 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: mortebrume-eu-tls
     - name: torrent
       protocol: TCP
       port: 50813
@@ -76,7 +81,3 @@ spec:
           from: All
         kinds:
           - kind: TCPRoute
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: mortebrume-eu-tls
