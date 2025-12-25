@@ -87,7 +87,8 @@ spec:
       bittorrent:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        ipFamilies: IPv6
+        ipFamilies:
+          - IPv6
         ports:
           bittorrent-tcp:
             port: *bittorrentPort
