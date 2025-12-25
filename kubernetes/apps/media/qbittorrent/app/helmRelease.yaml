@@ -77,6 +77,15 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+      bittorrent:
+        kind: TCPRoute
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: bittorrent
+                port: *bittorrentPort
     service:
       app:
         forceRename: "{{ .Release.Name }}"
@@ -85,13 +94,6 @@ spec:
           http:
             port: *port
       bittorrent:
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        ipFamilyPolicy: RequireDualStack
-        annotations:
-          lbipam.cilium.io/sharing-cross-namespace: "*"
-        labels:
-          io.cilium/lb-ipam-sharing-key: share
         ports:
           bittorrent-tcp:
             port: *bittorrentPort

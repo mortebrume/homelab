@@ -24,9 +24,7 @@ spec:
       envoyService:
         annotations:
           lbipam.cilium.io/sharing-cross-namespace: "*"
-        labels:
-          io.cilium/lb-ipam-sharing-key: share
-        externalTrafficPolicy: Local
+          lbipam.cilium.io/sharing-key: share
   shutdown:
     drainTimeout: 180s
   telemetry:
@@ -70,6 +68,14 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: torrent
+      protocol: TCP
+      port: 50813
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: TCPRoute
       tls:
         certificateRefs:
           - kind: Secret
