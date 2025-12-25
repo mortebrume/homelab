@@ -23,9 +23,6 @@ metadata:
 spec:
   blocks:
     - cidr: 168.119.32.22/32
-  serviceSelector:
-    matchLabels:
-      io.cilium/lb-ipam-sharing-key: share
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cilium.io/ciliuml2announcementpolicy_v2alpha1.json
 apiVersion: "cilium.io/v2alpha1"
