@@ -8,6 +8,12 @@ spec:
   blocks:
     - start: "2a01:4f8:242:4691::100"
       stop: "2a01:4f8:242:4691:ffff:ffff:ffff:ffff"
+  serviceSelector:
+    matchExpressions:
+      - key: io.cilium/lb-ipam
+        operator: NotIn
+        values:
+          - disabled
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cilium.io/ciliumloadbalancerippool_v2.json
 apiVersion: cilium.io/v2
