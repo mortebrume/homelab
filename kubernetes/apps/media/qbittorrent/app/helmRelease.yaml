@@ -85,7 +85,7 @@ spec:
           http:
             port: *port
       bittorrent:
-        type: NodePort
+        type: LoadBalancer
         externalTrafficPolicy: Local
         ports:
           bittorrent-tcp:
