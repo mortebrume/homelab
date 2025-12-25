@@ -8,7 +8,7 @@ spec:
   logging:
     level:
       default: info
-  ipFamily: IPv6
+  ipFamily: DualStack
   provider:
     type: Kubernetes
     kubernetes:
@@ -22,6 +22,9 @@ spec:
             limits:
               memory: 1Gi
       envoyService:
+        annotations:
+          io.cilium/lb-ipam-ips: "168.119.32.22"
+          io.cilium/lb-ipam-sharing-key: "share"
         externalTrafficPolicy: Local
   shutdown:
     drainTimeout: 180s
