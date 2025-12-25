@@ -3,8 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./envoy.yaml
-  - ./external.yaml
-  - ./grafanaDashboard.yaml
-  - ./internal.yaml
-  - ./observability.yaml
+  - ./externalSecret.yaml
+  - ./helmRelease.yaml
+  - ./ociRepository.yaml
