@@ -29,8 +29,6 @@ spec:
   dependsOn:
     - name: envoy-gateway
       namespace: network
-    - name: tailscale-operator
-      namespace: kube-system
   interval: 1h
   path: "./kubernetes/apps/network/envoy-gateway/config"
   prune: true
