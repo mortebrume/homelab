@@ -24,6 +24,8 @@ spec:
       envoyService:
         type: LoadBalancer
         externalTrafficPolicy: Local
+        labels:
+          io.cilium/lb-ipam: disabled
   shutdown:
     drainTimeout: 180s
   telemetry:
