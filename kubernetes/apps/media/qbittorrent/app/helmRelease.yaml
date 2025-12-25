@@ -64,7 +64,7 @@ spec:
         existingClaim: media-library
         globalMounts:
           - path: /storage/downloads/torrents
-            subPath: /torrents
+            subPath: downloads/torrents
       tmpfs:
         type: emptyDir
         advancedMounts:
