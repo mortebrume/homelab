@@ -29,7 +29,12 @@ releases:
     chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
     version: 5.21.3
 
-  - name: kube-prometheus-stack
+  - name: prometheus-operator-crds
     namespace: observability
-    chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-    version: 80.7.0
+    chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
+    version: 25.0.1
+
+  - name: victoria-metrics-operator
+    namespace: observability
+    chart: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-operator
+    version: 0.57.1
