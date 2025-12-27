@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./grafanaDashboard.yaml
   - ./grafanaDatasource.yaml
+  - ./httpRoute.yaml
   - ./vlSingle.yaml
