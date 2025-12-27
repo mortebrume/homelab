@@ -3,14 +3,14 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: VictoriaMetrics
+  name: victoriametrics
 spec:
   instanceSelector:
     matchLabels:
       grafana.internal/instance: grafana
   datasource:
     type: prometheus
-    name: VictoriaMetrics
+    name: victoriametrics
     access: proxy
     isDefault: true
     url: http://vmsingle-vmks.observability.svc.cluster.local:8428
