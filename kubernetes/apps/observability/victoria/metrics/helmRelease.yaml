@@ -166,4 +166,4 @@ spec:
         enabled: false
 
       coreDns:
-        enabled: true
+        enabled: false
