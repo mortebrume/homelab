@@ -12,7 +12,7 @@ spec:
     - name: victoria-metrics-operator
   interval: 1h
   values:
-    nameOverride: vmks
+    fullNameOverride: vmks
 
     victoria-metrics-operator:
       enabled: false
@@ -166,4 +166,4 @@ spec:
         enabled: false
 
       coreDns:
-        enabled: false
+        enabled: true
