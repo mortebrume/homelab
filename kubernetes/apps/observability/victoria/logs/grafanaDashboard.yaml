@@ -3,7 +3,7 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: external-secrets
+  name: victoria-logs-single-node
 spec:
   allowCrossNamespaceImport: true
   instanceSelector:
@@ -13,5 +13,5 @@ spec:
     - datasourceName: VictoriaMetrics
       inputName: DS_PROMETHEUS
   configMapRef:
-    name: external-secrets-dashboard
-    key: external-secrets.json
+    name: victoria-logs-victorialogs-single-node
+    key: victorialogs-single-node.json
