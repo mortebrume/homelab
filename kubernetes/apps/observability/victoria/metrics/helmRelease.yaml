@@ -12,7 +12,7 @@ spec:
     - name: victoria-metrics-operator
   interval: 1h
   values:
-    fullNameOverride: vmks
+    # nameOverride: vmks
 
     victoria-metrics-operator:
       enabled: false
@@ -147,23 +147,23 @@ spec:
                 labels:
                   severity: critical
 
-      kubelet:
-        enabled: false
+    kubelet:
+      enabled: false
 
-      kubeApiServer:
-        enabled: false
+    kubeApiServer:
+      enabled: false
 
-      kubeControllerManager:
-        enabled: false
+    kubeControllerManager:
+      enabled: false
 
-      kubeEtcd:
-        enabled: false
+    kubeEtcd:
+      enabled: false
 
-      kubeScheduler:
-        enabled: true
+    kubeScheduler:
+      enabled: true
 
-      kubeProxy:
-        enabled: false
+    kubeProxy:
+      enabled: false
 
-      coreDns:
-        enabled: true
+    coreDns:
+      enabled: true
