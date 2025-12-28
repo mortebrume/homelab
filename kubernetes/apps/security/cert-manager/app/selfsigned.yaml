@@ -3,28 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: &name letsencrypt
-spec:
-  acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: *name
-    profile: tlsserver
-    solvers:
-      - dns01:
-          cloudflare:
-            apiTokenSecretRef:
-              name: cloudflare-issuer
-              key: token
-        selector:
-          dnsZones:
-            - mortebrume.eu
----
-# yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/clusterissuer_v1.json
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned-issuer
+  name: selfsigned
 spec:
   selfSigned: {}
 ---
@@ -32,27 +11,43 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: &name mortebrume-ca
+  name: &name cluster-ca
 spec:
   isCA: true
   commonName: *name
   subject:
+    countries:
+      - FR
     organizations:
-      - mortebrume.eu
-  secretName: mortebrume-ca
+      - mortebrume
+  usages:
+    - cert sign
+    - crl sign
+  nameConstraints:
+    critical: true
+    permitted:
+      dnsDomains: &domains
+        - .svc.cluster.local
+        - .cluster.local
+        - .svc
+      uriDomains: *domains
+  duration: 87660h # 10 years
   privateKey:
     algorithm: ECDSA
-    size: 256
+    size: 384
+    encoding: PKCS8
+    rotationPolicy: Never
   issuerRef:
     name: selfsigned-issuer
     kind: ClusterIssuer
     group: cert-manager.io
+  secretName: root-ca
 ---
 # yaml-language-server: $schema=https://schemas.tholinka.dev/cert-manager.io/clusterissuer_v1.json
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: mortebrume-issuer
+  name: cluster-ca
 spec:
   ca:
-    secretName: mortebrume-ca
+    secretName: root-ca
