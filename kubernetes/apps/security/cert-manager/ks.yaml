@@ -15,10 +15,10 @@ spec:
       name: letsencrypt
     - apiVersion: *apiVersion
       kind: *kind
-      name: selfsigned-issuer
+      name: selfsigned
     - apiVersion: *apiVersion
       kind: *kind
-      name: mortebrume-issuer
+      name: cluster-ca
   healthCheckExprs:
     - apiVersion: *apiVersion
       kind: *kind
