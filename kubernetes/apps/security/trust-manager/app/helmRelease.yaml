@@ -15,7 +15,5 @@ spec:
         - root-ca
         - postgres-client-ca
     app:
-      webhook:
-        tls:
-          approverPolicy:
-            certManagerNamespace: security
+      trust:
+        namespace: security
