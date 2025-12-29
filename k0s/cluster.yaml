@@ -10,6 +10,7 @@ spec:
       noTaints: true
       installFlags:
         - --disable-components=coredns,metrics-server
+        - --cri-socket=remote:unix:///var/run/containerd/containerd.sock
       openSSH:
         address: server
   k0s:
@@ -40,6 +41,10 @@ spec:
             enabled: true
             IPv6podCIDR: fd00::/108
             IPv6serviceCIDR: fd01::/108
+        featureGates:
+          - name: ImageVolume
+            enabled: true
+            components: ["kube-apiserver", "kube-controller-manager", "kubelet"]
         storage:
           type: kine
         telemetry:
