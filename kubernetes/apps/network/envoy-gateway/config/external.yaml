@@ -83,15 +83,3 @@ spec:
           from: All
         kinds:
           - kind: TCPRoute
-
-    - name: discopol
-      hostname: discopol.fr
-      protocol: HTTPS
-      port: 443
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: discopol-fr-tls
