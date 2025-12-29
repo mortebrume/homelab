@@ -78,6 +78,7 @@ spec:
         existingClaim: media-library
         globalMounts:
           - path: /storage/medialibrary
+            subPath: medialibrary
       tmpfs:
         type: emptyDir
         advancedMounts:
