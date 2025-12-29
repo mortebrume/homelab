@@ -22,6 +22,7 @@ spec:
         - helm-controller
         - notification-controller
         - image-automation-controller
+        - image-reflector-controller
       sync:
         kind: GitRepository
         url: https://github.com/mortebrume/homelab
