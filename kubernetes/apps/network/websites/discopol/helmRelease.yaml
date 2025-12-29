@@ -1,0 +1,63 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: discopol
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: discopol
+  interval: 1h
+  values:
+    controllers:
+      qbittorrent:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mortebrume/discopol
+              tag: 1.0.2
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  failureThreshold: 5
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 200Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
+        supplementalGroups: [65536]
+    route:
+      app:
+        hostnames:
+          - "discopol.fr"
+        parentRefs:
+          - name: envoy-external-dp
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: &port 3000
+    service:
+      app:
+        forceRename: "{{ .Release.Name }}"
+        primary: true
+        ports:
+          http:
+            port: *port
