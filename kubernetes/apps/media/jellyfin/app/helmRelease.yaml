@@ -1,0 +1,89 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: jellyfin
+  interval: 1h
+  values:
+    controllers:
+      jellyfin:
+        type: statefulset
+        containers:
+          app:
+            image:
+              repository: ghcr.io/jellyfin/jellyfin
+              tag: 10.11.3@sha256:fab30d85f4ec3e19556ca1d91b82b12329fc4a6d2a4b330673354af9218e1d28
+            env:
+              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              JELLYFIN_PublishedServerUrl: https://media.mortebrume.eu
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8096
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThresold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 8Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "media.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+    persistence:
+      config:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
+      metadata:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
+      media:
+        existingClaim: media-library
+        globalMounts:
+          - path: /storage/medialibrary
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          jellyfin:
+            app:
+              - path: /cache
+                subPath: cache
+              - path: /transcode
+                subPath: transcode
