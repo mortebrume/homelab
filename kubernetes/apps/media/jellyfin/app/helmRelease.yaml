@@ -69,7 +69,7 @@ spec:
       config:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
-        size: 1Gi
+        size: 5Gi
       metadata:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
