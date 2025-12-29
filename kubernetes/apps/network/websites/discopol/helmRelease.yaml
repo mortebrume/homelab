@@ -50,8 +50,9 @@ spec:
         hostnames:
           - "discopol.fr"
         parentRefs:
-          - name: envoy-external-dp
+          - name: envoy-external
             namespace: network
+            sectionName: https
         rules:
           - backendRefs:
               - identifier: app
