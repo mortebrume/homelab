@@ -7,5 +7,10 @@
       matchManagers: ["helmfile"],
       overrideDepName: "{{packageName}}",
     },
+    {
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/mortebrume/discopol"],
+      enabled: false,
+    },
   ],
 }
