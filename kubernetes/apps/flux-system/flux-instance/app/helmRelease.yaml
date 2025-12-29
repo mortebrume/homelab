@@ -21,6 +21,7 @@ spec:
         - kustomize-controller
         - helm-controller
         - notification-controller
+        - image-automation-controller
       sync:
         kind: GitRepository
         url: https://github.com/mortebrume/homelab
