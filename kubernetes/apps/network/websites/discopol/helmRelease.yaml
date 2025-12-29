@@ -36,6 +36,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
     defaultPodOptions:
+      imagePullSecrets: ["github-registry-token"]
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
