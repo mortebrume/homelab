@@ -24,7 +24,7 @@ spec:
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --gateway-name=envoy-external,envoy-external-dp
+      - --gateway-name=envoy-external
     triggerLoopOnEvent: true
     policy: sync
     sources:
@@ -34,7 +34,6 @@ spec:
     txtPrefix: "k8s."
     domainFilters:
       - mortebrume.eu
-      - discopol.fr
     serviceMonitor:
       enabled: true
     podAnnotations:

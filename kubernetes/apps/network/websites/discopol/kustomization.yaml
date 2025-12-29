@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./externalSecret.yaml
   - ./helmRelease.yaml
-  - ./imageRepository.yaml
   - ./ociRepository.yaml

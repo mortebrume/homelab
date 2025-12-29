@@ -1,9 +1,0 @@
-apiVersion: image.toolkit.fluxcd.io/v1
-kind: ImageRepository
-metadata:
-  name: discopol
-spec:
-  image: ghcr.io/mortebrume/discopol
-  interval: 5m
-  secretRef:
-    name: github-registry-token
