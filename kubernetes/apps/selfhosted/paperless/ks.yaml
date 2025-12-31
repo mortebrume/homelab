@@ -6,7 +6,7 @@ metadata:
   name: &app paperless
 spec:
   components:
-    - ../../../components/postgres/cert
+    - ../../../../components/postgres/cert
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:
