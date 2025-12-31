@@ -8,8 +8,8 @@ spec:
   isCA: true
   commonName: postgres-ca
   dnsNames:
-    - postgres.svc
-    - postgres.svc.cluster.local
+    - database.svc
+    - database.svc.cluster.local
   subject:
     countries:
       - FR
