@@ -41,16 +41,13 @@ spec:
             probes:
               liveness:
                 enabled: true
-                type: HTTP
               readiness:
                 enabled: true
-                type: HTTP
               startup:
                 enabled: true
                 spec:
                   failureThresold: 30
                   periodSeconds: 5
-                type: HTTP
             resources:
               requests:
                 cpu: 40m
@@ -59,9 +56,6 @@ spec:
                 memory: 1Gi
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
     service:
