@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./helmRelease.yaml
   - ./ociRepository.yaml
-  - "./storageClass.yaml"
+  - ./snapshotClass.yaml
+  - ./storageClass.yaml
