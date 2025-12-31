@@ -51,3 +51,11 @@ spec:
       - name: timescaledb
         image:
           reference: ghcr.io/shusaan/timescaledb-testing:2.23.1-18-trixie@sha256:4709935bed4cce5977bc4b1858a94e2e80f22f0303217163a9e97b8898e33ee2
+
+  managed:
+    roles:
+      - name: paperless
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
