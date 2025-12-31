@@ -15,10 +15,10 @@ spec:
       name: postgres-${APP}
       namespace: *namespace
   interval: 1h
-  path: ./kubernetes/components/database/base/postgres
+  path: ./kubernetes/components/postgres/base/database
   postBuild:
     substitute:
-      APP: *app
+      APP: ${APP}
       OWNER: ${DATABASE_OWNER:=${APP}}
       EXTENSIONS: ${q:='}${DATABASE_EXTENSIONS}${q:='}
       emptyArray: "[]"
