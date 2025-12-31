@@ -78,9 +78,9 @@ spec:
           - name: envoy-internal
             namespace: network
         rules:
-          backendRefs:
-            - identifier: app
-              port: *port
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       data:
         type: persistentVolumeClaim
