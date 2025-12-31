@@ -53,10 +53,11 @@ spec:
                   periodSeconds: 5
                 type: HTTP
             resources:
-              limits: 1Gi
-            requests:
-              cpu: 40m
-              memory: 1Gi
+              requests:
+                cpu: 40m
+                memory: 1Gi
+              limits:
+                memory: 1Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
