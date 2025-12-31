@@ -24,8 +24,8 @@ spec:
     critical: true
     permitted:
       dnsDomains:
-        - .postgres.svc.cluster.local
-        - .postgres.svc
+        - .database.svc.cluster.local
+        - .database.svc
   duration: 8766h # 1 year
   privateKey:
     algorithm: ECDSA
