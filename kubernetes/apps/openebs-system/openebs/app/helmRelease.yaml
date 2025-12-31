@@ -28,7 +28,7 @@ spec:
     openebs-crds:
       csi:
         volumeSnapshots:
-          enabled: true
+          enabled: false
           keep: false
     zfs-localpv:
       enabled: true
