@@ -27,7 +27,7 @@ spec:
               PAPERLESS_TIME_ZONE: Europe/Paris
               PAPERLESS_OCR_LANGUAGE: fra+eng
               PAPERLESS_DATA_DIR: /storage/data
-              PAPERLESS_MEDIA_DIR: /storage/media
+              PAPERLESS_MEDIA_ROOT: /storage/media
               PAPERLESS_REDIS: redis://dragonfly.database.svc:6379/1
               PAPERLESS_DBHOST: postgres-rw.database.svc
               PAPERLESS_DBSSLMODE: verify-full
