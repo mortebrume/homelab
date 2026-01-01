@@ -43,7 +43,8 @@ spec:
     vmsingle:
       route:
         enabled: true
-        hostnames: ["metrics.mortebrume.eu"]
+        hostnames:
+          - "metrics.mortebrume.eu"
         parentRefs:
           - name: envoy-internal
             namespace: network
@@ -71,13 +72,15 @@ spec:
             - port: metrics
               metricRelabelConfigs:
                 - action: drop
-                  source_labels: [mountpoint]
+                  source_labels:
+                    - mountpoint
                   regex: "/var/lib/k0s/kubelet/pods.+"
               relabelConfigs:
                 - action: replace
                   regex: (.*)
                   replacement: $1
-                  sourceLabels: ["__meta_kubernetes_pod_node_name"]
+                  sourceLabels:
+                    - "__meta_kubernetes_pod_node_name"
                   targetLabel: kubernetes_node
 
     kube-state-metrics:
@@ -87,18 +90,20 @@ spec:
         - deployments=[*]
         - persistentvolumeclaims=[*]
       vmScrape:
-        endpoints:
-          - port: http
-            honorLabels: true
-            metricRelabelConfigs:
-              - action: labeldrop
-                regex: (uid|container_id|image_id)
-            relabelConfigs:
-              - action: replace
-                regex: (.*)
-                replacement: $1
-                sourceLabels: ["__meta_kubernetes_pod_node_name"]
-                targetLabel: kubernetes_node
+        sepc:
+          endpoints:
+            - port: http
+              honorLabels: true
+              metricRelabelConfigs:
+                - action: labeldrop
+                  regex: (uid|container_id|image_id)
+              relabelConfigs:
+                - action: replace
+                  regex: (.*)
+                  replacement: $1
+                  sourceLabels:
+                    - "__meta_kubernetes_pod_node_name"
+                  targetLabel: kubernetes_node
 
     defaultDashboards:
       enabled: true
