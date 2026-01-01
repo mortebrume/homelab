@@ -12,6 +12,11 @@ spec:
       namespace: database
   interval: 1h
   path: ./kubernetes/apps/database/postgres/cluster
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: barman-r2
+        optional: false
   prune: true
   sourceRef:
     kind: GitRepository
