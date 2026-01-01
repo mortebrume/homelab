@@ -54,6 +54,12 @@ spec:
             enabled: true
             components:
               - "kube-apiserver"
+        workerProfiles:
+          - name: default
+            values:
+              shutdownGracePeriod: 30s
+              shutdownGracePeriodCriticalPods: 10s
+              maxPods: 300
         storage:
           type: kine
         telemetry:
