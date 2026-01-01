@@ -90,7 +90,7 @@ spec:
         - deployments=[*]
         - persistentvolumeclaims=[*]
       vmScrape:
-        sepc:
+        spec:
           endpoints:
             - port: http
               honorLabels: true
