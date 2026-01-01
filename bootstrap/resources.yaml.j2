@@ -19,3 +19,13 @@ metadata:
     reconcile.external-secrets.io/managed: 'true'
 stringData:
   token: op://homelab/cloudflare/CLOUDFLARE_DNS_TOKEN
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: barman-r2
+  namespace: database
+  labels:
+    reconcile.external-secrets.io/managed: 'true'
+stringData:
+  S3_ENDPOINT: op://homelab/barman/S3_ENDPOINT

@@ -20,6 +20,24 @@ spec:
   storage:
     size: 8Gi
 
+  bootstrap:
+    recovery:
+      source: &src source
+
+  plugins:
+    - name: &plugin barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: &store r2-store
+
+  externalClusters:
+    - name: *src
+      plugin:
+        name: *plugin
+        parameters:
+          barmanObjectName: *store
+          serverName: postgres
+
   monitoring:
     enablePodMonitor: true
 

@@ -5,3 +5,6 @@ kind: Kustomization
 resources:
   - ./ca.yaml
   - ./cluster.yaml
+  - ./externalSecret.yaml
+  - ./objectStore.yaml
+  - ./scheduledBackup.yaml
