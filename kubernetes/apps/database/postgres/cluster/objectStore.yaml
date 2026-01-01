@@ -10,13 +10,13 @@ spec:
     endpointURL: ${S3_ENDPOINT}
     s3Credentials:
       accessKeyId:
-        name: garage-r2
+        name: barman-r2
         key: R2_ACCESS_KEY_ID
       secretAccessKey:
-        name: garage-r2
+        name: barman-r2
         key: R2_ACCESS_SECRET_KEY
       region:
-        name: garage-r2
+        name: barman-r2
         key: S3_REGION
     wal:
       compression: zstd
