@@ -7,7 +7,7 @@ metadata:
 spec:
   replicas: 1
   args:
-    - "--admin-bind=::"
+    - "--admin_bind=::"
     - --maxmemory=$(MAX_MEMORY)Mi
     - --proactor_threads=2
     - --cluster_mode=emulated
