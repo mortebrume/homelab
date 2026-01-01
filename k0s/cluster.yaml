@@ -31,6 +31,8 @@ spec:
             - 127.0.0.1
             - localhost
             - ::1
+          extraArgs:
+            runtime-config: admissionregistration.k8s.io/v1beta1=true
         network:
           kubeProxy:
             disabled: true
@@ -44,7 +46,14 @@ spec:
         featureGates:
           - name: ImageVolume
             enabled: true
-            components: ["kube-apiserver", "kube-controller-manager", "kubelet"]
+            components:
+              - "kube-apiserver"
+              - "kube-controller-manager"
+              - "kubelet"
+          - name: MutatingAdmissionPolicy
+            enabled: true
+            components:
+              - "kube-apiserver"
         storage:
           type: kine
         telemetry:
