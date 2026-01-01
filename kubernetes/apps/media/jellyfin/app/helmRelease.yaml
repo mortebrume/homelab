@@ -72,7 +72,7 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 10Gi
-        nameOverride: jellyfin-media
+        suffix: metadata
       media:
         existingClaim: media-library
         globalMounts:
