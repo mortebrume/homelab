@@ -4,7 +4,7 @@ kind: ReplicationSource
 metadata:
   name: "${APP}"
 spec:
-  sourcePVC: "${APP}"
+  sourcePVC: "${VOLSYNC_CLAIM:=${APP}}"
   trigger:
     schedule: "30 5 * * *"
   kopia:
@@ -17,9 +17,9 @@ spec:
     compression: zstd-best-compression
     copyMethod: Snapshot
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:=1000}
-      runAsGroup: ${VOLSYNC_PGID:=1000}
-      fsGroup: ${VOLSYNC_PGID:=1000}
+      runAsUser: "${VOLSYNC_PUID:=1000}"
+      runAsGroup: "${VOLSYNC_PGID:=1000}"
+      fsGroup: "${VOLSYNC_PGID:=1000}"
       fsGroupChangePolicy: OnRootMismatch
     parallelism: 2
     repository: "${APP}-volsync"
