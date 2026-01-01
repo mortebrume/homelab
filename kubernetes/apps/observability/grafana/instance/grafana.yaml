@@ -47,7 +47,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
-                capabilities: { drop: ["ALL"] }
+                capabilities: {drop: ["ALL"]}
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
@@ -76,5 +76,5 @@ spec:
       resources:
         requests:
           storage: 10Gi
-      storageClassName: openebs-zfspv
+      storageClassName: zfs-pv
   disableDefaultSecurityContext: All
