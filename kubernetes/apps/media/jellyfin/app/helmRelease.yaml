@@ -67,9 +67,7 @@ spec:
                 port: *port
     persistence:
       config:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 5Gi
+        existingClaim: jellyfin-config
       metadata:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
