@@ -7,11 +7,15 @@ metadata:
 spec:
   components:
     - ../../../../components/postgres/cert
+    - ../../../../components/volsync
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:
     substitute:
       APP: *app
+      APP_UID: "1000"
+      APP_GID: "65542"
+      VOLSYNC_CAPACITY: 15Gi
   prune: true
   sourceRef:
     kind: GitRepository
