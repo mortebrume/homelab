@@ -12,7 +12,7 @@ spec:
     - name: openebs
       namespace: openebs-system
   interval: 1h
-  path: ./kubernetes/apps/media/radarr
+  path: ./kubernetes/apps/media/radarr/app
   postBuild:
     substitute:
       APP: radarr
