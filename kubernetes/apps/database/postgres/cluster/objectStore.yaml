@@ -14,7 +14,7 @@ spec:
         key: R2_ACCESS_KEY_ID
       secretAccessKey:
         name: barman-r2
-        key: R2_ACCESS_SECRET_KEY
+        key: R2_SECRET_ACCESS_KEY
       region:
         name: barman-r2
         key: S3_REGION
