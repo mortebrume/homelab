@@ -91,3 +91,11 @@ spec:
         disablePassword: false
         passwordSecret:
           name: prowlarr-postgres
+
+      - name: sonarr
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: false
+        passwordSecret:
+          name: sonarr-postgres
