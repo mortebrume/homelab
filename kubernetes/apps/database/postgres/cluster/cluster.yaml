@@ -92,6 +92,14 @@ spec:
         passwordSecret:
           name: prowlarr-postgres
 
+      - name: radarr
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: false
+        passwordSecret:
+          name: radarr-postgres
+
       - name: sonarr
         ensure: present
         login: true
