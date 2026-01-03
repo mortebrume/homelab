@@ -19,6 +19,7 @@ spec:
       masquerade: true
       preallocateMaps: true
       tproxy: true
+      disableExternalIPMitigation: true
     bpfClockProbe: true
     cgroup:
       automount:
