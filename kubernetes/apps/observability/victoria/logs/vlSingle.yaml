@@ -14,3 +14,5 @@ spec:
     resources:
       requests:
         storage: 50Gi
+        memory: 500Mi
+        cpu: 150m
