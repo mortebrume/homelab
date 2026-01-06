@@ -8,14 +8,13 @@ spec:
     enableTCP6: "true"
   retentionPeriod: 30d
   retentionMaxDiskSpaceUsageBytes: 20GB
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 150m
   storage:
     accessModes:
       - ReadWriteOnce
     resources:
       requests:
         storage: 50Gi
-        memory: 500Mi
-        cpu: 150m
-      limits:
-        memory: 2Gi
-        cpu: "2"
