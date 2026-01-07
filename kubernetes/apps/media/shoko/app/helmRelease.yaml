@@ -1,0 +1,80 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shoko
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: shoko
+  interval: 1h
+  values:
+    controllers:
+      shoko:
+        type: statefulset # SQLite DB
+        containers:
+          app:
+            image:
+              repository: ghcr.io/shokoanime/server
+              tag: 5.1.0@sha256:dde0c5a8bddc226ae368827fd7df382602ad312a2337ebade8e5cc63fa0c4dac
+            env:
+              PUID: "1000"
+              PGID: "1000"
+              TZ: Europe/Paris
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v3/Init/Status
+                    port: &port 8111
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - shoko.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      config:
+        existingClaim: shoko-config
+        globalMounts:
+          - path: /home/shoko/.shoko
+      metadata:
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        suffix: metadata
+        globalMounts:
+          - path: /home/shoko/.shoko/images
+      media:
+        existingClaim: media-library
+        globalMounts:
+          - path: /storage
