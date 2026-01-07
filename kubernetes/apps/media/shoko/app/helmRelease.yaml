@@ -39,7 +39,7 @@ spec:
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
@@ -75,7 +75,7 @@ spec:
         size: 20Gi
         suffix: metadata
         globalMounts:
-          - path: /.shoko/images
+          - path: /.shoko/Shoko.CLI/images
       media:
         existingClaim: media-library
         globalMounts:
