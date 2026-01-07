@@ -18,6 +18,8 @@ spec:
             image:
               repository: ghcr.io/shokoanime/server
               tag: 5.1.0@sha256:dde0c5a8bddc226ae368827fd7df382602ad312a2337ebade8e5cc63fa0c4dac
+            command:
+              - "/usr/src/app/build/Shoko.CLI" # Entrypoint needs root
             env:
               PUID: "1000"
               PGID: "1000"
@@ -41,7 +43,7 @@ spec:
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: 100m
+                cpu: 700m
               limits:
                 memory: 4Gi
     defaultPodOptions:
@@ -67,13 +69,13 @@ spec:
       config:
         existingClaim: shoko-config
         globalMounts:
-          - path: /home/shoko/.shoko
+          - path: /.shoko
       metadata:
         accessMode: ReadWriteOnce
         size: 20Gi
         suffix: metadata
         globalMounts:
-          - path: /home/shoko/.shoko/images
+          - path: /.shoko/images
       media:
         existingClaim: media-library
         globalMounts:
