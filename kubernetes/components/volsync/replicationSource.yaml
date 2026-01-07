@@ -20,6 +20,6 @@ spec:
     parallelism: 2
     repository: "${APP}-volsync"
     retain:
-      daily: 7
+      daily: "${VOLSYNC_DAILY_RETENTION:=7}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=zfs-pv}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=zfs-snap}"
