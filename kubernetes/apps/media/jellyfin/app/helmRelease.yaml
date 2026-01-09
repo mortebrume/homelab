@@ -21,6 +21,7 @@ spec:
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_PublishedServerUrl: https://media.mortebrume.eu
+              TZ: Europe/Paris
             probes:
               liveness: &probes
                 enabled: true
