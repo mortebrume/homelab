@@ -68,7 +68,7 @@ sonarr:
       series: jellyfin-tvdb
       season: default
       episodes:
-        rename: true
+        rename: false
         standard: default
         daily: default
         anime: default
@@ -142,5 +142,5 @@ radarr:
     media_naming:
       folder: jellyfin-tmdb
       movie:
-        rename: true
+        rename: false
         standard: jellyfin-anime-tmdb
