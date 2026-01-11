@@ -21,5 +21,6 @@ spec:
     repository: "${APP}-volsync"
     retain:
       daily: "${VOLSYNC_DAILY_RETENTION:=7}"
+      latest: "${VOLSYNC_LATEST_RETENTION:=7}"
     storageClassName: "${VOLSYNC_STORAGECLASS:=zfs-pv}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=zfs-snap}"
