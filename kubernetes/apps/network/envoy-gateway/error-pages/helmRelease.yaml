@@ -55,11 +55,11 @@ spec:
             port: *port
     route:
       internal: &route
+        hostnames:
+          - error.mortebrume.eu
         parentRefs:
           - name: envoy-internal
             namespace: network
-        hostnames:
-          - error.mortebrume.eu
       external:
         <<: *route
         parentRefs:

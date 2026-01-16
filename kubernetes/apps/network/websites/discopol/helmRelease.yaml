@@ -10,7 +10,7 @@ spec:
   interval: 1h
   values:
     controllers:
-      qbittorrent:
+      discopol:
         containers:
           app:
             image:
@@ -34,7 +34,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       imagePullSecrets:
         - name: github-registry-token
@@ -44,7 +44,8 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: Always
-        supplementalGroups: [65536]
+        supplementalGroups:
+          - 65536
     route:
       app:
         hostnames:
