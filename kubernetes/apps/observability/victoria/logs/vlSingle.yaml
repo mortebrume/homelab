@@ -8,11 +8,8 @@ spec:
     enableTCP6: "true"
   retentionPeriod: 30d
   retentionMaxDiskSpaceUsageBytes: 20GB
-  resources:
-    requests:
-      memory: 500Mi
-      cpu: 150m
   storage:
+    storageClassName: zfs-pv-db
     accessModes:
       - ReadWriteOnce
     resources:
