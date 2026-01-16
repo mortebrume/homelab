@@ -18,6 +18,63 @@ spec:
   timeout:
     http:
       requestTimeout: 0s
+  responseOverride:
+    - match:
+        statusCodes:
+          - type: Value
+            value: 403
+      redirect: &redirect
+        scheme: https
+        hostname: error.mortebrume.eu
+        path:
+          type: &pathType ReplaceFullPath
+          replaceFullPath: /403.html
+        statusCode: 302
+    - match:
+        statusCodes:
+          - type: Value
+            value: 404
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /404.html
+    - match:
+        statusCodes:
+          - type: Value
+            value: 500
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /500.html
+    - match:
+        statusCodes:
+          - type: Value
+            value: 502
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /502.html
+    - match:
+        statusCodes:
+          - type: Value
+            value: 503
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /503.html
+    - match:
+        statusCodes:
+          - type: Value
+            value: 504
+      redirect:
+        <<: *redirect
+        path:
+          type: *pathType
+          replaceFullPath: /504.html
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -29,6 +86,7 @@ spec:
     xForwardedFor:
       trustedCIDRs:
         - 10.20.0.0/16
+        - fd00::/108
   connection:
     bufferLimit: 8Mi
     maxAcceptPerSocketEvent: 0
