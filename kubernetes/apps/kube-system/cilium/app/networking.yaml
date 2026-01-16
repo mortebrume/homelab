@@ -6,7 +6,7 @@ metadata:
   name: public-ipv6-pool
 spec:
   blocks:
-    - start: "2a01:4f8:242:4691::100"
+    - start: "2a01:4f8:242:4691::1"
       stop: "2a01:4f8:242:4691:ffff:ffff:ffff:ffff"
   serviceSelector:
     matchExpressions:
