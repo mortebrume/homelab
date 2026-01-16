@@ -48,23 +48,18 @@ spec:
         fsGroupChangePolicy: Always
         supplementalGroups:
           - 65536
-    persistence:
-      config:
-        existingClaim: qbittorrent
-      media:
-        existingClaim: media-library
-        globalMounts:
-          - path: /storage/downloads/torrents
-            subPath: downloads/torrents
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /config/qBittorrent/logs
-                subPath: logs
-              - path: /tmp
-                subPath: tmp
+    service:
+      app:
+        forceRename: "{{ .Release.Name }}"
+        primary: true
+        ports:
+          http:
+            port: *port
+      bittorrent:
+        ports:
+          bittorrent-tcp:
+            port: *bittorrentPort
+            protocol: TCP
     route:
       app:
         hostnames:
@@ -85,15 +80,20 @@ spec:
           - backendRefs:
               - identifier: bittorrent
                 port: *bittorrentPort
-    service:
-      app:
-        forceRename: "{{ .Release.Name }}"
-        primary: true
-        ports:
-          http:
-            port: *port
-      bittorrent:
-        ports:
-          bittorrent-tcp:
-            port: *bittorrentPort
-            protocol: TCP
+    persistence:
+      config:
+        existingClaim: qbittorrent
+      media:
+        existingClaim: media-library
+        globalMounts:
+          - path: /storage/downloads/torrents
+            subPath: downloads/torrents
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config/qBittorrent/logs
+                subPath: logs
+              - path: /tmp
+                subPath: tmp
