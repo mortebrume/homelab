@@ -11,7 +11,7 @@ _.file = ["{{config_root}}/.secrets.env"]
 [tools]
 "aqua:bitwarden/sdk-sm" = "latest"
 "aqua:charmbracelet/gum" = "latest"
-"aqua:helm/helm" = "4.0.5"
+"aqua:helm/helm" = "4.1.0"
 "aqua:helmfile/helmfile" = "latest"
 "aqua:k0sproject/k0sctl" = "latest"
 "aqua:mikefarah/yq" = "latest"
