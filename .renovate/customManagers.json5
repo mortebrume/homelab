@@ -29,5 +29,16 @@
       ],
       datasourceTemplate: "docker",
     },
+    {
+      customType: "regex",
+      description: "Process postgresql images",
+      fileMatch: [".*\\.ya?ml"],
+      matchStrings: [
+        "imageName: (?<depName>[^:\\s]+):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)",
+      ],
+      datasourceTemplate: "docker",
+      packageNameTemplate: "{{depName}}",
+      autoReplaceStringTemplate: "imageName: {{depName}}:{{newValue}}@{{#if newDigest}}{{{newDigest}}}{{else}}{{{currentDigest}}}{{/if}}",
+    },
   ],
 }
