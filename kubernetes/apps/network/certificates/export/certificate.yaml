@@ -5,14 +5,20 @@ kind: Certificate
 metadata:
   name: mortebrume-eu
 spec:
-  secretName: mortebrume-eu-tls
-  issuerRef:
-    name: letsencrypt
-    kind: ClusterIssuer
-  commonName: mortebrume.eu
   dnsNames:
     - mortebrume.eu
     - "*.mortebrume.eu"
+  duration: 160h
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  secretName: mortebrume-eu-tls
+  usages:
+    - digital signature
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
@@ -20,11 +26,17 @@ kind: Certificate
 metadata:
   name: discopol-fr
 spec:
-  secretName: discopol-fr-tls
-  issuerRef:
-    name: letsencrypt
-    kind: ClusterIssuer
-  commonName: discopol.fr
   dnsNames:
     - discopol.fr
     - "*.discopol.fr"
+  duration: 160h
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  secretName: discopol-fr-tls
+  usages:
+    - digital signature
