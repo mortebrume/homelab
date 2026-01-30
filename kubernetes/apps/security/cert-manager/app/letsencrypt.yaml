@@ -6,10 +6,10 @@ metadata:
   name: &name letsencrypt
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: *name
-    profile: tlsserver
+    profile: shortlived
+    server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
       - dns01:
           cloudflare:
