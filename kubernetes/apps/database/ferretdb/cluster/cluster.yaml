@@ -1,0 +1,52 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.m00nlit.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ferretdb
+  annotations:
+    cnpg.io/skipEmptyWalArchiveCheck: enabled
+spec:
+  instances: 1
+
+  imageName: ghcr.io/ferretdb/postgres-documentdb:17-0.107.0-ferretdb-2.7.0@sha256:2386795ec2aa7ae559304361979f1dc5708d383ee9020ae63dadc2940dfe58f7
+
+  postgresUID: 999
+  postgresGID: 999
+
+  storage:
+    size: 8Gi
+
+  bootstrap:
+    initdb:
+      database: ferretDB
+      owner: ferret
+      postInitApplicationSQL:
+        - create extension if not exists pg_cron;
+        - create extension if not exists documentdb cascade;
+        - grant documentdb_admin_role to ferret;
+      secret:
+        name: ferretdb-pg
+
+  monitoring:
+    enablePodMonitor: true
+
+  postgresql:
+    pg_hba:
+      - host ferretDB postgres localhost trust
+      - host ferretDB ferret localhost trust
+    shared_preload_libraries:
+      - pg_cron
+      - pg_documentdb
+      - pg_documentdb_core
+    parameters:
+      cron.database_name: ferretDB
+      documentdb.enableCompact: "true"
+      documentdb.enableLetAndCollationForQueryMatch: "true"
+      documentdb.enableNowSystemVariable: "true"
+      documentdb.enableSortbyIdPushDownToPrimaryKey: "true"
+      documentdb.enableSchemaValidation: "true"
+      documentdb.enableBypassDocumentValidation: "true"
+      documentdb.enableUserCrud: "true"
+      documentdb.maxUserLimit: "100"
+
