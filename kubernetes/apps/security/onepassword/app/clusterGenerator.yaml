@@ -7,6 +7,7 @@ spec:
   kind: Password
   generator:
     passwordSpec:
-      length: 64
+      length: 32
+      symbols: 0
       noUpper: false
       allowRepeat: true
