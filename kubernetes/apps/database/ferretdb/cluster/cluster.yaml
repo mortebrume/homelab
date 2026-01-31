@@ -50,3 +50,13 @@ spec:
       documentdb.enableUserCrud: "true"
       documentdb.maxUserLimit: "100"
 
+  managed:
+    roles:
+      - name: yspotify
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: false
+        passwordSecret:
+          name: yspotify-db
+
