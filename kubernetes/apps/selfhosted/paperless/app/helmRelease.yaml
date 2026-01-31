@@ -29,11 +29,11 @@ spec:
               PAPERLESS_DATA_DIR: /storage/data
               PAPERLESS_MEDIA_ROOT: /storage/media
               PAPERLESS_REDIS: redis://dragonfly.database.svc:6379/1
-              PAPERLESS_DBHOST: postgres-rw.database.svc
-              PAPERLESS_DBSSLMODE: verify-full
-              PAPERLESS_DBSSLROOTCERT: /var/run/secrets/root-ca/ca.crt
-              PAPERLESS_DBSSLCERT: /var/run/secrets/postgresql/tls.crt
-              PAPERLESS_DBSSLKEY: /var/run/secrets/postgresql/tls.key
+              PAPERLESS_DBHOST: pooler-rw.database.svc
+              PGSSLROOTCERT: /var/run/secrets/root-ca/ca.crt
+              PGSSLCERT: /var/run/secrets/postgresql/tls.crt
+              PGSSLKEY: /var/run/secrets/postgresql/tls.key
+              PGSSLMODE: verify-full
               PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
               USERMAP_GID: "1000"
               USERMAP_UID: "1000"

@@ -6,7 +6,7 @@ metadata:
   name: prowlarr
 spec:
   components:
-    - ../../../../components/postgres/pass
+    - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
     - name: openebs
