@@ -26,14 +26,14 @@ spec:
               PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
-              PROWLARR__POSTGRES__HOST: postgres-rw.database.svc
+              PROWLARR__POSTGRES__HOST: pooler-rw.database.svc
               PROWLARR__POSTGRES__USER: prowlarr
               PROWLARR__POSTGRES__MAINDB: prowlarr
-              PROWLARR__POSTGRES__PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: prowlarr-postgres
-                    key: password
+              PROWLARR__POSTGRES__PASSWORD: prowlarr
+              PGSSLROOTCERT: /var/run/secrets/root-ca/ca.crt
+              PGSSLCERT: /var/run/secrets/postgresql/tls.crt
+              PGSSLKEY: /var/run/secrets/postgresql/tls.key
+              PGSSLMODE: verify-full
               PROWLARR__SERVER__PORT: &port 9696
               PROWLARR__UPDATE__BRANCH: develop
               TZ: Europe/Paris
