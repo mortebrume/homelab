@@ -19,3 +19,4 @@ resources:
   - ./shoko/ks.yaml
   - ./sonarr/ks.yaml
   - ./storage/ks.yaml
+  - ./yspotify/ks.yaml
