@@ -30,6 +30,9 @@ spec:
         - .svc.cluster.local
         - .cluster.local
         - .svc
+        - postgres-rw
+        - postgres-ro
+        - postgres-r
       uriDomains: *domains
   duration: 87660h # 10 years
   privateKey:
