@@ -35,17 +35,11 @@ spec:
                     crds: CreateReplace
                     strategy:
                       name: RetryOnFailure
-                  rollback:
-                    cleanupOnFail: true
-                    recreate: true
                   upgrade:
                     cleanupOnFail: true
                     crds: CreateReplace
                     strategy:
-                      name: RemediateOnFailure
-                    remediation:
-                      remediateLastFailure: true
-                      retries: 2
+                      name: RetryOnFailure
               target:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
