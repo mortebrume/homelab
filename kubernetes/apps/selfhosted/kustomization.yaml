@@ -12,3 +12,4 @@ resources:
   - ./foundry/ks.yaml
   - ./paperless/ks.yaml
   - ./publish-k8s-schemas/ks.yaml
+  - ./webhook/ks.yaml
