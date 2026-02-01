@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/barmancloud.cnpg.io/objectstore_v1.json
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: r2-store-ferret
+spec:
+  configuration:
+    destinationPath: s3://ferretdb/
+    endpointURL: ${S3_ENDPOINT}
+    s3Credentials:
+      accessKeyId:
+        name: barman-r2-ferret
+        key: R2_ACCESS_KEY_ID
+      secretAccessKey:
+        name: barman-r2-ferret
+        key: R2_SECRET_ACCESS_KEY
+      region:
+        name: barman-r2-ferret
+        key: S3_REGION
+    wal:
+      compression: zstd
+    data:
+      compression: gzip
+  retentionPolicy: "15d"

@@ -28,6 +28,20 @@ spec:
       secret:
         name: ferretdb-pg
 
+  plugins:
+    - name: &plugin barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: &store r2-store-ferret
+
+  externalClusters:
+    - name: source
+      plugin:
+        name: *plugin
+        parameters:
+          barmanObjectName: *store
+          serverName: ferretdb
+
   monitoring:
     enablePodMonitor: true
 
