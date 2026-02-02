@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: daily@sha256:67c18786970dddbb5b5920fc85af3f3a6df4fb593aaf596f074b63b6af0035f2
+              tag: daily@sha256:be53e60ae721ad5917cbf792b0cb707eb9a65ae272db8bd081b732fca43c87fd
             command:
               - "/usr/src/app/build/Shoko.CLI" # Entrypoint needs root
             env:
