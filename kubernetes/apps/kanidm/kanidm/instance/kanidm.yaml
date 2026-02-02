@@ -1,0 +1,34 @@
+---
+apiVersion: kaniop.rs/v1beta1
+kind: Kanidm
+metadata:
+  name: kanidm
+spec:
+  domain: idm.mortebrume.eu
+  # renovate: datasource=docker depName=kanidm/server
+  image: kanidm/server:1.8.5@sha256:55af50cf02909ff8f62d3a083870e697a47658c2dac94598dc5dbeb7de5955f3
+  ldapPortName: ldaps
+  oauth2ClientNamespaceSelector: {}
+  groupNamespaceSelector: {}
+  tlsSecretName: kanidm-cert
+  replicaGroups:
+    - name: primary
+      replicas: 1
+      role: write_replica
+      primaryNode: true
+      statefulSetAnnotations:
+        reloader.stakater.com/auto: "true"
+      resources:
+        requests:
+          cpu: 100m
+          memory: 140Mi
+        limits:
+          memory: 200Mi
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

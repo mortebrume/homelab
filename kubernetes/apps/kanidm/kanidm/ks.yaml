@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kaniop
+spec:
+  healthChecks:
+    - apiVersion: kustomize.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: kaniop
+      namespace: kanidm
+  interval: 1h
+  path: ./kubernetes/apps/kanidm/kanidm/kaniop
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: kanidm
+  wait: false
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kanidm
+spec:
+  dependsOn:
+    - name: kaniop
+      namespace: kanidm
+  interval: 1h
+  path: ./kubernetes/apps/kanidm/kanidm/instance
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: kanidm
+  wait: false
