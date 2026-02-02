@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name kanidm-cert
+spec:
+  dnsNames:
+    - kanidm
+    - kanidm.kanidm.svc
+    - kanidm.kanidm.svc.cluster.local
+  subject:
+    countries:
+      - FR
+    organizations:
+      - mortebrume
+  usages:
+    - digital signature
+  duration: 720h # 1 month
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  issuerRef:
+    name: selfsigned
+    kind: ClusterIssuer
+    group: cert-manager.io
+  secretName: *name
