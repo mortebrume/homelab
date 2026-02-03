@@ -7,7 +7,7 @@ spec:
   targetRefs:
     - kind: Service
       name: kanidm
-      sectionName: "8443"
+      sectionName: "https"
       group: ""
   validation:
     caCertificateRefs:

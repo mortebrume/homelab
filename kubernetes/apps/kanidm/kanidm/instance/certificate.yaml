@@ -22,7 +22,7 @@ spec:
     size: 256
     rotationPolicy: Always
   issuerRef:
-    name: selfsigned
+    name: cluster-ca
     kind: ClusterIssuer
     group: cert-manager.io
   secretName: *name

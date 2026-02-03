@@ -12,7 +12,7 @@ spec:
   groupNamespaceSelector: {}
   tlsSecretName: kanidm-cert
   replicaGroups:
-    - name: primary
+    - name: default
       replicas: 1
       role: write_replica
       primaryNode: true
@@ -24,6 +24,9 @@ spec:
           memory: 140Mi
         limits:
           memory: 200Mi
+  env:
+    - name: KANIDM_TRUST_X_FORWARD_FOR
+      value: "true"
   storage:
     volumeClaimTemplate:
       spec:
