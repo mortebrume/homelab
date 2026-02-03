@@ -6,7 +6,7 @@ metadata:
   name: kaniop
 spec:
   healthChecks:
-    - apiVersion: kustomize.toolkit.fluxcd.io/v2
+    - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
       name: kaniop
       namespace: kanidm
