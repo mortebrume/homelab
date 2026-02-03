@@ -33,7 +33,6 @@ spec:
         - postgres-rw
         - postgres-ro
         - postgres-r
-        - idm.mortebrume.eu
       uriDomains: *domains
   duration: 87660h # 10 years
   privateKey:
