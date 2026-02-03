@@ -9,6 +9,7 @@ spec:
     - kanidm
     - kanidm.kanidm.svc
     - kanidm.kanidm.svc.cluster.local
+    - idm.mortebrume.eu
   subject:
     countries:
       - FR
