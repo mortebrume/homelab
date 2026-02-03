@@ -8,10 +8,12 @@ spec:
     - kind: Service
       name: kanidm
       sectionName: "8443"
+      group: ""
   validation:
     caCertificateRefs:
       - kind: Secret
         name: "root-ca"
+        group: ""
     hostname: kanidm.kanidm.svc.cluster.local
 ---
 apiVersion: gateway.networking.k8s.io/v1
