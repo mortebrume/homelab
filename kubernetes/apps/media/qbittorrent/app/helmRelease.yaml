@@ -62,6 +62,7 @@ spec:
             protocol: TCP
     route:
       app:
+        forceRename: qbittorrent
         hostnames:
           - "{{ .Release.Name }}.mortebrume.eu"
         parentRefs:
