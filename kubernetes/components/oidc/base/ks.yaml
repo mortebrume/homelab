@@ -23,9 +23,9 @@ spec:
       CALLBACK: ${OIDC_CALLBACK:=/oauth2/callback}
       ORIGIN: ${OIDC_ORIGIN:=/}
 
-      PUBLIC: ${q:="}${OIDC_PUBLIC_CLIENT:=false}${q:="}
+      # PUBLIC: ${q:="}${OIDC_PUBLIC_CLIENT:=false}${q:="}
       SHORT_USERNAME: ${q:="}${OIDC_SHORT_USERNAME:=false}${q:="}
-      LOCALHOST: ${q:="}${OIDC_LOCALHOST:=false}${q:="}
+      # LOCALHOST: ${q:="}${OIDC_LOCALHOST:=false}${q:="}
       LEGACY_CRYPTO: ${q:="}${OIDC_LEGACY_CRYPTO:=false}${q:="}
       DISABLE_PKCE: ${q:="}${OIDC_DISABLE_PKCE:=false}${q:="}
       REDIRECT_URL: ${q:="}${OIDC_REDIRECT_URL:=true}${q:="}
