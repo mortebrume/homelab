@@ -12,7 +12,7 @@ spec:
   origin: "https://${SUBDOMAIN}.${HOST}${ORIGIN}"
   redirectUrl:
     - "https://${SUBDOMAIN}.${HOST}${CALLBACK}"
-  public: ${PUBLIC}
+  # public: ${PUBLIC}
   scopeMap:
     - group: ${GROUP}
       scopes: ${SCOPES}
@@ -20,6 +20,6 @@ spec:
   claimMap: ${CLAIM_MAPS:=${emptyArray}}
   strictRedirectUrl: ${REDIRECT_URL}
   preferShortUsername: ${SHORT_USERNAME}
-  allowLocalhostRedirect: ${LOCALHOST}
+  # allowLocalhostRedirect: ${LOCALHOST}
   allowInsecureClientDisablePkce: ${DISABLE_PKCE}
   jwtLegacyCryptoEnable: ${LEGACY_CRYPTO}
