@@ -5,10 +5,13 @@ kind: BackendTrafficPolicy
 metadata:
   name: envoy
 spec:
-  compression:
+  compressor:
     - type: Zstd
+      zstd: {}
     - type: Brotli
+      brotli: {}
     - type: Gzip
+      gzip: {}
   connection:
     bufferLimit: 8Mi
   targetSelectors:
@@ -18,6 +21,11 @@ spec:
   timeout:
     http:
       requestTimeout: 0s
+  retry:
+    numRetries: 2
+    retryOn:
+      triggers:
+        - reset
   responseOverride:
     - match:
         statusCodes:
