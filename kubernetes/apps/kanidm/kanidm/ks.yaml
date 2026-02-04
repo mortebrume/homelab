@@ -26,11 +26,18 @@ kind: Kustomization
 metadata:
   name: kanidm
 spec:
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: kaniop
       namespace: kanidm
   interval: 1h
   path: ./kubernetes/apps/kanidm/kanidm/instance
+  postBuild:
+    substitute:
+      APP: kanidm
+      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_STORAGECLASS: zfs-pv-db
   prune: true
   sourceRef:
     kind: GitRepository
