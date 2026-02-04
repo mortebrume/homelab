@@ -6,6 +6,7 @@ metadata:
   name: sonarr
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
@@ -16,6 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: sonarr
+      NAMESPACE: media
+      OIDC_DISPLAY_NAME: Sonarr
+      OIDC_SCOPES: '["openid", "profile"]'
   prune: true
   sourceRef:
     kind: GitRepository
