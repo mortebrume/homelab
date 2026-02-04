@@ -37,6 +37,7 @@ spec:
     substitute:
       APP: kanidm
       VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_CLAIM: kanidm-data-kanidm-default-0
       VOLSYNC_STORAGECLASS: zfs-pv-db
   prune: true
   sourceRef:
