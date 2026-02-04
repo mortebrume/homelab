@@ -1,0 +1,47 @@
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: kanidm-client-secret
+spec:
+  policyName: kanidm-client-secret
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: kanidm-client-secret
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - "v1"
+        resources:
+          - "secrets"
+        operations:
+          - "CREATE"
+          - "UPDATE"
+  matchConditions:
+    - name: has-correct-name
+      expression: >-
+        object.metadata.name.matches("^[a-zA-Z0-9-]+-kanidm-oauth2-credentials$")
+    - name: has-kanidm-labels
+      expression: >-
+        object.metadata.?labels[?"app.kubernetes.io/name"].orValue("") == "kanidm" &&
+        object.metadata.?labels[?"app.kubernetes.io/managed-by"].orValue("") == "kaniop-oauth2"
+    - name: has-client-secret
+      expression: >-
+        object.data["CLIENT_SECRET"] != null
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >-
+          [
+            JSONPatch{
+              op: "add",
+              path: "/data/client-secret",
+              value: object.data["CLIENT_SECRET"]
+            }
+          ]
