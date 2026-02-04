@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kanidm-${APP}-oidc
+  namespace: &namespace ${NAMESPACE}
+spec:
+  dependsOn:
+    - name: kanidm
+      namespace: kanidm
+  interval: 1h
+  path: ./kubernetes/components/oidc/base/kanidm
+  postBuild:
+    substitute:
+      APP: ${APP}
+      NAMESPACE: ${NAMESPACE}
+
+      SUBDOMAIN: ${SUBDOMAIN:=${APP}}
+      HOST: mortebrume.eu
+
+      DISPLAY_NAME: ${OIDC_DISPLAY_NAME:=${NAME:=${APP}}}
+      CALLBACK: ${OIDC_CALLBACK:=/oauth2/callback}
+      ORIGIN: ${OIDC_ORIGIN:=/}
+
+      PUBLIC: ${q:="}${OIDC_PUBLIC_CLIENT:=false}${q:="}
+      SHORT_USERNAME: ${q:="}${OIDC_SHORT_USERNAME:=false}${q:="}
+      LOCALHOST: ${q:="}${OIDC_LOCALHOST:=false}${q:="}
+      LEGACY_CRYPTO: ${q:="}${OIDC_LEGACY_CRYPTO:=false}${q:="}
+      DISABLE_PKCE: ${q:="}${OIDC_DISABLE_PKCE:=false}${q:="}
+      REDIRECT_URL: ${q:="}${OIDC_REDIRECT_URL:=true}${q:="}
+
+      GROUP: ${OIDC_GROUP:=${APP}}
+      SCOPES: ${q:='}${OIDC_SCOPES}${q:='}
+
+      SUP_SCOPE_MAPS: ${q:='}${OIDC_SUP_SCOPE_MAPS}${q:='}
+      CLAIM_MAPS: ${q:='}${OIDC_CLAIM_MAPS}${q:='}
+
+      emptyState: "{}"
+      emptyArray: "[]"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  wait: false
