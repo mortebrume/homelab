@@ -18,6 +18,9 @@ spec:
   postBuild:
     substitute:
       APP: qbittorrent
+      NAMESPACE: media
+      OIDC_DISPLAY_NAME: QBittorrent
+      OIDC_SCOPES: '["openid", "profile"]'
       VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:

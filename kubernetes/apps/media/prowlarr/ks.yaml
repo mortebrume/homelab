@@ -17,6 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: prowlarr
+      NAMESPACE: media
+      OIDC_DISPLAY_NAME: Prowlarr
+      OIDC_SCOPES: '["openid", "profile"]'
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:

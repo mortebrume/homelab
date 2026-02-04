@@ -17,6 +17,9 @@ spec:
   postBuild:
     substitute:
       APP: radarr
+      NAMESPACE: media
+      OIDC_DISPLAY_NAME: Radarr
+      OIDC_SCOPES: '["openid", "profile"]'
   prune: true
   sourceRef:
     kind: GitRepository
