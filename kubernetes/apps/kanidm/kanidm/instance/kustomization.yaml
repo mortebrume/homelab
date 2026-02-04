@@ -7,3 +7,4 @@ resources:
   - ./gitRepository.yaml
   - ./httpRoute.yaml
   - ./kanidm.yaml
+  - ./mutatingAdmissionPolicy.yaml
