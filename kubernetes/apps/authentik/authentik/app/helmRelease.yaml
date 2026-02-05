@@ -28,8 +28,9 @@ spec:
               AUTHENTIK_POSTGRESQL__SSLROOTCERT: /var/run/secrets/root-ca/ca.crt
               AUTHENTIK_POSTGRESQL__SSLCERT: /var/run/secrets/postgresql/tls.crt
               AUTHENTIK_POSTGRESQL__SSLKEY: /var/run/secrets/postgresql/tls.key
-              AUTHENTIK_POSTGRESQL__CONN_MAX_AGE: "60"
+              AUTHENTIK_POSTGRESQL__CONN_MAX_AGE: "0"
               AUTHENTIK_POSTGRESQL__CONN_HEALTH_CHECKS: "true"
+              AUTHENTIK_POSTGRESQL__DISABLE_SERVER_SIDE_CURSORS: "true"
               AUTHENTIK_STORAGE__MEDIA__BACKEND: s3
               AUTHENTIK_STORAGE__MEDIA__S3__USE_SSL: "true"
               AUTHENTIK_STORAGE__MEDIA__S3__SECURE_URLS: "true"
@@ -48,7 +49,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /-/health/live
+                    path: /-/health/live/
                     port: http
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -59,7 +60,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /-/health/ready
+                    path: /-/health/ready/
                     port: &http 9000
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -70,7 +71,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /-/health/live
+                    path: /-/health/live/
                     port: *http
                   initialDelaySeconds: 15
                   periodSeconds: 1
