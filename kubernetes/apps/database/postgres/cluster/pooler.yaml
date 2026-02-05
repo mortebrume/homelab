@@ -11,7 +11,7 @@ spec:
   instances: 1
   type: rw
   pgbouncer:
-    poolMode: session
+    poolMode: transaction
 
     authQuery: "SELECT $1, NULL"
     serverCASecret:
@@ -29,7 +29,7 @@ spec:
       server_tls_sslmode: verify-full
       client_tls_sslmode: verify-full
       max_client_conn: "1000"
-      default_pool_size: "10"
+      default_pool_size: "60"
 ---
 # yaml-language-server: $schema=https://schemas.mortebrume.eu/monitoring.coreos.com/podmonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
