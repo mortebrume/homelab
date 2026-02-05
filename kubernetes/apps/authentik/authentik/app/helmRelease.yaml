@@ -1,0 +1,186 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authentik
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: authentik
+  interval: 1h
+  values:
+    controllers:
+      server:
+        containers:
+          app:
+            image: &img
+              repository: ghcr.io/goauthentik/server
+              tag: 2025.12.3@sha256:0e7e82b29a4c0899d0e2efa4a7a83452b48b6971faa3a87346f595ebf54fd74c
+            args:
+              - server
+            env: &env
+              TZ: Europe/Paris
+              AUTHENTIK_POSTGRESQL__HOST: rw-pooler.database.svc
+              AUTHENTIK_POSTGRESQL__PORT: "5432"
+              AUTHENTIK_POSTGRESQL__NAME: authentik
+              AUTHENTIK_POSTGRESQL__USER: authentik
+              AUTHENTIK_POSTGRESQL__SSLMODE: verify-full
+              AUTHENTIK_POSTGRESQL__SSLROOTCERT: /var/run/secrets/root-ca/ca.crt
+              AUTHENTIK_POSTGRESQL__SSLCERT: /var/run/secrets/postgresql/tls.crt
+              AUTHENTIK_POSTGRESQL__SSLKEY: /var/run/secrets/postgresql/tls.key
+              AUTHENTIK_POSTGRESQL__CONN_MAX_AGE: "600"
+              AUTHENTIK_POSTGRESQL__CONN_HEALTH_CHECKS: "true"
+              AUTHENTIK_STORAGE__MEDIA__BACKEND: s3
+              AUTHENTIK_STORAGE__MEDIA__S3__USE_SSL: "true"
+              AUTHENTIK_STORAGE__MEDIA__S3__SECURE_URLS: "true"
+              AUTHENTIK_STORAGE__MEDIA__S3__ADDRESSING_STYLE: path
+              AUTHENTIK_STORAGE__MEDIA__S3__BUCKET_NAME: authentik
+              AUTHENTIK_OUTPOSTS__DISCOVER: "false"
+              AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+              AUTHENTIK_ERROR_REPORTING__SEND_PII: "false"
+              AUTHENTIK_DISABLE_UPDATE_CHECK: "true"
+            envFrom: &envFrom
+              - secretRef:
+                  name: authentik
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /-/health/live
+                    port: http
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThresold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /-/health/ready
+                    port: &http 9000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /-/health/live
+                    port: *http
+                  initialDelaySeconds: 15
+                  periodSeconds: 1
+                  failureThreshold: 300
+            securityContext: &sc
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 30m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+      worker:
+        containers:
+          app:
+            image: *img
+            args:
+              - worker
+            env:
+              <<: *env
+              AUTHENTIK_WORKER__PROCESSES: "1"
+              AUTHENTIK_WORKER__THREADS:
+                resourceFieldRef:
+                  resource: limits.cpu
+            envFrom: *envFrom
+            probes:
+              readiness: &worker-probes
+                enabled: true
+                custom: true
+                spec: &wps
+                  timeoutSeconds: 5
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - |
+                        ak healthcheck &&
+                        if curl -s localhost:9300/metrics | grep django_db_errors_total;
+                        then false;
+                        fi
+              liveness:
+                <<: *worker-probes
+                spec:
+                  <<: *wps
+                  failureThresold: 15
+              startup:
+                <<: *worker-probes
+                spec:
+                  <<: *wps
+                  initialDelaySeconds: 15
+                  periodSeconds: 1
+                  failureThreshold: 300
+            securityContext: *sc
+            resources:
+              requests:
+                cpu: 20m
+                memory: 750Mi
+              limits:
+                cpu: "1"
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: server
+        forceRename: authentik
+        ports:
+          http:
+            port: *http
+            protocol: HTTP
+            appProtocol: http
+          metrics:
+            port: 9300
+            protocol: HTTP
+            appProtocol: http
+    route:
+      app:
+        hostnames:
+          - "auth.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *http
+    persistence:
+      tmpfs:
+        type: emptyDir
+        medium: Memory
+        globalMounts:
+          - path: /media/public
+            subPath: media
+    serviceMonitor:
+      authentik:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
