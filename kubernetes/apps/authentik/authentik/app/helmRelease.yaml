@@ -28,7 +28,7 @@ spec:
               AUTHENTIK_POSTGRESQL__SSLROOTCERT: /var/run/secrets/root-ca/ca.crt
               AUTHENTIK_POSTGRESQL__SSLCERT: /var/run/secrets/postgresql/tls.crt
               AUTHENTIK_POSTGRESQL__SSLKEY: /var/run/secrets/postgresql/tls.key
-              AUTHENTIK_POSTGRESQL__CONN_MAX_AGE: "600"
+              AUTHENTIK_POSTGRESQL__CONN_MAX_AGE: "60"
               AUTHENTIK_POSTGRESQL__CONN_HEALTH_CHECKS: "true"
               AUTHENTIK_STORAGE__MEDIA__BACKEND: s3
               AUTHENTIK_STORAGE__MEDIA__S3__USE_SSL: "true"
