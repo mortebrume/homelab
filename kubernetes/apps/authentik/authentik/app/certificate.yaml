@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name authentik-cert
+spec:
+  dnsNames:
+    - authentik.authentik.svc.cluster.local
+  subject:
+    countries:
+      - FR
+    organizations:
+      - mortebrume
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+  duration: 8766h # 1 year
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  issuerRef:
+    name: cluster-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+  secretName: *name
