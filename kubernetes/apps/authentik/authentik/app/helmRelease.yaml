@@ -21,8 +21,7 @@ spec:
               - server
             env: &env
               TZ: Europe/Paris
-              AUTHENTIK_POSTGRESQL__HOST: rw-pooler.database.svc
-              AUTHENTIK_POSTGRESQL__PORT: "5432"
+              AUTHENTIK_POSTGRESQL__HOST: pooler-rw.database.svc
               AUTHENTIK_POSTGRESQL__NAME: authentik
               AUTHENTIK_POSTGRESQL__USER: authentik
               AUTHENTIK_POSTGRESQL__SSLMODE: verify-full
