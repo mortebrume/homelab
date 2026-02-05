@@ -73,6 +73,12 @@ spec:
 
   managed:
     roles:
+      - name: authentik
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
       - name: autobrr
         ensure: present
         login: true
