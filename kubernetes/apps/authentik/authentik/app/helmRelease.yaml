@@ -50,7 +50,7 @@ spec:
                 spec:
                   httpGet:
                     path: /-/health/live/
-                    port: http
+                    port: &http 9000
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 5
@@ -61,7 +61,7 @@ spec:
                 spec:
                   httpGet:
                     path: /-/health/ready/
-                    port: &http 9000
+                    port: *http
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 5
