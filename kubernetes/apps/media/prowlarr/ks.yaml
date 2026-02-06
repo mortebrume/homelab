@@ -6,7 +6,6 @@ metadata:
   name: prowlarr
 spec:
   components:
-    - ../../../../components/oidc/envoy
     - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
@@ -17,9 +16,6 @@ spec:
   postBuild:
     substitute:
       APP: prowlarr
-      NAMESPACE: media
-      OIDC_DISPLAY_NAME: Prowlarr
-      OIDC_SCOPES: '["openid", "profile"]'
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:

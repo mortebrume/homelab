@@ -6,7 +6,6 @@ metadata:
   name: qbittorrent
 spec:
   components:
-    - ../../../../components/oidc/envoy
     - ../../../../components/volsync
   dependsOn:
     - name: openebs
@@ -18,9 +17,6 @@ spec:
   postBuild:
     substitute:
       APP: qbittorrent
-      NAMESPACE: media
-      OIDC_DISPLAY_NAME: qBittorrent
-      OIDC_SCOPES: '["openid", "profile"]'
       VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
