@@ -6,7 +6,6 @@ metadata:
   name: radarr
 spec:
   components:
-    - ../../../../components/oidc/envoy
     - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
@@ -17,9 +16,6 @@ spec:
   postBuild:
     substitute:
       APP: radarr
-      NAMESPACE: media
-      OIDC_DISPLAY_NAME: Radarr
-      OIDC_SCOPES: '["openid", "profile"]'
   prune: true
   sourceRef:
     kind: GitRepository
