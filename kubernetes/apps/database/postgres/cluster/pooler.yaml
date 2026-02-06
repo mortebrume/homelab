@@ -30,6 +30,7 @@ spec:
       client_tls_sslmode: verify-full
       max_client_conn: "1000"
       default_pool_size: "60"
+      ignore_startup_parameters: search_path,options # needed for authentik outpost
 ---
 # yaml-language-server: $schema=https://schemas.mortebrume.eu/monitoring.coreos.com/podmonitor_v1.json
 apiVersion: monitoring.coreos.com/v1
