@@ -150,6 +150,10 @@ spec:
             port: *http
             protocol: HTTP
             appProtocol: http
+          https:
+            port: &https 9443
+            protocol: HTTPS
+            appProtocol: https
           metrics:
             port: 9300
             protocol: HTTP
@@ -166,7 +170,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: *http
+                port: *https
     persistence:
       tmpfs:
         type: emptyDir
