@@ -1,0 +1,17 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: authentik-upstream
+spec:
+  targetRefs:
+    - kind: Service
+      name: authentik
+      sectionName: "https"
+      group: ""
+  validation:
+    caCertificateRefs:
+      - kind: Secret
+        name: "root-ca"
+        group: ""
+    hostname: authentik.authentik.svc.cluster.local
