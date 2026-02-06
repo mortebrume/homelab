@@ -6,6 +6,7 @@ metadata:
   name: sonarr
 spec:
   components:
+    - ../../../../components/auth/fa
     - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
