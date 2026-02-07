@@ -11,7 +11,7 @@ spec:
   instances: 1
   type: rw
   pgbouncer:
-    poolMode: transaction
+    poolMode: session
 
     authQuery: "SELECT $1, NULL"
     serverCASecret:
