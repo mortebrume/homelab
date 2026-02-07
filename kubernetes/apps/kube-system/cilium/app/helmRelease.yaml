@@ -15,7 +15,7 @@ spec:
       enabled: true
       bbr: true
     bpf:
-      datapathMode: veth
+      datapathMode: netkit
       masquerade: true
       preallocateMaps: true
     bpfClockProbe: true
@@ -76,4 +76,3 @@ spec:
     routingMode: native
     socketLB:
       enabled: true
-      hostNamespaceOnly: true
