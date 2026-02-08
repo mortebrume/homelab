@@ -17,11 +17,6 @@ spec:
         containers:
           app:
             env:
-              PAPERLESS_SECRET_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: paperless
-                    key: PAPERLESS_SECRET_KEY
               PAPERLESS_URL: https://docs.mortebrume.eu
               PAPERLESS_PORT: "8000"
               PAPERLESS_TIME_ZONE: Europe/Paris
@@ -41,6 +36,9 @@ spec:
               PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               USERMAP_GID: "1000"
               USERMAP_UID: "1000"
+            envFrom:
+              - secretRef:
+                  name: paperless
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.20.6@sha256:a28330462994b937938e02aaa5632a1effcc7f9acfba96c1bef9c50e1167a027
