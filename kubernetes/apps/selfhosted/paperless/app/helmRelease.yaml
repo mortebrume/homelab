@@ -35,6 +35,9 @@ spec:
               PGSSLKEY: /var/run/secrets/postgresql/tls.key
               PGSSLMODE: verify-full
               PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
+              PAPERLESS_TIKA_ENABLED: "true"
+              PAPERLESS_TIKA_ENDPOINT: http://tika.selfhosted.svc.cluster.local:9998
+              PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg.selfhosted.svc.cluster.local:3000
               USERMAP_GID: "1000"
               USERMAP_UID: "1000"
             image:
@@ -56,6 +59,44 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 1Gi
+      tika:
+        containers:
+          app:
+            image:
+              repository: docker.io/apache/tika
+              tag: 3.2.3.0@sha256:c0154cb95587cde64be74f35ada1a2bd7892219f3f0ac3c9dc6cab34046b3573
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+      gotenberg:
+        containers:
+          app:
+            image:
+              repository: docker.io/gotenberg/gotenberg
+              tag: 8.26.0@sha256:328551506b3dec3ff6381dd47e5cd72a44def97506908269e201a8fbfa1c12c0
+            command:
+              - gotenberg
+              - --chromium-disable-javascript=true
+              - --chromium-allow-list=file:///tmp/.*
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -65,9 +106,20 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
+        controller: paperless
         ports:
           http:
             port: &port 8000
+      tika:
+        controller: tika
+        ports:
+          http:
+            port: 9998
+      gotenberg:
+        controller: gotenberg
+        ports:
+          http:
+            port: 3000
     route:
       app:
         hostnames:
@@ -84,3 +136,15 @@ spec:
         existingClaim: paperless
         globalMounts:
           - path: /storage
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+        advancedMounts:
+          app:
+            paperless:
+              - path: /run
+                subPath: run
+              - path: /var/lib/apt
+                subPath: apt
