@@ -38,6 +38,7 @@ spec:
               PAPERLESS_TIKA_ENABLED: "true"
               PAPERLESS_TIKA_ENDPOINT: http://tika.selfhosted.svc.cluster.local:9998
               PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://gotenberg.selfhosted.svc.cluster.local:3000
+              PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
               USERMAP_GID: "1000"
               USERMAP_UID: "1000"
             image:
