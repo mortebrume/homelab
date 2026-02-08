@@ -142,8 +142,8 @@ spec:
           - path: /tmp
             subPath: tmp
         advancedMounts:
-          app:
-            paperless:
+          paperless:
+            app:
               - path: /run
                 subPath: run
               - path: /var/lib/apt
