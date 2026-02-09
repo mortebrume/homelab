@@ -172,6 +172,35 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *https
+      harden:
+        hostnames:
+          - "auth.mortebrume.eu"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /if/admin
+              - path:
+                  type: PathPrefix
+                  value: /api/v3/policies/expression
+              - path:
+                  type: PathPrefix
+                  value: /api/v3/propertymappings
+              - path:
+                  type: PathPrefix
+                  value: /api/v3/managed/blueprints
+            filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  statusCode: 301
+                  hostname: www.google.com
+                  port: 443
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: "/"
     persistence:
       tmpfs:
         type: emptyDir
