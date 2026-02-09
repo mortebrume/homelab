@@ -1,0 +1,77 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miniflux
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: miniflux
+  interval: 1h
+  values:
+    controllers:
+      miniflux:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/miniflux/miniflux
+              tag: 2.2.16-distroless@sha256:82af042befc298b89cc4488910ec8bead3632a1070de7b72ee6a117df41b71f3
+            env:
+              BASE_URL: https://rss.mortebrume.eu
+              CREATE_ADMIN: "1"
+              RUN_MIGRATIONS: "1"
+              OAUTH2_PROVIDER: oidc
+              OAUTH2_REDIRECT_URL: https://rss.mortebrume.eu/oauth2/oidc/callback
+              OAUTH2_OIDC_DISCOVERY_ENDPOINT: https://auth.mortebrume.eu/application/o/miniflux/
+              OAUTH2_OIDC_PROVIDER_NAME: Authentik
+              OAUTH2_USER_CREATION: "1"
+              TZ: Europe/Paris
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: miniflux-postgres
+                    key: url
+            envFrom:
+              - secretRef:
+                  name: miniflux
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: &port 8080
+    route:
+      app:
+        hostnames:
+          - rss.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
