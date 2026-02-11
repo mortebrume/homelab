@@ -29,14 +29,14 @@ patches:
                   "apiVersion": "v1",
                   "kind": "Service",
                   "name": "pooler-rw",
-                  "namespace": "postgres"
+                  "namespace": "database"
                 }
               k8s.ksgate.org/database-applied: |
                 {
                   "apiVersion": "postgresql.cnpg.io/v1",
                   "kind": "Database",
                   "name": "postgres-${APP}",
-                  "namespace": "postgres",
+                  "namespace": "database",
                   "expression": "resource.status.applied"
                 }
             schedulingGates:
