@@ -32,6 +32,15 @@ releases:
     needs:
       - kube-system/coredns
 
+  - name: trust-manager
+    namespace: security
+    chart: oci://quay.io/jetstack/charts/trust-manager
+    version: v0.20.3
+    values:
+      - ./templates/values.yaml.gotmpl
+    needs:
+      - security/cert-manager
+
   - name: external-secrets
     namespace: security
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
@@ -39,7 +48,7 @@ releases:
     values:
       - ./templates/values.yaml.gotmpl
     needs:
-      - security/cert-manager
+      - security/trust-manager
 
   - name: onepassword
     namespace: security
