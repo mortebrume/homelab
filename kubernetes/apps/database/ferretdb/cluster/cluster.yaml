@@ -20,15 +20,17 @@ spec:
     storageClass: zfs-pv-db
 
   bootstrap:
-    initdb:
-      database: ferretDB
-      owner: ferret
-      postInitApplicationSQL:
-        - create extension if not exists pg_cron;
-        - create extension if not exists documentdb cascade;
-        - grant documentdb_admin_role to ferret;
-      secret:
-        name: ferretdb-pg
+    # initdb:
+    #   database: ferretDB
+    #   owner: ferret
+    #   postInitApplicationSQL:
+    #     - create extension if not exists pg_cron;
+    #     - create extension if not exists documentdb cascade;
+    #     - grant documentdb_admin_role to ferret;
+    #   secret:
+    #     name: ferretdb-pg
+    recovery:
+      source: source
 
   plugins:
     - name: &plugin barman-cloud.cloudnative-pg.io
