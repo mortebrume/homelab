@@ -2,12 +2,12 @@
 # yaml-language-server: $schema=https://www.schemastore.org/any.json
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: InitConfiguration
-ignorePreflightErrors:
-  - Swap
 localAPIEndpoint:
   advertiseAddress: 100.115.152.117
   bindPort: 6443
 nodeRegistration:
+  ignorePreflightErrors:
+    - Swap
   taints: []
 ---
 # yaml-language-server: $schema=https://www.schemastore.org/any.json
@@ -17,7 +17,7 @@ clusterName: homelab
 controlPlaneEndpoint: "100.115.152.117:6443"
 encryptionAlgorithm: ECDSA-P384
 networking:
-  podSubnet: "10.20.0.0/16,fd00::/108"
+  podSubnet: "10.20.0.0/16,fd00::/48"
   serviceSubnet: "10.40.0.0/16,fd01::/108"
 apiServer:
   certSANs:
@@ -29,8 +29,10 @@ apiServer:
     - localhost
     - "::1"
   extraArgs:
-    runtime-config: "admissionregistration.k8s.io/v1beta1=true"
-    feature-gates: "MutatingAdmissionPolicy=true"
+    - name: runtime-config
+      value: "admissionregistration.k8s.io/v1beta1=true"
+    - name: feature-gates
+      value: "MutatingAdmissionPolicy=true"
 dns:
   disabled: true
 proxy:
@@ -42,7 +44,7 @@ etcd:
 # yaml-language-server: $schema=https://www.schemastore.org/any.json
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
-failOnSwap: false
+failSwapOn: false
 featureGates:
   ImageVolume: true
 maxPods: 300

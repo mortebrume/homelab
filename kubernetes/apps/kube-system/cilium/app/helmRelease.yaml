@@ -39,11 +39,11 @@ spec:
         clusterPoolIPv4PodCIDRList:
           - 10.20.0.0/16
         clusterPoolIPv6PodCIDRList:
-          - fd00::/108
+          - fd00::/48
     ipv4NativeRoutingCIDR: 10.20.0.0/16
     ipv6:
       enabled: true
-    ipv6NativeRoutingCIDR: fd00::/108
+    ipv6NativeRoutingCIDR: fd00::/48
     l2announcements:
       enabled: false
     k8sServiceHost: localhost
