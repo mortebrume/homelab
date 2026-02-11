@@ -18,8 +18,6 @@ init:
     ssh "{{ ssh_target }}" 'sudo kubeadm init \
         --config /tmp/kubeadm-config.yaml \
         --upload-certs'
-    just log info "Fetching kubeconfig..."
-    just kubeconfig
     just log info "Cluster initialized successfully"
 
 [doc('Fetch kubeconfig from server')]
@@ -36,14 +34,14 @@ destroy:
 
 [doc('Upgrade cluster to specified version')]
 upgrade version='':
-    if [ -z "{{ version }}" ]; then
-        just log "Planning upgrade..."
-        ssh "{{ ssh_target }}" 'sudo kubeadm upgrade plan'
-    else
-        just log "Upgrading to version {{ version }}..."
-        ssh "{{ ssh_target }}" "sudo kubeadm upgrade apply {{ version }} --yes"
-        just log "Upgrade complete."
-    fi
+    if [ -z "{{ version }}" ]; then \
+        just log "Planning upgrade..."; \
+        ssh "{{ ssh_target }}" 'sudo kubeadm upgrade plan'; \
+    else; \
+        just log "Upgrading to version {{ version }}..."; \
+        ssh "{{ ssh_target }}" "sudo kubeadm upgrade apply {{ version }} --yes"; \
+        just log "Upgrade complete."; \
+    fi;
 
 [doc('Show cluster version info')]
 version:

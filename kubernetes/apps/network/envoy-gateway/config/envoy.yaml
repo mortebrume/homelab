@@ -94,7 +94,7 @@ spec:
     xForwardedFor:
       trustedCIDRs:
         - 10.20.0.0/16
-        - fd00::/108
+        - fd00::/48
   connection:
     bufferLimit: 8Mi
     maxAcceptPerSocketEvent: 0
