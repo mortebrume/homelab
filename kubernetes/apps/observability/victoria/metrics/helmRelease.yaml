@@ -74,7 +74,7 @@ spec:
                 - action: drop
                   source_labels:
                     - mountpoint
-                  regex: "/var/lib/k0s/kubelet/pods.+"
+                  regex: "/var/lib/kubelet/pods.+"
               relabelConfigs:
                 - action: replace
                   regex: (.*)

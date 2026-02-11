@@ -6,17 +6,17 @@ bootstrap_dir := justfile_directory() + '/bootstrap'
 kubernetes_dir := justfile_directory() + '/kubernetes'
 
 [private]
-default: k0s kubeconfig wait namespaces resources crds apps
+default: kubeadm kubeconfig wait namespaces resources crds apps
 
-[doc('Install k0s')]
-k0s:
+[doc('Install kubeadm')]
+kubeadm:
     just log info "Running stage..." "stage" "$0"
-    just k0s apply
+    just kubeadm init
 
 [private]
 kubeconfig:
     just log info "Running stage..." "stage" "$0"
-    just k0s kubeconfig
+    just kubeadm kubeconfig
 
 [doc('Wait for nodes to be not-ready')]
 wait:
