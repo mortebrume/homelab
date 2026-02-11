@@ -20,6 +20,7 @@ spec:
 
   storage:
     size: 8Gi
+    storageClass: zfs-pv-db
 
   bootstrap:
     recovery:
