@@ -33,6 +33,12 @@ apiServer:
       value: "admissionregistration.k8s.io/v1beta1=true"
     - name: feature-gates
       value: "MutatingAdmissionPolicy=true"
+controllerManager:
+  extraArgs:
+    bind-address: 0.0.0.0
+scheduler:
+  extraArgs:
+    bind-address: 0.0.0.0
 dns:
   disabled: true
 proxy:
