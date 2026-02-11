@@ -108,13 +108,8 @@ spec:
                   timeoutSeconds: 5
                   exec:
                     command:
-                      - /bin/sh
-                      - -c
-                      - |
-                        ak healthcheck &&
-                        if curl -s localhost:9300/metrics | grep django_db_errors_total;
-                        then false;
-                        fi
+                      - ak
+                      - healthcheck
               liveness:
                 <<: *worker-probes
                 spec:
