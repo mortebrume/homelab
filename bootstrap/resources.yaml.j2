@@ -29,3 +29,13 @@ metadata:
     reconcile.external-secrets.io/managed: 'true'
 stringData:
   S3_ENDPOINT: op://homelab/barman/S3_ENDPOINT
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: barman-r2-ferret
+  namespace: database
+  labels:
+    reconcile.external-secrets.io/managed: 'true'
+stringData:
+  S3_ENDPOINT: op://homelab/barman-ferret/S3_ENDPOINT

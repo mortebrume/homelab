@@ -5,6 +5,11 @@ kind: Kustomization
 metadata:
   name: ferretdb-cluster
 spec:
+  healthChecks:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      name: ferretdb
+      namespace: database
   interval: 1h
   path: ./kubernetes/apps/database/ferretdb/cluster
   postBuild:
