@@ -33,7 +33,7 @@ spec:
     zfs-localpv:
       enabled: true
       zfsNode:
-        kubeletDir: /var/lib/k0s/kubelet
+        kubeletDir: /var/lib/kubelet
     lvm-localpv:
       enabled: false
     mayastor:
