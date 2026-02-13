@@ -24,19 +24,6 @@ spec:
               PUID: "1000"
               PGID: "1000"
               TZ: Europe/Paris
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/v3/Init/Status
-                    port: &port 8111
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
@@ -57,7 +44,7 @@ spec:
       app:
         ports:
           http:
-            port: *port
+            port: 8111
     route:
       app:
         hostnames:
