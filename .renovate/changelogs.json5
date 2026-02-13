@@ -9,7 +9,7 @@
     {
       description: "Changelog URL for Authentik",
       matchPackageNames: ["/goauthentik/"],
-      changelogURL: "https://github.com/goauthentik/authentik/releases/tag/version%2F{{newVersion}}",
+      changelogUrl: "https://github.com/goauthentik/authentik/releases/tag/version%2F{{newVersion}}",
     },
   ],
 }
