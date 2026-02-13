@@ -6,7 +6,7 @@ metadata:
   name: flux-operator
 spec:
   hostnames:
-    - flux-operator.mortebrume.eu
+    - flux.mortebrume.eu
   parentRefs:
     - name: envoy-internal
       namespace: network
