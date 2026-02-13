@@ -6,5 +6,10 @@
       matchPackageNames: ["/1password/"],
       changelogUrl: "https://github.com/1Password/connect/blob/main/CHANGELOG.md",
     },
+    {
+      description: "Changelog URL for Authentik",
+      matchPackageNames: ["/goauthentik/"],
+      changelogURL: "https://github.com/goauthentik/authentik/releases/tag/version%2F{{newVersion}}",
+    },
   ],
 }
