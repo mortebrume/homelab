@@ -273,19 +273,19 @@ spec:
         name: authentik-tls
         defaultMode: 0400
         globalMounts:
-          - path: "/certs/authentik-tls"
+          - path: "/certs/tls"
       tls-ecdsa:
         type: secret
         name: authentik-ecdsa
         defaultMode: 0400
         globalMounts:
-          - path: "/certs/authentik-ecdsa"
+          - path: "/certs/ecdsa"
       tls-rsa:
         type: secret
         name: authentik-rsa
         defaultMode: 0400
         globalMounts:
-          - path: "/certs/authentik-rsa"
+          - path: "/certs/rsa"
     serviceMonitor:
       authentik:
         service:
