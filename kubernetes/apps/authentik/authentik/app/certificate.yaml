@@ -5,6 +5,7 @@ kind: Certificate
 metadata:
   name: &name authentik-tls # Used by LDAPS
 spec:
+  commonName: "auth.mortebrume.eu"
   dnsNames:
     - "auth.mortebrume.eu"
   duration: 160h
