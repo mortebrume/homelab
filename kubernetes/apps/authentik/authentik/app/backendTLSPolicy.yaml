@@ -10,8 +10,5 @@ spec:
       sectionName: "https"
       group: ""
   validation:
-    caCertificateRefs:
-      - kind: Secret
-        name: "root-ca"
-        group: ""
-    hostname: authentik.authentik.svc.cluster.local
+    wellKnownCACertificates: System
+    hostname: auth.mortebrume.eu
