@@ -1,0 +1,57 @@
+[global]
+server_name = "mortebrume.eu"
+address = ["0.0.0.0"]
+port = 8008
+
+log = "info"
+
+# DB settings
+database_path = "/data"
+database_backup_path = "/backups"
+database_backups_to_keep = 1
+
+rocksdb_compression_algo = "zstd"
+rocksdb_compression_level = 32767
+rocksdb_bottommost_compression_level = 32767
+rocksdb_bottommost_compression = true
+
+max_request_size = 20971520
+
+# DNS Optimisation
+dns_cache_entries = 1_000_000
+dns_timeout = 60
+query_over_tcp_only = true
+ip_lookup_strategy = 3
+
+# User settings
+allow_encryption = true
+allow_federation = true
+allow_registration = true
+new_user_displayname_suffix = ""
+suspend_on_register = false
+
+# Don't federate with matrix.org
+query_trusted_key_servers_first = false
+query_trusted_key_servers_first_on_join = false
+forbidden_remote_server_names = ["matrix.org"]
+forbidden_remote_room_directory_names = ["matrix.org"]
+url_preview_domain_explicit_denylist = ["matrix.org"]
+
+# Harden
+allow_legacy_media = false
+allow_public_room_directory_without_auth = false
+allow_public_room_directory_over_federation = false
+lockdown_public_room_directory = true
+require_auth_for_profile_requests = true
+
+[global.ldap]
+enable = true
+ldap_only = true
+uri = "ldaps://ldap.mortebrume.eu:636"
+base_dn = "DC=ldap,DC=goauthetik,DC=io"
+bind_dn = "CN=continuwuity,OU=service-accounts,OU=goauthentik.io,DC=ldap,DC=goauthentik,DC=io"
+bind_password_file = "/secrets/ldap-bind-password"
+filter = "(memberOf=CN=Continuwuity-Users,OU=groups,DC=ldap,DC=goauthentik,DC=io)"
+admin_filter = "(memberOf=CN=Continuwuity-Admins,OU=groups,DC=ldap,DC=goauthentik,DC=io)"
+uid_attribute = "continuwuityUsername"
+name_attribute = "continuwuityDisplayName"
