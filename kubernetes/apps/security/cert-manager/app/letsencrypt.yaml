@@ -20,3 +20,24 @@ spec:
           dnsZones:
             - mortebrume.eu
             - discopol.fr
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/cert-manager.io/clusterissuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: &name letsencrypt-long
+spec:
+  acme:
+    privateKeySecretRef:
+      name: *name
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-issuer
+              key: token
+        selector:
+          dnsZones:
+            - mortebrume.eu
+            - discopol.fr
