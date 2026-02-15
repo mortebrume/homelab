@@ -57,7 +57,7 @@ spec:
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 5
-                  failureThresold: 3
+                  failureThreshold: 3
               readiness:
                 enabled: true
                 custom: true
@@ -168,7 +168,7 @@ spec:
                   <<: *lps
                   initialDelaySeconds: 15
                   periodSeconds: 1
-                  failureThresold: 300
+                  failureThreshold: 300
             securityContext: *sc
             resources:
               requests:
