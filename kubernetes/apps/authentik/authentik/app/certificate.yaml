@@ -8,10 +8,9 @@ spec:
   commonName: "auth.mortebrume.eu"
   dnsNames:
     - "auth.mortebrume.eu"
-  duration: 160h
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt
+    name: letsencrypt-long
   privateKey:
     algorithm: ECDSA
     size: 256
