@@ -8,6 +8,7 @@ spec:
   commonName: "auth.mortebrume.eu"
   dnsNames:
     - "auth.mortebrume.eu"
+    - "ldap.mortebrume.eu"
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-long
