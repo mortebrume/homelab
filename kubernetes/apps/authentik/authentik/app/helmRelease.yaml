@@ -12,6 +12,8 @@ spec:
   values:
     controllers:
       server:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image: &img
@@ -88,6 +90,8 @@ spec:
               limits:
                 memory: 1Gi
       worker:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image: *img
@@ -130,6 +134,44 @@ spec:
               limits:
                 cpu: "1"
                 memory: 1Gi
+      ldap:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/goauthentik/ldap
+              tag: 2025.12.4@sha256:1215d9168512e4c3aa2caf9431fa5064e5e2617ead2804dc8fc516754fc204b9
+            env:
+              AUTHENTIK_HOST: "https://auth.mortebrume.eu"
+              AUTHENTIK_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: authentik
+                    key: AUTHENTIK_TOKEN_LDAP
+            probes:
+              liveness: &ldap-probes
+                enabled: true
+                custom: true
+                spec:
+                  exec: &lps
+                    command:
+                      - "/ldap"
+                      - "healthcheck"
+              readiness: *ldap-probes
+              startup:
+                <<: *ldap-probes
+                spec:
+                  <<: *lps
+                  initialDelaySeconds: 15
+                  periodSeconds: 1
+                  failureThresold: 300
+            securityContext: *sc
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 50Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -154,6 +196,26 @@ spec:
             port: 9300
             protocol: HTTP
             appProtocol: http
+      ldap:
+        primary: false
+        controller: ldap
+        ports:
+          ldap-tcp: &ldap
+            port: 389
+            targetPort: 3389
+            protocol: TCP
+            appProtocol: ldap
+          ldap-udp:
+            <<: *ldap
+            protocol: UDP
+          ldaps-tcp: &ldaps
+            port: 636
+            targetPort: 6636
+            protocol: TCP
+            appProtocol: ldaps
+          ldaps-udp:
+            <<: *ldaps
+            protocol: UDP
     route:
       app:
         hostnames:
