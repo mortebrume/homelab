@@ -153,12 +153,15 @@ spec:
               liveness: &ldap-probes
                 enabled: true
                 custom: true
-                spec:
-                  exec: &lps
+                spec: &lps
+                  exec:
                     command:
                       - "/ldap"
                       - "healthcheck"
-              readiness: *ldap-probes
+              readiness:
+                <<: *ldap-probes
+                spec:
+                  <<: *lps
               startup:
                 <<: *ldap-probes
                 spec:
