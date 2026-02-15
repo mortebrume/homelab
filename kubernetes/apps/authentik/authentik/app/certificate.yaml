@@ -3,7 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: &name authentik-cert
+  name: &name authentik-ecdsa # Used by OIDC/Forward Auth
 spec:
   dnsNames:
     - authentik.authentik.svc.cluster.local
@@ -26,3 +26,51 @@ spec:
     kind: ClusterIssuer
     group: cert-manager.io
   secretName: *name
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name authentik-rsa # Used by OIDC/Forward Auth for legacy apps
+spec:
+  dnsNames:
+    - authentik.authentik.svc.cluster.local
+  subject:
+    countries:
+      - FR
+    organizations:
+      - mortebrume
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+  duration: 8766h # 1 year
+  privateKey:
+    algorithm: RSA
+    size: 2048
+    rotationPolicy: Always
+  issuerRef:
+    name: cluster-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+  secretName: *name
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &name authentik-tls # Used by LDAPS
+spec:
+  dnsNames:
+    - "auth.mortebrume.eu"
+  duration: 160h
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  secretName: *name
+  usages:
+    - digital signature
