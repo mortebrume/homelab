@@ -270,10 +270,22 @@ spec:
             subPath: media
       tls:
         type: secret
-        name: authentik-cert
+        name: authentik-tls
         defaultMode: 0400
         globalMounts:
-          - path: "/certs/authentik-k8s"
+          - path: "/certs/authentik-tls"
+      tls-ecdsa:
+        type: secret
+        name: authentik-ecdsa
+        defaultMode: 0400
+        globalMounts:
+          - path: "/certs/authentik-ecdsa"
+      tls-rsa:
+        type: secret
+        name: authentik-rsa
+        defaultMode: 0400
+        globalMounts:
+          - path: "/certs/authentik-rsa"
     serviceMonitor:
       authentik:
         service:
