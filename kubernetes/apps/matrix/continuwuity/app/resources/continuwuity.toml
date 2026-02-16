@@ -30,19 +30,13 @@ allow_registration = true
 new_user_displayname_suffix = ""
 suspend_on_register = false
 
-# Don't federate with matrix.org
-query_trusted_key_servers_first = false
-query_trusted_key_servers_first_on_join = false
-forbidden_remote_server_names = ["matrix.org"]
-forbidden_remote_room_directory_server_names = ["matrix.org"]
-url_preview_domain_explicit_denylist = ["matrix.org"]
-
 # Harden
 allow_legacy_media = true
 allow_public_room_directory_without_auth = false
 allow_public_room_directory_over_federation = false
 lockdown_public_room_directory = true
 require_auth_for_profile_requests = true
+trusted_servers = ["bi-vibes.com", "codestorm.net"]
 
 [global.ldap]
 enable = true
