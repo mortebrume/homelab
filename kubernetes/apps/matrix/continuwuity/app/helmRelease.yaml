@@ -99,7 +99,7 @@ spec:
         existingClaim: matrix-media
         globalMounts:
           - path: /data/media
-            subPath: matrix/media
+            subPath: media
       backups:
         size: 5Gi
         accessMode: ReadWriteOnce

@@ -10,4 +10,4 @@ spec:
   resources:
     requests:
       storage: 6Ti
-  volumeName: media-storage
+  volumeName: matrix-storage
