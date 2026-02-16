@@ -48,7 +48,7 @@ require_auth_for_profile_requests = true
 enable = true
 ldap_only = true
 uri = "ldaps://ldap.mortebrume.eu:636"
-base_dn = "DC=ldap,DC=goauthetik,DC=io"
+base_dn = "DC=ldap,DC=goauthentik,DC=io"
 bind_dn = "CN=continuwuity,OU=service-accounts,OU=goauthentik.io,DC=ldap,DC=goauthentik,DC=io"
 bind_password_file = "/secrets/ldap-bind-password"
 filter = "(memberOf=CN=Continuwuity-Users,OU=groups,DC=ldap,DC=goauthentik,DC=io)"
