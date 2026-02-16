@@ -34,7 +34,7 @@ suspend_on_register = false
 query_trusted_key_servers_first = false
 query_trusted_key_servers_first_on_join = false
 forbidden_remote_server_names = ["matrix.org"]
-forbidden_remote_room_directory_names = ["matrix.org"]
+forbidden_remote_room_directory_server_names = ["matrix.org"]
 url_preview_domain_explicit_denylist = ["matrix.org"]
 
 # Harden
@@ -55,3 +55,7 @@ filter = "(memberOf=CN=Continuwuity-Users,OU=groups,DC=ldap,DC=goauthentik,DC=io
 admin_filter = "(memberOf=CN=Continuwuity-Admins,OU=groups,DC=ldap,DC=goauthentik,DC=io)"
 uid_attribute = "continuwuityUsername"
 name_attribute = "continuwuityDisplayName"
+
+[global.well-known]
+client = "https://matrix.mortebrume.eu"
+server = "https://matrix.mortebrume.eu"
