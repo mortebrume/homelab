@@ -58,4 +58,4 @@ name_attribute = "continuwuityDisplayName"
 
 [global.well_known]
 client = "https://matrix.mortebrume.eu"
-server = "https://matrix.mortebrume.eu"
+server = "matrix.mortebrume.eu:443"
