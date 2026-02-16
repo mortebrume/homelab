@@ -6,6 +6,7 @@ resources:
   - ./externalSecret.yaml
   - ./helmRelease.yaml
   - ./ociRepository.yaml
+  - ./pvc.yaml
 configMapGenerator:
   - name: continuwuity-configmap
     files:

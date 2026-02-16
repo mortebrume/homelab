@@ -96,7 +96,7 @@ spec:
       data:
         existingClaim: continuwuity
       media:
-        existingClaim: media-library
+        existingClaim: matrix-media
         globalMounts:
           - path: /data/media
             subPath: matrix/media
