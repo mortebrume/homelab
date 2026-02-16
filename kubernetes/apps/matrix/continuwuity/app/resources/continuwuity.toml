@@ -56,6 +56,6 @@ admin_filter = "(memberOf=CN=Continuwuity-Admins,OU=groups,DC=ldap,DC=goauthenti
 uid_attribute = "continuwuityUsername"
 name_attribute = "continuwuityDisplayName"
 
-[global.well-known]
+[global.well_known]
 client = "https://matrix.mortebrume.eu"
 server = "https://matrix.mortebrume.eu"
