@@ -19,10 +19,6 @@ spec:
       masquerade: true
       preallocateMaps: true
     bpfClockProbe: true
-    cgroup:
-      automount:
-        enabled: false
-      hostRoot: /sys/fs/cgroup
     dashboards:
       enabled: true
     enableIPv4BIGTCP: true
