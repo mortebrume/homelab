@@ -33,7 +33,7 @@ reconfigure:
     just log info "Applying configuration changes..."
     gum spin --spinner dot --title "Regenerating static pod manifests..." -- \
         ssh "{{ ssh_target }}" 'KUBE_VERSION=$(sudo kubectl --kubeconfig /etc/kubernetes/admin.conf version -o json | jq -r .serverVersion.gitVersion) && \
-            sudo kubeadm upgrade apply $KUBE_VERSION --yes'
+            sudo kubeadm upgrade apply $KUBE_VERSION --yes --config /home/brume/update.yaml'
     just log info "$(just style success 'Configuration applied. Control plane components will restart.')"
 
 [doc('Fetch kubeconfig from server')]
@@ -62,7 +62,7 @@ upgrade version='':
         if gum confirm "Upgrade to $(just style info '{{ version }}' --bold)?" --default="No"; then \
             just log info "Upgrading to version {{ version }}..."; \
             gum spin --spinner dot --title "Applying upgrade..." -- \
-                ssh "{{ ssh_target }}" "sudo kubeadm upgrade apply {{ version }} --yes" && \
+                ssh "{{ ssh_target }}" "sudo kubeadm upgrade apply {{ version }} --yes --config /home/brume/update.yaml" && \
             just log info "$(just style success 'Upgrade complete.')"; \
             just log info "$(just style warning 'Remember to upgrade kubelet/kubectl packages manually.')"; \
         else \
