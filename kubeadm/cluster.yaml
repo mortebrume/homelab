@@ -33,12 +33,26 @@ apiServer:
       value: "admissionregistration.k8s.io/v1beta1=true"
     - name: feature-gates
       value: "MutatingAdmissionPolicy=true"
+    - name: oidc-issuer-url
+      value: "https://auth.mortebrume.eu/application/o/kubernetes/"
+    - name: oidc-client-id
+      value: "kubernetes"
+    - name: oidc-username-claim
+      value: "email"
+    - name: oidc-groups-claim
+      value: "groups"
+    - name: oidc-username-prefix
+      value: "oidc:"
+    - name: oidc-groups-prefix
+      value: "oidc:"
 controllerManager:
   extraArgs:
-    bind-address: 0.0.0.0
+    - name: bind-address
+      value: 0.0.0.0
 scheduler:
   extraArgs:
-    bind-address: 0.0.0.0
+    - name: bind-address
+      value: 0.0.0.0
 dns:
   disabled: true
 proxy:
