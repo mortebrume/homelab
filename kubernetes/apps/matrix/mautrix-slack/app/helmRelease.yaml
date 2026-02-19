@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mautrix-slack
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: mautrix-slack
+  interval: 1h
+  values:
+    controllers:
+      mautrix-slack:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        type: statefulset # Following dev's guideline
+        containers:
+          app:
+            image:
+              repository: dock.mau.dev/mautrix/slack
+              tag: v26.02@sha256:042da5f2c9b8be5b72ac6c49ed2b19599bfe4b005cd517cd805877fa48057b26
+            command:
+              - "/usr/bin/mautrix-slack"
+            args:
+              - "-c"
+              - "/config/config.yaml"
+              - "--no-update"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /_matrix/mau/live
+                    port: &port 8000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness:
+                <<: *probes
+                spec:
+                  httpGet:
+                    path: /_matrix/mau/ready
+                    port: *port
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 500Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        publishNotReadyAddresses: true
+        ports:
+          http:
+            port: 80
+            targetPort: *port
+    route:
+      app:
+        hostnames:
+          - mautrix-slack.mortebrume.eu
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 80
+    persistence:
+      config:
+        type: secret
+        name: mautrix-slack
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
