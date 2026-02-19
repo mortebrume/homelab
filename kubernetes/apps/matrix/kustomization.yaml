@@ -11,3 +11,4 @@ resources:
   - ./namespace.yaml
   - ./continuwuity/ks.yaml
   - ./heisenbridge/ks.yaml
+  - ./mautrix-slack/ks.yaml
