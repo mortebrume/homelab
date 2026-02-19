@@ -85,3 +85,5 @@ spec:
         globalMounts:
           - path: /config/config.yaml
             subPath: config.yaml
+      tmp:
+        type: emptyDir
