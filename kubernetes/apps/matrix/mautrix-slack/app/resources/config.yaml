@@ -47,7 +47,7 @@ network:
   # Should channels and group DMs have the workspace icon as the Matrix room avatar?
   workspace_avatar_in_rooms: false
   # Number of participants to sync in channels (doesn't affect group DMs)
-  participant_sync_count: 200
+  participant_sync_count: 50
   # Should channel participants only be synced when creating the room?
   # If you want participants to always be accurately synced, set participant_sync_count to a high value and this to false.
   participant_sync_only_on_create: false
