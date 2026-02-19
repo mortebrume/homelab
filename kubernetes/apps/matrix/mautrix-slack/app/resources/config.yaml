@@ -357,7 +357,7 @@ public_media:
 # More details can be found at https://docs.mau.fi/bridges/go/discord/direct-media.html
 direct_media:
   # Should custom mxc:// URIs be used instead of reuploading media?
-  enabled: true
+  enabled: false
   # The server name to use for the custom mxc:// URIs.
   # This server name will effectively be a real Matrix server, it just won't implement anything other than media.
   # You must either set up .well-known delegation from this domain to the bridge, or proxy the domain directly to the bridge.
