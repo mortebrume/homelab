@@ -35,7 +35,7 @@ releases:
   - name: trust-manager
     namespace: security
     chart: oci://quay.io/jetstack/charts/trust-manager
-    version: v0.20.3
+    version: v0.21.0
     values:
       - ./templates/values.yaml.gotmpl
     needs:
