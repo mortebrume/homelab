@@ -161,6 +161,9 @@ spec:
 
     kubeControllerManager:
       enabled: true
+      service:
+        selector:
+          component: kube-apiserver
       vmScrape:
         spec:
           endpoints:
@@ -183,6 +186,9 @@ spec:
 
     kubeScheduler:
       enabled: true
+      service:
+        selector:
+          component: kube-apiserver
       vmScrape:
         spec:
           endpoints:
