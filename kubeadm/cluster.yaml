@@ -59,6 +59,9 @@ proxy:
   disabled: true
 etcd:
   local:
+    extraArgs:
+      - name: listen-metrics-urls
+        value: http://0.0.0.0:2381
     dataDir: /var/lib/etcd
 ---
 # yaml-language-server: $schema=https://www.schemastore.org/any.json

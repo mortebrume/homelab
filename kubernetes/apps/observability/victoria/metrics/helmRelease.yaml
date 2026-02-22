@@ -175,14 +175,15 @@ spec:
 
     kubeEtcd:
       enabled: true
+      service:
+        selector:
+          component: kube-apiserver
+        port: 2381
+        targetPort: 2381
       vmScrape:
         spec:
           endpoints:
-            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-              port: http-metrics
-              scheme: https
-              tlsConfig:
-                insecureSkipVerify: true
+            - scheme: http
 
     kubeScheduler:
       enabled: true
