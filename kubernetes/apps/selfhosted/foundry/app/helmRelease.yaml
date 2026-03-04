@@ -12,6 +12,7 @@ spec:
   values:
     controllers:
       foundry:
+        forceRename: foundry
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -43,6 +44,23 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 5Gi
+      proxy:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mrprimate/ddb-proxy
+              tag: 0.0.25@sha256:8dc2d7fb460f5f30e538a2e1b61a96501b6bef3945d92ae86481e69d26ec09e9
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 50Mi
+              limits:
+                memory: 512Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -52,9 +70,17 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
+        controller: foundry
+        forceRename: foundry
+        primary: true
         ports:
           http:
             port: &port 30000
+      proxy:
+        controller: proxy
+        ports:
+          http:
+            port: 3000
     route:
       app:
         hostnames:
@@ -66,6 +92,16 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+      proxy:
+        hostnames:
+          - vtt-proxy.mortebrume.eu
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: proxy
+                port: 3000
     persistence:
       data:
         existingClaim: foundry
