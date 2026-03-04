@@ -141,7 +141,7 @@ spec:
           app:
             image:
               repository: ghcr.io/goauthentik/ldap
-              tag: 2026.2.0@sha256:0e24b377ba3cdf9fdf272bfa5098d04052a9e221d9949f5dd1516f6664c7f799
+              tag: 2026.2.1@sha256:f0282528a40998a40500692f7649fb2829ef5a85145daaa2f91a30f2b867fe17
             env:
               AUTHENTIK_HOST: "https://auth.mortebrume.eu"
               AUTHENTIK_TOKEN:
