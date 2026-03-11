@@ -12,6 +12,17 @@
       minimumGroupSize: 2,
     },
     {
+      description: "Authentik Group",
+      groupName: "authentik",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/goauthentik/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+      prBodyNotes: "Changelog link: https://docs.goauthentik.io/docs/releases/{{newMajor}}.{{newMinor}}#fixed-in-{{newMajor}}{{newMinor}}{{newPatch}}",
+      minimumGroupSize: 2,
+    },
+    {
       description: "Flux Operator Group",
       groupName: "flux-operator",
       matchDatasources: ["docker"],
