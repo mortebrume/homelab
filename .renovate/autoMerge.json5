@@ -7,7 +7,11 @@
       automerge: true,
       automergeType: "pr",
       matchUpdateTypes: ["digest"],
-      matchPackageNames: ["/home-operations/"],
+      matchPackagePrefixes: [
+        "ghcr.io/home-operations",
+        "ghcr.io/bjw-s-labs",
+        "ghcr.io/mortebrume",
+      ],
       ignoreTests: false,
     },
     {
