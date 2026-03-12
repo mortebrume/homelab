@@ -118,7 +118,7 @@ spec:
                 <<: *worker-probes
                 spec:
                   <<: *wps
-                  failureThresold: 15
+                  failureThreshold: 15
               startup:
                 <<: *worker-probes
                 spec:
