@@ -5,9 +5,9 @@ kind: Dragonfly
 metadata:
   name: dragonfly
 spec:
-  replicas: 1
+  replicas: 2
   args:
-    - "--admin_bind=::"
+    - "--admin_bind=0.0.0.0"
     - --maxmemory=$(MAX_MEMORY)Mi
     - --proactor_threads=2
     - --cluster_mode=emulated
@@ -22,6 +22,8 @@ spec:
 
   labels:
     role: master
+
+  networkPolicyEnabled: false # surely one day i'll use proper netpols
 
   env:
     - name: MAX_MEMORY
