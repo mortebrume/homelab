@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bentopdf
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: bentopdf
+  interval: 1h
+  values:
+    controllers:
+      bentopdf:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/alam00000/bentopdf-simple
+              tag: 2.6.0@sha256:bd1c4dcebe5006be99efd998858fccd818a3b52bdcadd0e3c8372abaa22a3e82
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: &port 8080
+    route:
+      app:
+        hostnames:
+          - pdf.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port

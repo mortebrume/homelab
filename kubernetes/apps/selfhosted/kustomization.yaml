@@ -9,8 +9,9 @@ components:
 
 resources:
   - ./namespace.yaml
-  - ./karakeep/ks.yaml
+  - ./bentopdf/ks.yaml
   - ./foundry/ks.yaml
+  - ./karakeep/ks.yaml
   - ./miniflux/ks.yaml
   - ./paperless/ks.yaml
   - ./publish-k8s-schemas/ks.yaml
