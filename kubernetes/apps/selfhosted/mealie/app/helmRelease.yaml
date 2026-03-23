@@ -23,6 +23,7 @@ spec:
               ALLOW_PASSWORD_LOGIN: "false"
               BASE_URL: https://mealie.mortebrume.eu
               DB_ENGINE: postgres
+              LOG_CONFIG_OVERRIDE: /config/logconf.json
               OIDC_AUTH_ENABLED: "true"
               OIDC_CONFIGURATION_URL: https://auth.mortebrume.eu/application/o/mealie/.well-known/openid-configuration
               OIDC_ADMIN_GROUP: Mealie-Admins
@@ -78,6 +79,12 @@ spec:
               - identifier: app
                 port: *port
     persistence:
+      config:
+        type: configMap
+        name: mealie-configmap
+        globalMounts:
+          - path: /config/logconf.json
+            subPath: logconf.json
       data:
         existingClaim: mealie
         globalMounts:

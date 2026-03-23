@@ -6,3 +6,11 @@ resources:
   - ./externalSecret.yaml
   - ./helmRelease.yaml
   - ./ociRepository.yaml
+configMapGenerator:
+  - name: mealie-configmap
+    files:
+      - logconf.json=./resources/logconfg.json
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
