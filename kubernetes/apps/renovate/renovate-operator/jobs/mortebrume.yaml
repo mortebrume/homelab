@@ -6,14 +6,15 @@ metadata:
   name: mortebrume
   namespace: renovate
 spec:
-  discoveryFilter: mortebrume/*
+  discoveryFilters:
+    - mortebrume/*
   extraEnv:
     - name: LOG_LEVEL
       value: debug
     - name: RENOVATE_ALLOWED_COMMANDS
-      value: '["pnpm run bundle"]'
+      value: "['pnpm run bundle']"
     - name: RENOVATE_PLATFORM_COMMIT
-      value: 'true'
+      value: "true"
   image: ghcr.io/renovatebot/renovate:43.93.0
   parallelism: 5
   provider:
