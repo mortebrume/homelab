@@ -61,6 +61,8 @@ spec:
           CRUD_ACTIONS: pubkey, parentsigned
           WIKI: never
           MERGES: pubkey
+        security:
+          REVERSE_PROXY_TRUSTED_PROXIES: 10.20.0.0/16,fd00::/48
         server:
           APP_DATA_PATH: /data/gitea
           ROOT_URL: https://code.mortebrume.eu
