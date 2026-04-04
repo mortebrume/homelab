@@ -82,7 +82,7 @@ spec:
       oauth:
         - name: Authentik
           adminGroup: Forgejo-Admins
-          autoDiscoveryUrl: https://auth.mortebrume.eu/application/o/forgejo/.well-known/openid-configuration
+          autoDiscoverUrl: https://auth.mortebrume.eu/application/o/forgejo/.well-known/openid-configuration
           existingSecret: forgejo-oidc
           iconUrl: https://auth.mortebrume.eu/static/dist/assets/icons/icon.png
           groupClaimName: groups
