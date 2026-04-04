@@ -3,14 +3,11 @@
 apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
 metadata:
-  name: github-webhook
+  name: forgejo-webhook
 spec:
-  type: github
-  events:
-    - ping
-    - push
+  type: generic-hmac
   secretRef:
-    name: github-webhook-token
+    name: forgejo-webhook-token
   resources:
     - apiVersion: source.toolkit.fluxcd.io/v1
       kind: OCIRepository
