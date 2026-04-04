@@ -22,10 +22,14 @@ spec:
         - helm-controller
         - notification-controller
       sync:
-        kind: GitRepository
-        url: https://github.com/mortebrume/homelab
-        ref: refs/heads/main
+        kind: OCIRepository
+        url: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
+        ref: main
         path: kubernetes/flux/cluster
+        verify:
+          provider: cosign
+          secretRef:
+            name: cosign-public-key
         interval: 1h
       kustomize:
         patches:

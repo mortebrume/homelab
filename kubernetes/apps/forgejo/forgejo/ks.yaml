@@ -21,7 +21,7 @@ spec:
       VOLSYNC_CAPACITY: 20Gi
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: forgejo
@@ -39,7 +39,7 @@ spec:
   path: ./kubernetes/apps/forgejo/forgejo/runner
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: forgejo

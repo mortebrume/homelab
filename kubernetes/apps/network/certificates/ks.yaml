@@ -9,7 +9,7 @@ spec:
   path: ./kubernetes/apps/network/certificates/import
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network
@@ -27,7 +27,7 @@ spec:
   path: ./kubernetes/apps/network/certificates/export
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network

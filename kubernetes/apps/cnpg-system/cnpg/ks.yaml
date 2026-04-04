@@ -14,7 +14,7 @@ spec:
   path: ./kubernetes/apps/cnpg-system/cnpg/app
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: cnpg-system
@@ -33,7 +33,7 @@ spec:
   path: ./kubernetes/apps/cnpg-system/cnpg/plugin-barman-cloud
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: cnpg-system

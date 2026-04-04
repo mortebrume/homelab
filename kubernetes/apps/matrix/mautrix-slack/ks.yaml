@@ -14,7 +14,7 @@ spec:
       APP: mautrix-slack
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: matrix

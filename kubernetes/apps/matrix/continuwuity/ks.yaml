@@ -16,7 +16,7 @@ spec:
       VOLSYNC_STORAGECLASS: zfs-pv-db
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: matrix
