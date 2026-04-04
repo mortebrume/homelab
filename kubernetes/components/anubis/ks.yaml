@@ -19,7 +19,7 @@ spec:
   prune: true
   retryInterval: 2m
   sourceRef:
-    kind: Bucket
+    kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: ${NAMESPACE:=${APP}}
