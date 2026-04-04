@@ -20,7 +20,7 @@ spec:
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: media

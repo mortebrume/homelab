@@ -17,7 +17,7 @@ spec:
   path: ./kubernetes/apps/security/trust-manager/app
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: security
@@ -35,7 +35,7 @@ spec:
   path: ./kubernetes/apps/security/trust-manager/config
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: security

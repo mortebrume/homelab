@@ -14,7 +14,7 @@ spec:
   path: ./kubernetes/apps/renovate/renovate-operator/app
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: renovate
@@ -31,7 +31,7 @@ spec:
   path: ./kubernetes/apps/renovate/renovate-operator/jobs
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: renovate

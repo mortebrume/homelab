@@ -14,7 +14,7 @@ spec:
   path: "./kubernetes/apps/network/envoy-gateway/app"
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network
@@ -33,7 +33,7 @@ spec:
   path: "./kubernetes/apps/network/envoy-gateway/config"
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network
@@ -50,7 +50,7 @@ spec:
   path: ./kubernetes/apps/network/envoy-gateway/error-pages
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network

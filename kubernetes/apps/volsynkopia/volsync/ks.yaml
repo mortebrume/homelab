@@ -14,7 +14,7 @@ spec:
   path: ./kubernetes/apps/volsynkopia/volsync/app
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: volsynkopia
@@ -33,7 +33,7 @@ spec:
   path: ./kubernetes/apps/volsynkopia/volsync/maintenance
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: volsynkopia

@@ -10,7 +10,7 @@ spec:
   path: ./kubernetes/apps/selfhosted/publish-k8s-schemas/app
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: selfhosted

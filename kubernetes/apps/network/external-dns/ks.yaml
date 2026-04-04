@@ -9,7 +9,7 @@ spec:
   path: "./kubernetes/apps/network/external-dns/cloudflare"
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network
@@ -26,7 +26,7 @@ spec:
   path: "./kubernetes/apps/network/external-dns/pihole"
   prune: true
   sourceRef:
-    kind: GitRepository
+    kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: network
