@@ -75,7 +75,17 @@ spec:
         certificateRefs:
           - kind: Secret
             name: mortebrume-eu-tls
-
+    - name: ssh
+      protocol: TCP
+      port: 7717
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: forgejo
+        kinds:
+          - kind: TCPRoute
     - name: torrent
       protocol: TCP
       port: 50813
