@@ -1,0 +1,21 @@
+---
+cache:
+  enabled: true
+  dir: /data/cache
+container:
+  docker_host: "-"
+  workdir_parent: shared/workdir
+kubernetes:
+  namespace: forgejo
+  poll_timeout: 10m
+log:
+  level: info
+runner:
+  capacity: 2
+  file: /persistent/.runner
+  labels:
+    - ubuntu-latest:k8spod:/config/podspec-default.yaml
+    - ubuntu-24.04:k8spod:/config/podspec-default.yaml
+    - default:k8spod:/config/podspec-default.yaml
+    - docker:k8spod:/config/podspec-dind.yaml
+  timeout: 3h
