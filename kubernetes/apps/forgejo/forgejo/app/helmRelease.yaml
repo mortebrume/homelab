@@ -82,7 +82,7 @@ spec:
         webhook:
           ALLOWED_HOST_LIST: "*"
       oauth:
-        - name: Authentik
+        - name: authentik
           adminGroup: Forgejo-Admins
           autoDiscoverUrl: https://auth.mortebrume.eu/application/o/forgejo/.well-known/openid-configuration
           existingSecret: forgejo-oidc
