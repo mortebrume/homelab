@@ -15,17 +15,23 @@ spec:
       value: "['pnpm run bundle']"
     - name: RENOVATE_PLATFORM_COMMIT
       value: "true"
+    - name: RENOVATE_REDIS_URL
+      value: "redis://dragonfly.database.svc:6379/4"
   image: ghcr.io/renovatebot/renovate:43.93.0
   parallelism: 5
   provider:
-    name: github
+    name: forgejo
+    endpoint: https://code.mortebrume.eu/api/v1
   resources:
     requests:
       cpu: 100m
       memory: 128Mi
   schedule: 0 * * * * # Every hour
-  secretRef: mistgazer-mortebrume
+  secretRef: renovate
   webhook:
     enabled: true
     authentication:
-      enabled: false
+      enabled: true
+      secretRef:
+        name: renovate
+        key: WEBHOOK_TOKEN
