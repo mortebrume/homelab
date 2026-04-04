@@ -26,7 +26,7 @@ jobs:
     outputs:
       digest-url: ${{ steps.push.outputs.digest-url }}
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: https://data.forgejo.org/actions/checkout@v6
 
       - name: Push OCI artifact
         id: push
