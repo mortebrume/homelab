@@ -1,0 +1,16 @@
+---
+containers:
+  - env:
+      - name: DEBIAN_FRONTEND
+        value: noninteractive
+    image: ghcr.io/catthehacker/ubuntu:act-24.04
+    imagePullPolicy: IfNotPresent
+    name: main
+    resources:
+      limits:
+        cpu: "1"
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+restartPolicy: Never
