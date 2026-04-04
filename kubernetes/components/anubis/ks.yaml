@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: &app ${APP}
   interval: 1h
-  path: ./kubernetes/components/anubis/base/app
+  path: ./kubernetes/components/anubis/app
   postBuild:
     substitute:
       APP: *app
