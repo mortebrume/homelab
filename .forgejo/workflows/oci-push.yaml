@@ -1,0 +1,65 @@
+---
+name: Push OCI Artifact
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - kubernetes/**
+
+concurrency:
+  group: oci-push-${{ forgejo.ref }}
+  cancel-in-progress: true
+
+env:
+  OCI_REPO: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
+  REGISTRY: rg.fr-par.scw.cloud/mortebrume
+  REGISTRY_USER: nologin
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/fluxcd/flux-cli:v2.8.3
+    outputs:
+      digest-url: ${{ steps.push.outputs.digest-url }}
+    steps:
+      - uses: actions/checkout@v6.0.2
+
+      - name: Push OCI artifact
+        id: push
+        run: |
+          DIGEST_URL=$(flux push artifact \
+            $OCI_REPO:${{ forgejo.sha }} \
+            --path=. \
+            --source=${{ forgejo.server_url }}/${{ forgejo.repository }} \
+            --revision=${{ forgejo.ref_name }}@sha1:${{ forgejo.sha }} \
+            --creds=$REGISTRY_USER:${{ secrets.SCW_SECRET_KEY }} \
+            --output json | \
+            grep -o '"digest":"[^"]*"' | cut -d'"' -f4)
+          REPO=$(echo $OCI_REPO | sed 's|oci://||')
+          echo "digest-url=$REPO@$DIGEST_URL" >> "$FORGEJO_OUTPUT"
+
+      - name: Tag mutable ref
+        run: |
+          flux tag artifact $OCI_REPO:${{ forgejo.sha }} --tag main \
+            --creds=$REGISTRY_USER:${{ secrets.SCW_SECRET_KEY }}
+
+  sign:
+    runs-on: ubuntu-latest
+    needs: push
+    steps:
+      - uses: sigstore/cosign-installer@v4.1.1
+
+      - name: Sign OCI artifact
+        env:
+          COSIGN_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          DIGEST_URL: ${{ needs.push.outputs.digest-url }}
+        run: |-
+          cosign sign --yes \
+            --key env://COSIGN_KEY \
+            --registry-username=$REGISTRY_USER \
+            --registry-password=${{ secrets.SCW_SECRET_KEY }} \
+            $DIGEST_URL
