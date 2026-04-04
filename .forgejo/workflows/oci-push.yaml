@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - kubernetes/**
+  workflow_dispatch:
 
 concurrency:
   group: oci-push-${{ forgejo.ref }}
