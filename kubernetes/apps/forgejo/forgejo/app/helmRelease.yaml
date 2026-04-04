@@ -62,7 +62,7 @@ spec:
           WIKI: never
           MERGES: pubkey
         server:
-          APP_DATA_PATH: /data/forgejo
+          APP_DATA_PATH: /data/gitea
           ROOT_URL: https://code.mortebrume.eu
           SSH_DOMAIN: code.mortebrume.eu
           SSH_PORT: &sshPort 7717
@@ -98,7 +98,7 @@ spec:
           value: /var/run/secrets/postgresql/tls.key
     extraContainerVolumeMounts:
       - name: host-key
-        mountPath: /data/forgejo/ssh/host_key
+        mountPath: /data/gitea/ssh/host_key
         subPath: host_key
         readOnly: true
       - name: postgres-forgejo
@@ -112,7 +112,7 @@ spec:
         readOnly: true
     extraInitVolumeMounts:
       - name: host-key
-        mountPath: /data/forgejo/ssh/host_key
+        mountPath: /data/gitea/ssh/host_key
         subPath: host_key
         readOnly: true
       - name: postgres-forgejo
