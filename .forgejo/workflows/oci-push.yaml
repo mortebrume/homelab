@@ -43,9 +43,8 @@ jobs:
             --revision=${{ forgejo.ref_name }}@sha1:${{ forgejo.sha }} \
             --creds=$REGISTRY_USER:${{ secrets.SCW_SECRET_KEY }} \
             --output json | \
-            grep -o '"digest":"[^"]*"' | cut -d'"' -f4)
-          REPO=$(echo $OCI_REPO | sed 's|oci://||')
-          echo "digest-url=$REPO@$DIGEST_URL" >> "$FORGEJO_OUTPUT"
+            jq -r '.repository + "@" + .digest')
+          echo "digest-url=$DIGEST_URL" >> "$FORGEJO_OUTPUT"
 
       - name: Tag mutable ref
         run: |
