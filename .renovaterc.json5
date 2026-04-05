@@ -4,7 +4,7 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    // "local>mortebrume/homelab//.renovate/autoMerge.json5",
+    "local>mortebrume/homelab//.renovate/autoMerge.json5",
     "local>mortebrume/homelab//.renovate/changelogs.json5",
     "local>mortebrume/homelab//.renovate/customManagers.json5",
     "local>mortebrume/homelab//.renovate/grafanaDashboards.json5",
