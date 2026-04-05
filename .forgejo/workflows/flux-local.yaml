@@ -43,13 +43,14 @@ jobs:
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
     needs: filter
-    name: Flux Local - Diff
+    name: Flux Local - Diff ${{ matrix.resources }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         resources:
           - helmrelease
           - kustomization
+      max-parallel: 4
       fail-fast: false
     steps:
       - name: Checkout Pull Request Branch
@@ -67,12 +68,13 @@ jobs:
 
       - name: Run flux-local diff
         shell: bash
+        working-directory: pull
         run: |-
           flux-local diff ${{ matrix.resources }} \
             --unified 6 \
-            --sources "flux-system=pull" \
-            --path pull/kubernetes/flux/cluster \
-            --path-orig default/kubernetes/flux/cluster \
+            --sources "flux-system=." \
+            --path kubernetes/flux/cluster \
+            --path-orig ../default/kubernetes/flux/cluster \
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
             --limit-bytes 10000 \
             --all-namespaces \
@@ -83,13 +85,13 @@ jobs:
         run: |
           {
               echo 'diff<<EOF'
-              cat diff.patch
+              cat pull/diff.patch
               echo EOF
           } >> "${FORGEJO_OUTPUT}";
           {
               echo "## Flux ${{ matrix.resources }} diff"
               echo '```diff'
-              cat diff.patch
+              cat pull/diff.patch
               echo '```'
           } >> "${FORGEJO_STEP_SUMMARY}"
 
