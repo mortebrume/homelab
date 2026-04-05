@@ -13,10 +13,21 @@ spec:
       value: debug
     - name: RENOVATE_ALLOWED_COMMANDS
       value: "['pnpm run bundle']"
+    - name: RENOVATE_BASE_DIR
+      value: /data
     - name: RENOVATE_PLATFORM_COMMIT
       value: "true"
     - name: RENOVATE_REDIS_URL
       value: "redis://dragonfly.database.svc:6379/4"
+    - name: RENOVATE_REPOSITORY_CACHE
+      value: "enabled"
+  extraVolumes:
+    - name: renovate-data
+      persistentVolumeClaim:
+        claimName: renovate-data
+  extraVolumeMounts:
+    - name: renovate-data
+      mountPath: /data
   image: ghcr.io/renovatebot/renovate:43.104.4
   parallelism: 5
   provider:
