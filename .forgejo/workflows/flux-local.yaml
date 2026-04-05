@@ -38,7 +38,7 @@ jobs:
       - name: Run flux-local test
         shell: bash
         run: |-
-          flux-local test --enable-helm --all-namespaces --path kubernetes/flux/cluster -v
+          flux-local test --enable-helm --all-namespaces --sources "flux-system=." --path kubernetes/flux/cluster -v
 
   diff:
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
@@ -70,8 +70,9 @@ jobs:
         run: |-
           flux-local diff ${{ matrix.resources }} \
             --unified 6 \
-            --path /pull/kubernetes/flux/cluster \
-            --path-orig /default/kubernetes/flux/cluster \
+            --sources "flux-system=pull" \
+            --path pull/kubernetes/flux/cluster \
+            --path-orig default/kubernetes/flux/cluster \
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
             --limit-bytes 10000 \
             --all-namespaces \
