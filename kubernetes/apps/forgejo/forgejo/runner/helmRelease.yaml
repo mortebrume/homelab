@@ -35,7 +35,7 @@ spec:
           register-runner:
             image:
               repository: git.erwanleboucher.dev/eleboucher/runner
-              tag: latest@sha256:ddd0f19840240015e8b32298ba54ff212fa1b6a11f0485ac9052ca963f3ebb79
+              tag: latest@sha256:87334b02787351b6203a5a9a1d673a3f497940cadca703e5637bb81619865586
             command:
               - sh
               - -c
@@ -58,7 +58,7 @@ spec:
           runner:
             image:
               repository: git.erwanleboucher.dev/eleboucher/runner
-              tag: latest@sha256:ddd0f19840240015e8b32298ba54ff212fa1b6a11f0485ac9052ca963f3ebb79
+              tag: latest@sha256:87334b02787351b6203a5a9a1d673a3f497940cadca703e5637bb81619865586
             command:
               - /bin/forgejo-runner
               - daemon
