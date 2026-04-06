@@ -10,7 +10,7 @@ parameters:
   compression: "zstd"
   dedup: "on"
   fstype: "zfs"
-  poolname: "zroot/kube"
+  poolname: "cell/kube"
   shared: "yes"
 provisioner: zfs.csi.openebs.io
 ---
@@ -23,6 +23,6 @@ parameters:
   dedup: "off"
   fstype: "zfs"
   recordsize: "16k"
-  poolname: "zroot/kube"
+  poolname: "cell/kube"
   shared: "yes"
 provisioner: zfs.csi.openebs.io
