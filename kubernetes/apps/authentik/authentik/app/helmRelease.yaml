@@ -18,7 +18,7 @@ spec:
           app:
             image: &img
               repository: ghcr.io/goauthentik/server
-              tag: 2026.2.1@sha256:46a71d75dfd3eec9bd0fb42e5e13a245394e1be2d0828eebfbb2662421e66a35
+              tag: 2026.2.2@sha256:40f0df709957c11324420fa387f1135c427f16086f12ca266b2d883d39c71fe3
             args:
               - server
             env: &env
@@ -141,7 +141,7 @@ spec:
           app:
             image:
               repository: ghcr.io/goauthentik/ldap
-              tag: 2026.2.1@sha256:f0282528a40998a40500692f7649fb2829ef5a85145daaa2f91a30f2b867fe17
+              tag: 2026.2.2@sha256:37e74a19580da896fa48b9f3a51cdf51bd2f47d0bfa34bb5f1d57f9e7ac02fad
             env:
               AUTHENTIK_HOST: "https://auth.mortebrume.eu"
               AUTHENTIK_TOKEN:
