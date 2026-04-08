@@ -13,16 +13,18 @@ concurrency:
   group: oci-push-${{ forgejo.ref }}
   cancel-in-progress: true
 
-env:
-  OCI_REPO: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
-  REGISTRY: rg.fr-par.scw.cloud/mortebrume
-  REGISTRY_USER: nologin
-
 jobs:
-  push:
+  push-sign:
     runs-on: ubuntu-latest
-    outputs:
-      digest-url: ${{ steps.push.outputs.digest-url }}
+    strategy:
+      matrix:
+        include:
+          - oci-repo: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
+            user: nologin
+            secret: SCW_SECRET_KEY
+          - oci-repo: oci://registry.mortebrume.eu/mortebrume/homelab
+            user: registry
+            secret: APOCI_SECRET_KEY
     steps:
       - uses: https://data.forgejo.org/actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
@@ -30,36 +32,35 @@ jobs:
         id: push
         run: |
           DIGEST_URL=$(flux push artifact \
-            $OCI_REPO:${{ forgejo.sha }} \
+            ${{ matrix.oci-repo }}:${{ forgejo.sha }} \
             --path=. \
             --source=${{ forgejo.server_url }}/${{ forgejo.repository }} \
             --revision=${{ forgejo.ref_name }}@sha1:${{ forgejo.sha }} \
-            --creds=$REGISTRY_USER:${{ secrets.SCW_SECRET_KEY }} \
+            --creds=${{ matrix.user }}:${{ secrets[matrix.secret] }} \
             --output json | \
             jq -r '.repository + "@" + .digest')
           echo "digest-url=$DIGEST_URL" >> "$FORGEJO_OUTPUT"
 
       - name: Tag mutable ref
         run: |
-          flux tag artifact $OCI_REPO:${{ forgejo.sha }} --tag main \
-            --creds=$REGISTRY_USER:${{ secrets.SCW_SECRET_KEY }}
+          flux tag artifact ${{ matrix.oci-repo }}:${{ forgejo.sha }} --tag main \
+            --creds=${{ matrix.user }}:${{ secrets[matrix.secret] }}
 
-  sign:
-    runs-on: ubuntu-latest
-    needs: push
-    steps:
       - name: Sign OCI artifact
         env:
           COSIGN_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          DIGEST_URL: ${{ needs.push.outputs.digest-url }}
         run: |-
           cosign sign --yes \
             --key env://COSIGN_KEY \
-            --registry-username=$REGISTRY_USER \
-            --registry-password=${{ secrets.SCW_SECRET_KEY }} \
-            $DIGEST_URL
+            --registry-username=${{ matrix.user }} \
+            --registry-password=${{ secrets[matrix.secret] }} \
+            ${{ steps.push.outputs.digest-url }}
 
+  reconcile:
+    runs-on: ubuntu-latest
+    needs: push-sign
+    steps:
       - name: Trigger Flux reconciliation
         env:
           WEBHOOK_TOKEN: ${{ secrets.FLUX_WEBHOOK_TOKEN }}
