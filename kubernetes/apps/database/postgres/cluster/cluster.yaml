@@ -75,6 +75,12 @@ spec:
 
   managed:
     roles:
+      - name: apoci
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
       - name: authentik
         ensure: present
         login: true

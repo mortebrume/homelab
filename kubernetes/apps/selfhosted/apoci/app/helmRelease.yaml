@@ -1,0 +1,64 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: apoci
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: apoci
+  interval: 1h
+  values:
+    controllers:
+      apoci:
+        containers:
+          app:
+            image:
+              repository: git.erwanleboucher.dev/eleboucher/apoci
+              tag: 0.0.4@sha256:4b533fc66b31a132638557bc280988e50fd15fd0b5502282668e5693d5f6d058
+            env:
+              APOCI_DATA_DIR: /data
+              APOCI_DB_DRIVER: postgres
+              APOCI_ENDPOINT: https://registry.mortebrume.eu
+              APOCI_FEDERATION_AUTO_ACCEPT: mutual
+              APOCI_DB_DSN:
+                valueFrom:
+                  secretKeyRef:
+                    name: apoci-postgres
+                    key: url
+            envFrom:
+              - secretRef:
+                  name: apoci
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: 5000
+    route:
+      app:
+        hostnames:
+          - "registry.mortebrume.eu"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+    persistence:
+      data:
+        existingClaim: apoci
