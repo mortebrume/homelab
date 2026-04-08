@@ -18,6 +18,7 @@ spec:
               repository: git.erwanleboucher.dev/eleboucher/apoci
               tag: 0.0.4@sha256:4b533fc66b31a132638557bc280988e50fd15fd0b5502282668e5693d5f6d058
             env:
+              APOCI_ACCOUNT_DOMAIN: mortebrume.eu
               APOCI_DATA_DIR: /data
               APOCI_DB_DRIVER: postgres
               APOCI_ENDPOINT: https://registry.mortebrume.eu
@@ -51,11 +52,33 @@ spec:
       app:
         ports:
           http:
-            port: 5000
+            port: &port 5000
     route:
       app:
         hostnames:
           - "registry.mortebrume.eu"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+      webfinger:
+        hostnames:
+          - "mortebrume.eu"
+        rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /.well-known/webfinger
+                queryParams:
+                  - name: resource
+                    type: RegularExpression
+                    value: ".*registry@.*"
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  hostname: registry.mortebrume.eu
+            backendRefs:
+              - identifier: app
+                port: *port
         parentRefs:
           - name: envoy-external
             namespace: network
