@@ -80,6 +80,8 @@ spec:
               - identifier: app
                 port: *port
         parentRefs:
+          - name: envoy-internal
+            namespace: network
           - name: envoy-external
             namespace: network
     persistence:
