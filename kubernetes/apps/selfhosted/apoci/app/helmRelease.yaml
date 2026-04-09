@@ -41,6 +41,10 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -87,3 +91,8 @@ spec:
     persistence:
       data:
         existingClaim: apoci
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
