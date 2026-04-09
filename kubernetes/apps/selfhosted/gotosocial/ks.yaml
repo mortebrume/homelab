@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gotosocial
+spec:
+  components:
+    - ../../../../components/postgres/cert/
+    - ../../../../components/volsync
+  interval: 1h
+  path: ./kubernetes/apps/selfhosted/gotosocial/server
+  postBuild:
+    substitute:
+      APP: gotosocial
+      VOLSYNC_CAPACITY: 10Gi
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: selfhosted
+  wait: false

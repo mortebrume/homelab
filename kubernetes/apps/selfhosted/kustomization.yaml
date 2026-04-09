@@ -9,6 +9,7 @@ resources:
   - ./apoci/ks.yaml
   - ./bentopdf/ks.yaml
   - ./foundry/ks.yaml
+  - ./gotosocial/ks.yaml
   - ./karakeep/ks.yaml
   - ./mealie/ks.yaml
   - ./miniflux/ks.yaml
