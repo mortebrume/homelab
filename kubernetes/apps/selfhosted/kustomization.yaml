@@ -14,5 +14,6 @@ resources:
   - ./mealie/ks.yaml
   - ./miniflux/ks.yaml
   - ./paperless/ks.yaml
+  - ./publish-k8s-dashboards/ks.yaml
   - ./publish-k8s-schemas/ks.yaml
   - ./webhook/ks.yaml

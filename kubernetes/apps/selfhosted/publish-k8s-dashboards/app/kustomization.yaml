@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./externalSecret.yaml
+  - ./helmRelease.yaml
+  - ./ociRepository.yaml
+configMapGenerator:
+  - name: publish-k8s-dashboards
+    files:
+      - render-dashboards.sh=./resources/render-dashboards.sh
+      - index.html=./resources/index.html
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
