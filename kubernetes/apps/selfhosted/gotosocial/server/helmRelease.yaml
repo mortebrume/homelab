@@ -27,7 +27,7 @@ spec:
               GTS_LANDING_PAGE_USER: brume
               GTS_OIDC_ENABLED: "true"
               GTS_OIDC_IDP_NAME: "Authentik"
-              GTS_OIDC_ISSUER: https://auth.mortebrume.eu/application/o/gotosocial
+              GTS_OIDC_ISSUER: https://auth.mortebrume.eu/application/o/gotosocial/
               GTS_OIDC_ADMIN_GROUPS: GTS-Admins
               GTS_STORAGE_LOCAL_BASE_PATH: /storage
               GTS_TRUSTED_PROXIES: "10.20.0.0/16,fd00::/48"
