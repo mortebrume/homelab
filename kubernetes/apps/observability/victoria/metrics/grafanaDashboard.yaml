@@ -28,3 +28,183 @@ spec:
     - datasourceName: victoriametrics
       inputName: DS_PROMETHEUS
   url: https://grafana.com/api/dashboards/7845/revisions/4/download
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-network-cluster-total
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/cluster-total.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-network-namespace-by-pod
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/namespace-by-pod.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-network-namespace-by-workload
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/namespace-by-workload.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-network-pod-total
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/pod-total.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-network-workload-total
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/workload-total.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-cluster
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/k8s-resources-cluster.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-namespace
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/k8s-resources-namespace.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-node
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/k8s-resources-node.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-pod
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/k8s-resources-pod.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-workload
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/k8s-resources-workload.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-workloads-namespace
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/k8s-resources-workloads-namespace.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-persistent-volumes-usage
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: victoriametrics
+      inputName: DS_PROMETHEUS
+  url: https://dashboards.mortebrume.eu/persistentvolumesusage.json
