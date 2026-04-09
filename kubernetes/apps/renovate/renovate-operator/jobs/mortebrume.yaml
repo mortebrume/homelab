@@ -17,8 +17,6 @@ spec:
       value: /data
     - name: RENOVATE_BRANCH_PREFIX
       value: renovate-
-    - name: RENOVATE_PLATFORM_COMMIT
-      value: "true"
     - name: RENOVATE_REDIS_URL
       value: "redis://dragonfly.database.svc:6379/4"
     - name: RENOVATE_REPOSITORY_CACHE
