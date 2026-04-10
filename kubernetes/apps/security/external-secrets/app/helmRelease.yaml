@@ -10,10 +10,12 @@ spec:
     name: external-secrets
   interval: 1h
   values:
+    grafanaDashboard:
+      enabled: true
+    genericTargets:
+      enabled: true
     leaderElect: true
     serviceMonitor:
-      enabled: true
-    grafanaDashboard:
       enabled: true
     webhook:
       replicaCount: 1
