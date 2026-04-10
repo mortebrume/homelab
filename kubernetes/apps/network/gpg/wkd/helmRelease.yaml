@@ -84,11 +84,15 @@ spec:
                   path:
                     type: ReplaceFullPath
                     replaceFullPath: /hu
-              - type: ResponseHeaderModifier
-                responseHeaderModifier: &cors
-                  set:
-                    - name: Access-Control-Allow-Origin
-                      value: "*"
+              - type: CORS
+                cors: &cors
+                  allowHeaders:
+                    - "*"
+                  allowMethods:
+                    - "*"
+                  AllowOrigins:
+                    - "*"
+                  maxAge: 86400
             backendRefs:
               - identifier: app
                 port: *port
@@ -105,8 +109,8 @@ spec:
                   path:
                     type: ReplaceFullPath
                     replaceFullPath: /policy
-              - type: ResponseHeaderModifier
-                responseHeaderModifier: *cors
+              - type: CORS
+                cors: *cors
             backendRefs:
               - identifier: app
                 port: *port
