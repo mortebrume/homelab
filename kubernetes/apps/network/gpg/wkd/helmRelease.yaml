@@ -1,0 +1,96 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gpg-wkd
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: gpg-wkd
+  interval: 1h
+  values:
+    controllers:
+      gpg-wkd:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/nginx/nginx-unprivileged
+              tag: 1.29.5-alpine3.23@sha256:601c823234c474696ded03d619e67f1e59538802731543099c691aea67e4a553
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /policy
+                    port: &port 8080
+              readiness: *probe
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 32Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
+    persistence:
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+          - path: /var/cache/nginx
+      wkd:
+        type: secret
+        name: gpg-wkd
+        globalMounts:
+          - path: /usr/share/nginx/html
+            readOnly: true
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - mortebrume.eu
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /.well-known/openpgpkey/hu/us5fk1nftuiuqys5t3hp9myrw3e4p3ed
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /hu
+            backendRefs:
+              - identifier: app
+                port: *port
+          - matches:
+              - path:
+                  type: Exact
+                  value: /.well-known/openpgpkey/policy
+            filters:
+              - type: URLRewrite
+                urlRewrite:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /policy
+            backendRefs:
+              - identifier: app
+                port: *port

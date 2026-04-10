@@ -9,4 +9,5 @@ resources:
   - ./certificates/ks.yaml
   - ./envoy-gateway/ks.yaml
   - ./external-dns/ks.yaml
+  - ./gpg/ks.yaml
   - ./websites/ks.yaml
