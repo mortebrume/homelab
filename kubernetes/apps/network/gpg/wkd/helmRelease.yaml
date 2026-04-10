@@ -62,6 +62,7 @@ spec:
       app:
         hostnames:
           - mortebrume.eu
+          - openpgpkey.mortebrume.eu
         parentRefs:
           - name: envoy-external
             namespace: network
@@ -72,12 +73,20 @@ spec:
               - path:
                   type: Exact
                   value: /.well-known/openpgpkey/hu/us5fk1nftuiuqys5t3hp9myrw3e4p3ed
+              - path:
+                  type: Exact
+                  value: /.well-known/openpgpkey/mortebrume.eu/hu/us5fk1nftuiuqys5t3hp9myrw3e4p3ed
             filters:
               - type: URLRewrite
                 urlRewrite:
                   path:
                     type: ReplaceFullPath
                     replaceFullPath: /hu
+              - type: ResponseHeaderModifier
+                responseHeaderModifier: &cors
+                  set:
+                    - name: Access-Control-Allow-Origin
+                      value: "*"
             backendRefs:
               - identifier: app
                 port: *port
@@ -85,12 +94,17 @@ spec:
               - path:
                   type: Exact
                   value: /.well-known/openpgpkey/policy
+              - path:
+                  type: Exact
+                  value: /.well-known/openpgpkey/mortebrume.eu/policy
             filters:
               - type: URLRewrite
                 urlRewrite:
                   path:
                     type: ReplaceFullPath
                     replaceFullPath: /policy
+              - type: ResponseHeaderModifier
+                responseHeaderModifier: *cors
             backendRefs:
               - identifier: app
                 port: *port
