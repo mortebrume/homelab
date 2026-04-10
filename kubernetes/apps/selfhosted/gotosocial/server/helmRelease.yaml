@@ -88,6 +88,16 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+            filters:
+              - cors:
+                  allowHeaders:
+                    - "*"
+                  allowMethods:
+                    - "*"
+                  allowOrigins:
+                    - "*"
+                  maxAge: 86400
+                type: CORS
       webfinger:
         hostnames:
           - "mortebrume.eu"
