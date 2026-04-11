@@ -90,7 +90,7 @@ spec:
                     - "*"
                   allowMethods:
                     - "*"
-                  AllowOrigins:
+                  allowOrigins:
                     - "*"
                   maxAge: 86400
             backendRefs:
