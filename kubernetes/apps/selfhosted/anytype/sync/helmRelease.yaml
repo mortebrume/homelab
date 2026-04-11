@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: anysync
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: anysync
+  interval: 1h
+  values:
+    controllers:
+      anysync:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/grishy/any-sync-bundle
+              tag: 1.4.1-2026-03-25-minimal@sha256:481a781087217ab643d2c7a307403d86ea3f5ebed890c8231d94244e1cd5f664
+            env:
+              ANY_SYNC_BUNDLE_INIT_EXTERNAL_ADDRS: "sync.any.mortebrume.eu"
+              ANY_SYNC_BUNDLE_INIT_REDIS_URI: "redis://dragonfly.database.svc.cluster.local:6379/5"
+              ANY_SYNC_BUNDLE_INIT_S3_BUCKET: "anysync"
+              ANY_SYNC_BUNDLE_INIT_MONGO_URI:
+                valueFrom:
+                  secretKeyRef:
+                    name: anysync-db
+                    key: MONGO_ENDPOINT
+            envFrom:
+              - secretRef:
+                  name: anysync
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: &tcpPort 33010
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+    service:
+      app:
+        ports:
+          sync:
+            port: *tcpPort
+            protocol: TCP
+          quic:
+            port: &quicPort 33020
+            protocol: UDP
+    route:
+      tcp:
+        kind: TCPRoute
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: "sync.any.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: anysync-tcp
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *tcpPort
+      quic:
+        kind: UDPRoute
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: "sync.any.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: anysync-udp
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *quicPort
+    persistence:
+      data:
+        existingClaim: anysync
