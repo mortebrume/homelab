@@ -69,14 +69,6 @@ spec:
 
   managed:
     roles:
-      - name: anysync
-        ensure: present
-        login: true
-        superuser: false
-        disablePassword: false
-        passwordSecret:
-          name: anysync-db
-
       - name: yspotify
         ensure: present
         login: true
