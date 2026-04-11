@@ -85,3 +85,8 @@ spec:
     persistence:
       data:
         existingClaim: anysync
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
