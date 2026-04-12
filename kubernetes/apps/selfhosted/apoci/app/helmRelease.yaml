@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: git.erwanleboucher.dev/eleboucher/apoci
-              tag: 0.0.12@sha256:ff48d8e4d078e5b1ace10857897294767f3c57d83d35bf17e45464aeb49bd619
+              tag: 0.0.13@sha256:c7605d43d627eecd91fda4216a15d9eefe9133950b8b51f4ec20acac35e53bc8
             env:
               APOCI_ACCOUNT_DOMAIN: mortebrume.eu
               APOCI_DATA_DIR: /data
