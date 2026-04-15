@@ -40,6 +40,7 @@
         "ghcr.io/renovatebot/renovate",
         "ghcr.io/emberstack/helm-charts/reflector",
         "ghcr.io/mogenius/helm-charts/renovate-operator",
+        "ghcr.io/stakater/charts/reloader",
       ],
       schedule: ["before 6am on Monday"],
     },
