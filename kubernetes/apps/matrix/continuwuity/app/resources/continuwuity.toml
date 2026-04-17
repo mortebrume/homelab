@@ -32,7 +32,6 @@ suspend_on_register = false
 
 # Harden
 allow_legacy_media = true
-allow_public_room_directory_without_auth = false
 allow_public_room_directory_over_federation = false
 lockdown_public_room_directory = true
 require_auth_for_profile_requests = true
