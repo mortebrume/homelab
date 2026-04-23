@@ -6,7 +6,6 @@ namespace: selfhosted
 
 resources:
   - ./namespace.yaml
-  - ./anytype/ks.yaml
   - ./apoci/ks.yaml
   - ./bentopdf/ks.yaml
   - ./foundry/ks.yaml
