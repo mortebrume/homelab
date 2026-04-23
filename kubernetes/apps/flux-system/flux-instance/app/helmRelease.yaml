@@ -23,7 +23,7 @@ spec:
         - notification-controller
       sync:
         kind: OCIRepository
-        url: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
+        url: oci://registry.mortebrume.eu/mortebrume/homelab-flux
         ref: main
         path: kubernetes/flux/cluster
         verify:
