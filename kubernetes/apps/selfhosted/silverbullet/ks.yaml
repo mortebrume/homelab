@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: silverbullet
+spec:
+  components:
+    - ../../../../components/auth/fa
+    - ../../../../components/volsync
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+  interval: 1h
+  path: ./kubernetes/apps/selfhosted/silverbullet/app
+  postBuild:
+    substitute:
+      APP: silverbullet
+      VOLSYNC_CAPACITY: 10Gi
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: selfhosted
