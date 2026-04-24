@@ -22,10 +22,7 @@ spec:
             limits:
               memory: 1Gi
       envoyService:
-        annotations:
-          lbipam.cilium.io/sharing-cross-namespace: "*"
-          lbipam.cilium.io/sharing-key: share
-          lbipam.cilium.io/ips: "168.119.32.22,2a01:4f8:242:4691::1"
+        type: LoadBalancer
   shutdown:
     drainTimeout: 180s
   telemetry:
@@ -52,11 +49,18 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-external
+  annotations:
+    external-dns.alpha.kubernetes.io/target: "168.119.32.22,2a01:4f8:242:4691::1"
 spec:
   gatewayClassName: envoy-external
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: mortebrume.eu
+  addresses:
+    - type: IPAddress
+      value: 168.119.32.22
+    - type: IPAddress
+      value: 2a01:4f8:242:4691::1
   listeners:
     - name: http
       protocol: HTTP
