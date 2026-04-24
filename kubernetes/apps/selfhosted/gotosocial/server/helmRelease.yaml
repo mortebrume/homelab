@@ -35,7 +35,6 @@ spec:
               OTEL_METRICS_PRODUCERS: prometheus
               OTEL_METRICS_EXPORTER: prometheus
               OTEL_EXPORTER_PROMETHEUS_HOST: 0.0.0.0
-              GOGC: "off"
               GOMEMLIMIT: "800MiB"
               GTS_DB_TYPE: postgres
               GTS_DB_POSTGRES_CONNECTION_STRING:
