@@ -21,6 +21,7 @@ spec:
     bpfClockProbe: true
     dashboards:
       enabled: true
+    disableExternalIPMitigation: true
     enableIPv4BIGTCP: true
     enableIPv6BIGTCP: true
     endpointRoutes:
