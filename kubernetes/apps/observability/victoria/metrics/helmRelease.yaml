@@ -25,8 +25,16 @@ spec:
       enabled: false
 
     alertmanager:
+      route:
+        enabled: true
+        hostnames:
+          - "alert.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
       spec:
         disableNamespaceMatcher: true
+        externalURL: https://alert.mortebrume.eu
         rollingUpdateStrategy: RollingUpdate
         storage:
           volumeClaimTemplate:
