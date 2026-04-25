@@ -22,7 +22,7 @@ jobs:
           - oci-repo: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
             user: nologin
             secret: SCW_SECRET_KEY
-          - oci-repo: oci://registry.mortebrume.eu/mortebrume/homelab
+          - oci-repo: oci://registry.mortebrume.eu/homelab
             user: registry
             secret: APOCI_SECRET_KEY
     steps:
