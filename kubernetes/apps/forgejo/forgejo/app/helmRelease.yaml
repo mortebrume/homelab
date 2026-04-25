@@ -14,6 +14,8 @@ spec:
       admin:
         username: ""
       config:
+        APP_NAME: "code ~ brume"
+        APP_SLOGAN: ""
         cache:
           ENABLED: true
           ADAPTER: redis
@@ -81,6 +83,9 @@ spec:
           PROVIDER_CONFIG: redis://dragonfly.database.svc:6379/2?pool_size=100&idle_timeout=180s
         ui:
           DEFAULT_THEME: "gitdotgay-dark"
+        ui.meta:
+          AUTHOR: mortebrume
+          DESCRIPTION: "code ~ brume"
         webhook:
           ALLOWED_HOST_LIST: "*"
       oauth:
