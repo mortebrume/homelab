@@ -14,15 +14,11 @@ spec:
       feedback_links_enabled: "false"
       reporting_enabled: "false"
     auth:
-      disable_login_form: "false"
+      disable_login_form: "true"
       signout_redirect_url: https://auth.mortebrume.eu/application/o/grafana/end-session/
       oauth_allow_insecure_email_lookup: "true"
     auth.anonymous:
-      enabled: "true"
-      org_id: "1"
-      org_name: Main Org.
-      org_role: Viewer
-      hide_version: "true"
+      enabled: "false"
     auth.generic_oauth:
       name: Authentik
       enabled: "true"
