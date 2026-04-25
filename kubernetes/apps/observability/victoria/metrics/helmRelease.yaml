@@ -52,8 +52,6 @@ spec:
 
     vmagent:
       spec:
-        externalLabels:
-          cluster: homelab
         extraArgs:
           enableTCP6: "true"
         resources:
