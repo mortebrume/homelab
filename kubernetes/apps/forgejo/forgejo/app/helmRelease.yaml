@@ -79,6 +79,8 @@ spec:
         session:
           PROVIDER: redis
           PROVIDER_CONFIG: redis://dragonfly.database.svc:6379/2?pool_size=100&idle_timeout=180s
+        ui:
+          DEFAULT_THEME: "gitdotgay-dark"
         webhook:
           ALLOWED_HOST_LIST: "*"
       oauth:
@@ -145,8 +147,8 @@ spec:
           secretName: forgejo-signing-key
     image:
       rootless: true
-      registry: code.forgejo.org
-      repository: forgejo/forgejo
+      registry: registry.mortebrume.eu
+      repository: forgejo-dotgay
       tag: 15.0.0-rootless
     persistence:
       create: false
