@@ -11,6 +11,10 @@ spec:
   dependsOn:
     - name: victoria-metrics-operator
   interval: 1h
+  valuesFrom:
+    - kind: ConfigMap
+      name: flux-metrics-configmap
+      valuesKey: flux-metrics.yaml
   values:
     nameOverride: vmks
 
