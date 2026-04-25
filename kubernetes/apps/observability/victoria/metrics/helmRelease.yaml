@@ -26,25 +26,35 @@ spec:
 
     alertmanager:
       spec:
-        externalUrl: https://alertmanager.mortebrume.eu
+        disableNamespaceMatcher: true
+        rollingUpdateStrategy: RollingUpdate
         storage:
           volumeClaimTemplate:
             spec:
               resources:
                 requests:
                   storage: 1Gi
+        useStrictSecurity: true
 
     vmalert:
       spec:
         extraArgs:
           enableTCP6: "true"
+        useStrictSecurity: true
 
     vmagent:
       spec:
-        extraArgs:
-          enableTCP6: "true"
         externalLabels:
           cluster: homelab
+        extraArgs:
+          enableTCP6: "true"
+        resources:
+          requests:
+            cpu: 150m
+          limits:
+            memory: 1Gi
+        selectAllByDefault: true
+        useStrictSecurity: true
 
     vmsingle:
       route:
@@ -57,6 +67,11 @@ spec:
       spec:
         extraArgs:
           enableTCP6: "true"
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            memory: 2Gi
         retentionPeriod: 1y
         storage:
           accessModes:
@@ -64,14 +79,10 @@ spec:
           resources:
             requests:
               storage: 30Gi
-        resources:
-          requests:
-            cpu: 100m
-          limits:
-            memory: 2Gi
+        useStrictSecurity: true
 
     prometheus-node-exporter:
-      fullNameOverride: node-exporter
+      fullnameOverride: node-exporter
       vmScrape:
         spec:
           endpoints:
@@ -90,7 +101,7 @@ spec:
                   targetLabel: kubernetes_node
 
     kube-state-metrics:
-      fullNameOverride: kube-state-metrics
+      fullnameOverride: kube-state-metrics
       metricLabelsAllowList:
         - pods=[*]
         - deployments=[*]
@@ -125,7 +136,7 @@ spec:
         node-exporter-full:
           enabled: false
 
-    additionalVictoriaMetricsMap:
+    extraRules:
       dockerhub-rules:
         groups:
           - name: dockerhub
