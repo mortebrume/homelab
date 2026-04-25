@@ -41,6 +41,8 @@ spec:
     server:
       enable_gzip: "true"
       root_url: https://grafana.mortebrume.eu
+    unified_alerting:
+      enabled: "false"
   deployment:
     spec:
       strategy:
