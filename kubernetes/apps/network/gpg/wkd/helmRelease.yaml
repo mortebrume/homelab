@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/nginx/nginx-unprivileged
-              tag: 1.30.0-alpine3.23@sha256:8a7fd2dfd8bfae329b96118207b7a9153293f71c7fee042ed7ffbc4461a8788d
+              tag: 1.30.0-alpine3.23@sha256:35a4455cd4153d7cd0ae1fcfa42451884ef19848202606f144d9a089376c7e6c
             probes:
               liveness: &probe
                 enabled: true
