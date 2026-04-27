@@ -5,11 +5,19 @@ cache:
 container:
   docker_host: "-"
   workdir_parent: shared/workdir
+host:
+  workdir_parent: /data/act
 kubernetes:
   namespace: forgejo
   poll_timeout: 10m
 log:
   level: info
+pluginsv2:
+  k8s:
+    path: /plugins/forgejo-runner-k8s
+    options:
+      namespace: forgejo
+      poll_timeout: 10m
 runner:
   capacity: 2
   file: /persistent/.runner
