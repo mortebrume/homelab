@@ -94,6 +94,8 @@ spec:
         name: forgejo-runner-config
         globalMounts:
           - path: /config
+      plugins:
+        type: emptyDir
       tmpfs:
         type: emptyDir
         sizeLimit: 10Gi
