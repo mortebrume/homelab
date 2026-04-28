@@ -66,28 +66,18 @@ jobs:
           persist-credentials: false
           ref: ${{ forgejo.event.repository.default_branch }}
 
-      - name: Debug workspace
-        shell: bash
-        run: |
-          echo "FORGEJO_WORKSPACE=$FORGEJO_WORKSPACE"
-          echo "PWD=$(pwd)"
-          ls -la "$FORGEJO_WORKSPACE" || true
-          ls -la "$FORGEJO_WORKSPACE/pull" || true
-          ls -la "$FORGEJO_WORKSPACE/default" || true
-
       - name: Run flux-local diff
         shell: bash
-        working-directory: pull
         run: |-
           flux-local diff ${{ matrix.resources }} \
             --unified 6 \
-            --sources "flux-system=." \
-            --path kubernetes/flux/cluster \
-            --path-orig ../default/kubernetes/flux/cluster \
+            --sources "flux-system=pull" \
+            --path pull/kubernetes/flux/cluster \
+            --path-orig default/kubernetes/flux/cluster \
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
             --limit-bytes 10000 \
             --all-namespaces \
-            --output-file diff.patch
+            --output-file pull/diff.patch
 
       - name: Generate Diff
         id: diff
