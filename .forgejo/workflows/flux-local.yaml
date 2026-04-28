@@ -66,6 +66,15 @@ jobs:
           persist-credentials: false
           ref: ${{ forgejo.event.repository.default_branch }}
 
+      - name: Debug workspace
+        shell: bash
+        run: |
+          echo "FORGEJO_WORKSPACE=$FORGEJO_WORKSPACE"
+          echo "PWD=$(pwd)"
+          ls -la "$FORGEJO_WORKSPACE" || true
+          ls -la "$FORGEJO_WORKSPACE/pull" || true
+          ls -la "$FORGEJO_WORKSPACE/default" || true
+
       - name: Run flux-local diff
         shell: bash
         working-directory: pull
