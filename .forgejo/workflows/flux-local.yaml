@@ -68,16 +68,17 @@ jobs:
 
       - name: Run flux-local diff
         shell: bash
+        working-directory: pull
         run: |-
           flux-local diff ${{ matrix.resources }} \
             --unified 6 \
-            --sources "flux-system=pull" \
-            --path pull/kubernetes/flux/cluster \
-            --path-orig default/kubernetes/flux/cluster \
+            --sources "flux-system=." \
+            --path kubernetes/flux/cluster \
+            --path-orig ../default/kubernetes/flux/cluster \
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
             --limit-bytes 10000 \
             --all-namespaces \
-            --output-file pull/diff.patch
+            --output-file diff.patch
 
       - name: Generate Diff
         id: diff
