@@ -32,20 +32,6 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
         initContainers:
-          copy-k8s-plugin:
-            image:
-              repository: git.erwanleboucher.dev/eleboucher/runner-k8s-plugin-v2
-              tag: sha-f7ab06b75887e5497c9f9f9bef641aafb2ae3e1c
-            command:
-              - sh
-              - -c
-              - cp /usr/local/bin/forgejo-runner-k8s /plugins/forgejo-runner-k8s
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
           register-runner:
             image:
               repository: git.erwanleboucher.dev/eleboucher/runner
@@ -69,10 +55,27 @@ spec:
               - secretRef:
                   name: forgejo-runner-secret
         containers:
+          k8s-plugin:
+            image:
+              repository: git.erwanleboucher.dev/eleboucher/runner-k8s-plugin
+              tag: sha-f7ab06b75887e5497c9f9f9bef641aafb2ae3e1c
+            args:
+              - --listen
+              - unix:///plugin/forgejo-runner-k8s.sock
+            resources:
+              requests:
+                cpu: 5m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
           runner:
             image:
               repository: git.erwanleboucher.dev/eleboucher/runner
-              tag: latest@sha256:b6bfcf90d4eb2496dcadbc0aa9f640413370f80a23d69dca6bdc77cfdc284e0c
+              tag: sha-63d5504927ba6b9d511c0972beaf4ff5b3705f82
             command:
               - /bin/forgejo-runner
               - daemon
@@ -82,23 +85,22 @@ spec:
               requests:
                 cpu: 5m
                 memory: 32Mi
+              limits:
+                memory: 128Mi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: {drop: ["ALL"]}
     persistence:
       config:
         type: configMap
         name: forgejo-runner-config
         globalMounts:
           - path: /config
-      plugins:
+      plugin:
         type: emptyDir
       tmpfs:
         type: emptyDir
-        sizeLimit: 10Gi
         globalMounts:
           - path: /data
             subPath: data

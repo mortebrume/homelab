@@ -12,9 +12,10 @@ kubernetes:
   poll_timeout: 10m
 log:
   level: info
-pluginsv2:
+plugins:
   k8s:
     path: /plugins/forgejo-runner-k8s
+    address: "unix:///plugin/forgejo-runner-k8s.sock"
     options:
       namespace: forgejo
       poll_timeout: 10m
@@ -22,8 +23,8 @@ runner:
   capacity: 2
   file: /persistent/.runner
   labels:
-    - ubuntu-latest:k8s:/config/podspec-default.yaml
-    - ubuntu-24.04:k8s:/config/podspec-default.yaml
-    - default:k8s:/config/podspec-default.yaml
-    - docker:k8s:/config/podspec-dind.yaml
+    - ubuntu-latest:plugin:k8s:/config/podspec-default.yaml
+    - ubuntu-24.04:plugin:k8s:/config/podspec-default.yaml
+    - default:plugin:k8s:/config/podspec-default.yaml
+    - docker:plugin:k8s:/config/podspec-dind.yaml
   timeout: 3h
