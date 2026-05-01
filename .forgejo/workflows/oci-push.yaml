@@ -16,15 +16,9 @@ concurrency:
 jobs:
   push-sign:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - oci-repo: oci://rg.fr-par.scw.cloud/mortebrume/homelab-flux
-            user: nologin
-            secret: SCW_SECRET_KEY
-          - oci-repo: oci://registry.mortebrume.eu/homelab
-            user: registry
-            secret: APOCI_SECRET_KEY
+    env:
+      OCI_REPO: oci://registry.mortebrume.eu/homelab
+      OCI_USER: registry
     steps:
       - uses: https://data.forgejo.org/actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
@@ -32,19 +26,19 @@ jobs:
         id: push
         run: |
           DIGEST_URL=$(flux push artifact \
-            ${{ matrix.oci-repo }}:${{ forgejo.sha }} \
+            ${OCI_REPO}:${{ forgejo.sha }} \
             --path=. \
             --source=${{ forgejo.server_url }}/${{ forgejo.repository }} \
             --revision=${{ forgejo.ref_name }}@sha1:${{ forgejo.sha }} \
-            --creds=${{ matrix.user }}:${{ secrets[matrix.secret] }} \
+            --creds=${OCI_USER}:${{ secrets.APOCI_SECRET_KEY }} \
             --output json | \
             jq -r '.repository + "@" + .digest')
           echo "digest-url=$DIGEST_URL" >> "$FORGEJO_OUTPUT"
 
       - name: Tag mutable ref
         run: |
-          flux tag artifact ${{ matrix.oci-repo }}:${{ forgejo.sha }} --tag main \
-            --creds=${{ matrix.user }}:${{ secrets[matrix.secret] }}
+          flux tag artifact ${OCI_REPO}:${{ forgejo.sha }} --tag main \
+            --creds=${OCI_USER}:${{ secrets.APOCI_SECRET_KEY }}
 
       - name: Sign OCI artifact
         env:
@@ -53,8 +47,8 @@ jobs:
         run: |-
           cosign sign --yes \
             --key env://COSIGN_KEY \
-            --registry-username=${{ matrix.user }} \
-            --registry-password=${{ secrets[matrix.secret] }} \
+            --registry-username=${OCI_USER} \
+            --registry-password=${{ secrets.APOCI_SECRET_KEY }} \
             ${{ steps.push.outputs.digest-url }}
 
   reconcile:
