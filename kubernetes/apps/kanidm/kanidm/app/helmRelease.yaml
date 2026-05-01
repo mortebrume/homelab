@@ -47,7 +47,6 @@ spec:
               limits:
                 memory: 256Mi
       provision:
-        replicas: 0
         containers:
           app:
             image:
