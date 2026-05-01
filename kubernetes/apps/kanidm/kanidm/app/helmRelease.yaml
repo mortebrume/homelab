@@ -1,0 +1,166 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kanidm
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kanidm
+  interval: 1h
+  values:
+    controllers:
+      kanidm:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/kanidm/server
+              tag: 1.10.0@sha256:accd09b39511385b79e4318f238f197dce15ee828c853e63164a1f7826184327
+            env:
+              KANIDM_ADMIN_BIND_PATH: /var/run/kanidm.sock
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /status
+                    port: &port 8443
+                    scheme: HTTPS
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+            securityContext: &sc
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 256Mi
+      provision:
+        replicas: 0
+        containers:
+          app:
+            image:
+              repository: ghcr.io/m00nwtchr/kanidm-provision
+              tag: main@sha256:356b24d35e5060a662e26f9ef5458fcf52645fb99be330d805ce2becaf044844
+            env:
+              KANIDM_INSTANCE: https://idm.mortebrume.eu
+              KANIDM_NAMESPACE: kanidm
+            envFrom:
+              - secretRef:
+                  name: kanidm-provision
+            securityContext: *sc
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 100Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: kanidm
+        forceRename: kanidm
+        ports:
+          http:
+            port: *port
+          ldap:
+            port: 3636
+    route:
+      app:
+        hostnames:
+          - "idm.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+          - name: envoy-external
+            namespace: network
+    persistence:
+      config:
+        type: configMap
+        name: kanidm-config
+        advancedMounts:
+          kanidm:
+            app:
+              - path: /data/server.toml
+                subPath: server.toml
+      data:
+        existingClaim: kanidm
+        advancedMounts:
+          kanidm:
+            app:
+              - path: /data
+                subPath: data
+      icons:
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        suffix: icons
+        advancedMounts:
+          provision:
+            app:
+              - path: /data/icons
+      tls:
+        type: secret
+        name: kanidm-tls
+        defaultMode: 0400
+        advancedMounts:
+          kanidm:
+            app:
+              - path: /certs
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /var/run
+    rbac:
+      roles:
+        kanidm-write-sec:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - "secrets"
+              verbs:
+                - "create"
+                - "patch"
+        kanidm-read-cm:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - "configmaps"
+              verbs:
+                - "get"
+                - "list"
+                - "watch"
+      bindings:
+        kanidm-write-sec:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: kanidm-write-sec
+          subjects:
+            - identifier: kanidm
+        kanidm-read-cm:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: kanidm-read-cm
+          subjects:
+            - identifier: kanidm
+    serviceAccount:
+      kanidm: {}

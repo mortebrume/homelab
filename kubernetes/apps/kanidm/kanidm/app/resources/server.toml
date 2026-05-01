@@ -1,0 +1,15 @@
+version = "2"
+
+domain = "idm.mortebrume.eu"
+origin = "https://idm.mortebrume.eu"
+
+bindaddress = "[::]:8443"
+ldapbindaddress = "[::]:3636"
+
+db_path = "/data/kanidm.db"
+
+tls_chain = "/certs/tls.crt"
+tls_key = "/certs/tls.key"
+
+[http_client_address_info]
+x-forward-for = ["10.20.0.0/16", "fd00::/48"]
