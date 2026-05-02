@@ -40,14 +40,15 @@ trusted_servers = ["bi-vibes.com", "codestorm.net"]
 [global.ldap]
 enable = true
 ldap_only = false
-uri = "ldaps://ldap.mortebrume.eu:636"
-base_dn = "DC=ldap,DC=goauthentik,DC=io"
-bind_dn = "CN=continuwuity,OU=service-accounts,OU=goauthentik.io,DC=ldap,DC=goauthentik,DC=io"
+disable_tls_verification = true
+uri = "ldaps://kanidm.kanidm.svc.cluster.local:3636"
+base_dn = "dc=idm,dc=mortebrume,dc=eu"
+bind_dn = "dn=token"
 bind_password_file = "/secrets/ldap-bind-password"
-filter = "(memberOf=CN=Continuwuity-Users,OU=groups,DC=ldap,DC=goauthentik,DC=io)"
-admin_filter = "(memberOf=CN=Continuwuity-Admins,OU=groups,DC=ldap,DC=goauthentik,DC=io)"
-uid_attribute = "continuwuityUsername"
-name_attribute = "continuwuityDisplayName"
+filter = "(memberOf=spn=users@idm.mortebrume.eu,dc=idm,dc=mortebrume,dc=eu)"
+admin_filter = "(memberOf=spn=admins@idm.mortebrume.eu,dc=idm,dc=mortebrume,dc=eu)"
+uid_attribute = "displayname"
+name_attribute = "displayname"
 
 [global.well_known]
 client = "https://matrix.mortebrume.eu"
