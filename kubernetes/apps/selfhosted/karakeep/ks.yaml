@@ -6,6 +6,7 @@ metadata:
   name: karakeep
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/volsync
   dependsOn:
     - name: openebs
@@ -15,6 +16,10 @@ spec:
   postBuild:
     substitute:
       APP: karakeep
+      OIDC_CALLBACK: /api/auth/callback/custom
+      OIDC_DISPLAY_NAME: Karakeep
+      OIDC_LEGACY_CRYPTO: "true"
+      NAMESPACE: selfhosted
   prune: true
   sourceRef:
     kind: OCIRepository

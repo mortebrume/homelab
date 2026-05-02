@@ -33,9 +33,17 @@ spec:
               DISABLE_PASSWORD_AUTH: true
               MEILI_ADDR: http://karakeep-meilisearch.selfhosted.svc.cluster.local:7700
               NEXTAUTH_URL: https://karakeep.mortebrume.eu
-              OAUTH_WELLKNOWN_URL: https://auth.mortebrume.eu/application/o/karakeep/.well-known/openid-configuration
-              OAUTH_PROVIDER_NAME: Authentik
+              OAUTH_CLIENT_ID: karakeep
+              OAUTH_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-karakeep-oidc
+                    key: client-secret
+              OAUTH_PROVIDER_NAME: Kanidm
+              OAUTH_WELLKNOWN_URL: https://idm.mortebrume.eu/oauth2/openid/karakeep/.well-known/openid-configuration
               OCR_LANGS: "eng,fra"
+              S6_READ_ONLY_ROOT: 1
+              S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: 1
             envFrom:
               - secretRef:
                   name: karakeep
@@ -50,6 +58,10 @@ spec:
                 memory: 800Mi
               limits:
                 memory: 1Gi
+            securityContext: &sec
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
       chrome:
         annotations:
           reloader.stakater.com/auto: "true"
@@ -74,8 +86,7 @@ spec:
                 memory: 150Mi
               limits:
                 memory: 1Gi
-            securityContext:
-              capabilities: {drop: ["ALL"]}
+            securityContext: *sec
       meilisearch:
         annotations:
           reloader.stakater.com/auto: "true"
@@ -100,6 +111,7 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 4Gi
+            securityContext: *sec
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -148,3 +160,11 @@ spec:
             app:
               - path: /meili_data
                 subPath: meilisearch
+      tmp:
+        type: emptyDir
+      run:
+        type: emptyDir
+        advancedMounts:
+          karakeep:
+            app:
+              - path: /run
