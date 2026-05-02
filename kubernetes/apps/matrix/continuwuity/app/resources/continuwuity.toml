@@ -39,7 +39,7 @@ trusted_servers = ["bi-vibes.com", "codestorm.net"]
 
 [global.ldap]
 enable = true
-ldap_only = true
+ldap_only = false
 uri = "ldaps://ldap.mortebrume.eu:636"
 base_dn = "DC=ldap,DC=goauthentik,DC=io"
 bind_dn = "CN=continuwuity,OU=service-accounts,OU=goauthentik.io,DC=ldap,DC=goauthentik,DC=io"
