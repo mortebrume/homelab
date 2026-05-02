@@ -19,12 +19,18 @@ spec:
               tag: v1.17.0@sha256:fb3832e68f66b056e1b049d16c40732661e7b73999bc642d4b11469a3ebbabd3
             env:
               QUI__HOST: 0.0.0.0
-              QUI__PORT: &port 8080
               QUI__LOG_LEVEL: INFO
+              QUI__OIDC_CLIENT_ID: qui
+              QUI__OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-qui-oidc
+                    key: client-secret
               QUI__OIDC_ENABLED: true
-              QUI__OIDC_ISSUER: https://auth.mortebrume.eu/application/o/qui/
-              QUI__OIDC_REDIRECT_URL: https://torrent.mortebrume.eu/api/auth/oidc/callback
               QUI__OIDC_DISABLE_BUILT_IN_LOGIN: true
+              QUI__OIDC_ISSUER: https://idm.mortebrume.eu/oauth2/openid/qui
+              QUI__OIDC_REDIRECT_URL: https://torrent.mortebrume.eu/api/auth/oidc/callback
+              QUI__PORT: &port 8080
               TZ: Europe/Paris
             envFrom:
               - secretRef:

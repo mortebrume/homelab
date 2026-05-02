@@ -6,6 +6,7 @@ metadata:
   name: qui
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/volsync
   dependsOn:
     - name: openebs
@@ -17,6 +18,12 @@ spec:
   postBuild:
     substitute:
       APP: qui
+      NAMESPACE: media
+      OIDC_CALLBACK: /api/auth/oidc/callback
+      OIDC_GROUP: admins
+      OIDC_LEGACY_CRYPTO: "true"
+      OIDC_SHORT_USERNAME: "true"
+      SUBDOMAIN: torrent
       VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
