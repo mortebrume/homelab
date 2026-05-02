@@ -6,6 +6,7 @@ metadata:
   name: gotosocial
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/postgres/cert/
     - ../../../../components/volsync
   interval: 1h
@@ -13,6 +14,11 @@ spec:
   postBuild:
     substitute:
       APP: gotosocial
+      NAMESPACE: selfhosted
+      OIDC_CALLBACK: /auth/callback
+      OIDC_DISABLE_PKCE: "true"
+      OIDC_DISPLAY_NAME: GoToSocial
+      SUBDOMAIN: social
       VOLSYNC_CAPACITY: 10Gi
   prune: true
   sourceRef:

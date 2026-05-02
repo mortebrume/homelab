@@ -20,30 +20,38 @@ spec:
               repository: docker.io/superseriousbusiness/gotosocial
               tag: 0.21.2@sha256:53106462f352c23c25a32d4bd5c03eb3c2198f2d2549ff1e7d5ef6deb7f44961
             env:
-              TZ: Europe/Paris
               GTS_ACCOUNT_DOMAIN: mortebrume.eu
               GTS_APPLICATION_NAME: "brume's musings"
-              GTS_HOST: social.mortebrume.eu
-              GTS_LANDING_PAGE_USER: brume
-              GTS_OIDC_ENABLED: "true"
-              GTS_OIDC_IDP_NAME: "Authentik"
-              GTS_OIDC_ISSUER: https://auth.mortebrume.eu/application/o/gotosocial/
-              GTS_OIDC_ADMIN_GROUPS: GTS-Admins
-              GTS_STORAGE_LOCAL_BASE_PATH: /storage
-              GTS_TRUSTED_PROXIES: "10.20.0.0/16,fd00::/48"
-              GTS_METRICS_ENABLED: "true"
-              OTEL_METRICS_PRODUCERS: prometheus
-              OTEL_METRICS_EXPORTER: prometheus
-              OTEL_EXPORTER_PROMETHEUS_HOST: 0.0.0.0
               GTS_DB_TYPE: postgres
               GTS_DB_POSTGRES_CONNECTION_STRING:
                 valueFrom:
                   secretKeyRef:
                     name: gotosocial-postgres
                     key: url
-            envFrom:
-              - secretRef:
-                  name: gotosocial
+              GTS_HOST: social.mortebrume.eu
+              GTS_LANDING_PAGE_USER: brume
+              GTS_OIDC_ADMIN_GROUPS: admins@idm.mortebrume.eu
+              GTS_OIDC_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-gotosocial-oidc
+                    key: client-id
+              GTS_OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-gotosocial-oidc
+                    key: client-secret
+              GTS_OIDC_ENABLED: "true"
+              GTS_OIDC_IDP_NAME: "Kanidm"
+              GTS_OIDC_ISSUER: https://idm.mortebrume.eu/oauth2/openid/gotosocial
+              GTS_OIDC_LINK_EXISTING: "true"
+              GTS_STORAGE_LOCAL_BASE_PATH: /storage
+              GTS_TRUSTED_PROXIES: "10.20.0.0/16,fd00::/48"
+              GTS_METRICS_ENABLED: "true"
+              OTEL_METRICS_EXPORTER: prometheus
+              OTEL_METRICS_PRODUCERS: prometheus
+              OTEL_EXPORTER_PROMETHEUS_HOST: 0.0.0.0
+              TZ: Europe/Paris
             probes:
               liveness:
                 enabled: true
