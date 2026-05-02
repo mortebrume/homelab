@@ -16,9 +16,6 @@ rules:
     indent-sequences: consistent
     check-multi-line-strings: false
   line-length: disable
-  quoted-strings:
-    quote-type: double
-    required: false
   truthy:
     allowed-values:
       - "true"
