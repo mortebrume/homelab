@@ -51,7 +51,7 @@ spec:
           app:
             image:
               repository: ghcr.io/mortebrume/kanidm-provision
-              tag: main@sha256:4c39467c38456ce83f6b136d7b94713e0202cc3531c397907aa8f2e6d2630c68
+              tag: main@sha256:d4fc4a8602bb6071f43a854a366778dba54095890cd3c40795a49ecc8aebb1c8
             env:
               KANIDM_INSTANCE: https://idm.mortebrume.eu
               KANIDM_NAMESPACE: kanidm
