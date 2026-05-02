@@ -6,12 +6,18 @@ metadata:
   name: miniflux
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/postgres/cert
   interval: 1h
   path: ./kubernetes/apps/selfhosted/miniflux/app
   postBuild:
     substitute:
       APP: miniflux
+      NAMESPACE: selfhosted
+      OIDC_CALLBACK: /oauth2/oidc/callback
+      OIDC_DISPLAY_NAME: Miniflux
+      OIDC_SHORT_USERNAME: "true"
+      SUBDOMAIN: rss
   prune: true
   sourceRef:
     kind: OCIRepository
