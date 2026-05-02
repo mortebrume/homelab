@@ -89,14 +89,13 @@ spec:
         webhook:
           ALLOWED_HOST_LIST: "*"
       oauth:
-        - name: authentik
-          adminGroup: Forgejo-Admins
-          autoDiscoverUrl: https://auth.mortebrume.eu/application/o/forgejo/.well-known/openid-configuration
-          existingSecret: forgejo-oidc
-          iconUrl: https://auth.mortebrume.eu/static/dist/assets/icons/icon.png
+        - name: kanidm
+          adminGroup: admins@idm.mortebrume.eu
+          autoDiscoverUrl: https://idm.mortebrume.eu/oauth2/openid/forgejo/.well-known/openid-configuration
+          existingSecret: kanidm-forgejo-oidc
           groupClaimName: groups
           provider: openidConnect
-          scopes: profile email groups
+          scopes: profile email groups ssh_publickeys
     deployment:
       env:
         - name: PGSSLROOTCERT

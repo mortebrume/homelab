@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../../components/anubis
+    - ../../../../components/oidc
     - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
@@ -18,6 +19,14 @@ spec:
     substitute:
       APP: forgejo
       ANUBIS_TARGET: "http://forgejo-http.forgejo.svc:3000"
+      NAMESPACE: forgejo
+      OIDC_CALLBACK: /user/oauth2/kanidm/callback
+      OIDC_CLIENT_ID_KEY: key
+      OIDC_CLIENT_SECRET_KEY: secret
+      OIDC_DISPLAY_NAME: Forgejo
+      OIDC_SCOPES: '["openid", "profile", "email", "groups", "ssh_publickeys"]'
+      OIDC_SHORT_USERNAME: "true"
+      SUBDOMAIN: code
       VOLSYNC_CAPACITY: 20Gi
   prune: true
   sourceRef:
