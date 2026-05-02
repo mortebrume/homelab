@@ -24,19 +24,25 @@ spec:
               BASE_URL: https://mealie.mortebrume.eu
               DB_ENGINE: postgres
               LOG_CONFIG_OVERRIDE: /config/logconf.json
+              OIDC_ADMIN_GROUP: admins@idm.mortebrume.eu
               OIDC_AUTH_ENABLED: "true"
-              OIDC_CONFIGURATION_URL: https://auth.mortebrume.eu/application/o/mealie/.well-known/openid-configuration
-              OIDC_ADMIN_GROUP: Mealie-Admins
-              OIDC_USER_GROUP: Mealie-Users
-              OIDC_PROVIDER_NAME: Authentik
               OIDC_AUTO_REDIRECT: "true"
+              OIDC_CLIENT_ID: mealie
+              OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-mealie-oidc
+                    key: client-secret
+              OIDC_CONFIGURATION_URL: https://idm.mortebrume.eu/oauth2/openid/mealie/.well-known/openid-configuration
+              OIDC_PROVIDER_NAME: Kanidm
               OIDC_REMEMBER_ME: "true"
-              TZ: Europe/Paris
+              OIDC_USER_GROUP: users@idm.mortebrume.eu
               POSTGRES_URL_OVERRIDE:
                 valueFrom:
                   secretKeyRef:
                     name: mealie-postgres
                     key: url
+              TZ: Europe/Paris
             envFrom:
               - secretRef:
                   name: mealie
