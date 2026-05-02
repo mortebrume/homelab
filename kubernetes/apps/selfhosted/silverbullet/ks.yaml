@@ -6,7 +6,7 @@ metadata:
   name: silverbullet
 spec:
   components:
-    - ../../../../components/auth/fa
+    - ../../../../components/oidc/envoy
     - ../../../../components/volsync
   dependsOn:
     - name: openebs
@@ -16,6 +16,11 @@ spec:
   postBuild:
     substitute:
       APP: silverbullet
+      NAMESPACE: selfhosted
+      OIDC_DISPLAY_NAME: Silverbullet
+      OIDC_GROUP: admins
+      OIDC_SCOPES: '["openid", "profile"]'
+      SUBDOMAIN: notes
       VOLSYNC_CAPACITY: 10Gi
   prune: true
   sourceRef:
