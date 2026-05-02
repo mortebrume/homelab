@@ -6,6 +6,7 @@ metadata:
   name: autobrr
 spec:
   components:
+    - ../../../../components/oidc
     - ../../../../components/postgres/cert
     - ../../../../components/volsync
   dependsOn:
@@ -16,6 +17,11 @@ spec:
   postBuild:
     substitute:
       APP: autobrr
+      NAMESPACE: media
+      OIDC_CALLBACK: /api/auth/oidc/callback
+      OIDC_GROUP: admins
+      OIDC_LEGACY_CRYPTO: "true"
+      OIDC_SHORT_USERNAME: "true"
   prune: true
   sourceRef:
     kind: OCIRepository

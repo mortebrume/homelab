@@ -20,22 +20,28 @@ spec:
               repository: ghcr.io/autobrr/autobrr
               tag: v1.77.0@sha256:7274b735b23ff4d048e7706145ce5759020e4ee6d85bb1fb8cca523784d35f88
             env:
-              AUTOBRR__HOST: 0.0.0.0
-              AUTOBRR__PORT: &port 7474
-              AUTOBRR__METRICS_ENABLED: true
-              AUTOBRR__METRICS_HOST: 0.0.0.0
-              AUTOBRR__METRICS_PORT: &metricsPort 9094
               AUTOBRR__CHECK_FOR_UPDATES: false
-              AUTOBRR__LOG_LEVEL: INFO
-              AUTOBRR__OIDC_ENABLED: true
-              AUTOBRR__OIDC_ISSUER: https://auth.mortebrume.eu/application/o/autobrr
-              AUTOBRR__OIDC_REDIRECT_URL: https://autobrr.mortebrume.eu/api/auth/oidc/callback
-              AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: true
               AUTOBRR__DATABASE_DSN:
                 valueFrom:
                   secretKeyRef:
                     name: autobrr-postgres
                     key: url
+              AUTOBRR__HOST: 0.0.0.0
+              AUTOBRR__LOG_LEVEL: INFO
+              AUTOBRR__METRICS_ENABLED: true
+              AUTOBRR__METRICS_HOST: 0.0.0.0
+              AUTOBRR__METRICS_PORT: &metricsPort 9094
+              AUTOBRR__OIDC_CLIENT_ID: autobrr
+              AUTOBRR__OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-autobrr-oidc
+                    key: client-secret
+              AUTOBRR__OIDC_DISABLE_BUILT_IN_LOGIN: true
+              AUTOBRR__OIDC_ENABLED: true
+              AUTOBRR__OIDC_ISSUER: https://idm.mortebrume.eu/oauth2/openid/autobrr/
+              AUTOBRR__OIDC_REDIRECT_URL: https://autobrr.mortebrume.eu/api/auth/oidc/callback
+              AUTOBRR__PORT: &port 7474
               TZ: Europe/Paris
             envFrom:
               - secretRef:
