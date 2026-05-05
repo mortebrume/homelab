@@ -65,6 +65,8 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: {drop: ["ALL"]}
+    defaultPodOptions:
+      automountServiceAccountToken: true
     persistence:
       config:
         type: configMap
@@ -123,5 +125,3 @@ spec:
                 - list
                 - watch
                 - get
-    serviceAccount:
-      forgejo-runner: {}

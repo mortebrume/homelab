@@ -68,6 +68,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: {drop: [ALL]}
     defaultPodOptions:
+      automountServiceAccountToken: true
       restartPolicy: OnFailure
       securityContext:
         runAsNonRoot: true
@@ -96,8 +97,6 @@ spec:
             generate-schemas:
               - path: /config/map
                 readOnly: true
-    serviceAccount:
-      publish-k8s-schemas: {}
     rbac:
       roles:
         publish-k8s-schemas:
