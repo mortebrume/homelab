@@ -90,7 +90,8 @@ spec:
             namespace: network
     persistence:
       data:
-        existingClaim: apoci
+        accessMode: ReadWriteOnce
+        size: 15Gi
       tmpfs:
         type: emptyDir
         globalMounts:
