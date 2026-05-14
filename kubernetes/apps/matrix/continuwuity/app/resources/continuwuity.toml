@@ -53,3 +53,8 @@ name_attribute = "displayname"
 [global.well_known]
 client = "https://matrix.mortebrume.eu"
 server = "matrix.mortebrume.eu:443"
+
+[global.matrix_rtc]
+foci = [
+  { type = "livekit", livekit_service_url = "https://livekit.mortebrume.eu" },
+]
