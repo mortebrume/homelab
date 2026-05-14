@@ -29,6 +29,7 @@ spec:
     sources:
       - gateway-httproute
       - crd
+      - service
     txtOwnerId: main
     txtPrefix: "k8s."
     domainFilters:
