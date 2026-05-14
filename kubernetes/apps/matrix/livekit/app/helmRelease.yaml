@@ -1,0 +1,130 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: livekit
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: livekit
+  interval: 1h
+  values:
+    controllers:
+      livekit:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: docker.io/livekit/livekit-server
+              tag: v1.11.0@sha256:100b9a870616d02f5e3795b34e0b593b5054a26f8131a94fd3fa322ed3154b16
+            env:
+              LIVEKIT_CONFIG:
+                valueFrom:
+                  secretKeyRef:
+                    name: livekit-config
+                    key: config.yaml
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 150Mi
+              limits:
+                memory: 300Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+      jwt:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/element-hq/lk-jwt-service
+              tag: 0.4.4@sha256:9c715697c6f7c1f538f2ee41b7b59b04a8d06bf790a7cc8c8517ccac8d28813d
+            env:
+              LIVEKIT_URL: wss://livekit.mortebrume.eu
+              LIVEKIT_FULL_ACCESS_HOMESERVERS: mortebrume.eu
+            envFrom:
+              - secretRef:
+                  name: livekit-keys
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 100Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        forceRename: livekit
+        controller: livekit
+        ports:
+          http:
+            port: 7880
+          rtc-tcp:
+            port: 7881
+          metrics:
+            port: 6789
+      jwt:
+        controller: jwt
+        ports:
+          http:
+            port: 8080
+    route:
+      app:
+        hostnames:
+          - livekit.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+          - name: envoy-external
+            namespace: network
+        rules:
+          - matches:
+              - path:
+                  value: /
+            backendRefs:
+              - name: livekit
+                port: 7880
+          - matches:
+              - path:
+                  value: /sfu/get
+              - path:
+                  value: /healthz
+              - path:
+                  value: /get_token
+            backendRefs:
+              - name: livekit-jwt
+                port: 8080
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
