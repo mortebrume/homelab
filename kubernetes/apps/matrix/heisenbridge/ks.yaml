@@ -5,7 +5,9 @@ kind: Kustomization
 metadata:
   name: heisenbridge
 spec:
-  components: []
+  dependsOn:
+    - name: continuwuity
+      namespace: matrix
   interval: 1h
   path: ./kubernetes/apps/matrix/heisenbridge/app
   prune: true
@@ -14,4 +16,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: matrix
-  wait: false

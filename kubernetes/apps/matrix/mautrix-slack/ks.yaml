@@ -7,6 +7,9 @@ metadata:
 spec:
   components:
     - ../../../../components/postgres/cert
+  dependsOn:
+    - name: continuwuity
+      namespace: matrix
   interval: 1h
   path: ./kubernetes/apps/matrix/mautrix-slack/app
   postBuild:
@@ -18,4 +21,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: matrix
-  wait: false
