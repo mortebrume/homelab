@@ -7,7 +7,7 @@
     "local>mortebrume/homelab//.renovate/autoMerge.json5",
     "local>mortebrume/homelab//.renovate/changelogs.json5",
     "local>mortebrume/homelab//.renovate/customManagers.json5",
-    "local>mortebrume/homelab//.renovate/grafanaDashboards.json5",
+    "local>mortebrume/homelab//.renovate/grafana.json5",
     "local>mortebrume/homelab//.renovate/groups.json5",
     "local>mortebrume/homelab//.renovate/labels.json5",
     "local>mortebrume/homelab//.renovate/overrides.json5",
