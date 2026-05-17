@@ -1,4 +1,4 @@
-set quiet := true
+set quiet
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
 kubeadm_dir := justfile_directory() + '/kubeadm'
@@ -27,14 +27,14 @@ reconfigure:
     just log info "Copying updated config to server..."
     gum spin --spinner dot --title "Transferring configuration..." -- \
         scp "{{ kubeadm_config }}" "{{ ssh_target }}:/tmp/kubeadm-config.yaml"
-    just log info "Uploading configuration to cluster ConfigMap..."
-    gum spin --spinner dot --title "Updating ConfigMap..." -- \
-        ssh "{{ ssh_target }}" 'sudo kubeadm init phase upload-config kubeadm --config /tmp/kubeadm-config.yaml'
-    just log info "Applying configuration changes..."
-    gum spin --spinner dot --title "Regenerating static pod manifests..." -- \
-        ssh "{{ ssh_target }}" 'KUBE_VERSION=$(sudo kubectl --kubeconfig /etc/kubernetes/admin.conf version -o json | jq -r .serverVersion.gitVersion) && \
-            sudo kubeadm upgrade apply $KUBE_VERSION --yes --config /home/brume/update.yaml'
-    just log info "$(just style success 'Configuration applied. Control plane components will restart.')"
+    just log info "Uploading config to ConfigMaps..."
+    gum spin --spinner dot --title "Updating ConfigMaps..." -- \
+        ssh "{{ ssh_target }}" 'sudo kubeadm init phase upload-config kubeadm --config /tmp/kubeadm-config.yaml && \
+            sudo kubeadm init phase upload-config kubelet --config /tmp/kubeadm-config.yaml'
+    just log info "Applying via kubeadm upgrade apply..."
+    gum spin --show-error --spinner dot --title "Running kubeadm upgrade apply --force..." -- \
+        ssh "{{ ssh_target }}" "bash -c 'sudo kubeadm upgrade apply \$(kubeadm version -o short) --yes --force'"
+    just log info "$(just style success 'Config applied. Restart kubelet manually to pick up node-level changes.')"
 
 [doc('Fetch kubeconfig from server')]
 kubeconfig:
@@ -62,7 +62,7 @@ upgrade version='':
         if gum confirm "Upgrade to $(just style info '{{ version }}' --bold)?" --default="No"; then \
             just log info "Upgrading to version {{ version }}..."; \
             gum spin --spinner dot --title "Applying upgrade..." -- \
-                ssh "{{ ssh_target }}" "sudo kubeadm upgrade apply {{ version }} --yes --config /home/brume/update.yaml" && \
+                ssh "{{ ssh_target }}" "sudo kubeadm upgrade apply {{ version }} --yes" && \
             just log info "$(just style success 'Upgrade complete.')"; \
             just log info "$(just style warning 'Remember to upgrade kubelet/kubectl packages manually.')"; \
         else \

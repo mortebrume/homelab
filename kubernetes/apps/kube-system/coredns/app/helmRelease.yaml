@@ -18,8 +18,11 @@ spec:
     serviceAccount:
       create: true
     service:
+      ipFamilyPolicy: "PreferDualStack"
       name: kube-dns
-      clusterIP: 10.40.0.10
+      clusterIPs:
+        - 10.40.0.10
+        - fd01::a
     servers:
       - zones:
           - zone: .
@@ -32,8 +35,6 @@ spec:
             configBlock: |-
               lameduck 5s
           - name: ready
-          - name: rewrite
-            parameters: name substring ldap.mortebrume.eu authentik-ldap.authentik.svc.cluster.local
           - name: kubernetes
             parameters: cluster.local in-addr.arpa ip6.arpa
             configBlock: |-
@@ -42,7 +43,7 @@ spec:
           - name: autopath
             parameters: "@kubernetes"
           - name: forward
-            parameters: . /etc/resolv.conf
+            parameters: . tls://1.1.1.1 tls://1.0.0.1 tls://2606:4700:4700::1111 tls://2606:4700:4700::1001
           - name: cache
             configBlock: |-
               prefetch 20
