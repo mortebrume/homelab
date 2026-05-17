@@ -15,9 +15,11 @@ rocksdb_compression_level = 32767
 rocksdb_bottommost_compression_level = 32767
 rocksdb_bottommost_compression = true
 
+# Perf tuning
+cache_capacity_modifier = 2.0
 max_request_size = 20971520
 
-# DNS Optimisation
+# DNS optimisation
 dns_cache_entries = 1_000_000
 dns_timeout = 60
 query_over_tcp_only = true
@@ -31,11 +33,10 @@ new_user_displayname_suffix = ""
 suspend_on_register = false
 
 # Harden
-allow_legacy_media = true
 allow_public_room_directory_over_federation = false
 lockdown_public_room_directory = true
 require_auth_for_profile_requests = true
-trusted_servers = ["bi-vibes.com", "codestorm.net"]
+trusted_servers = ["codestorm.net", "starstruck.systems", "unredacted.org"]
 
 [global.ldap]
 enable = true
