@@ -17,4 +17,5 @@ resources:
   - ./publish-k8s-dashboards/ks.yaml
   - ./publish-k8s-schemas/ks.yaml
   - ./silverbullet/ks.yaml
+  - ./sure/ks.yaml
   - ./webhook/ks.yaml

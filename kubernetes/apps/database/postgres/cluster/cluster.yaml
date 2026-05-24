@@ -152,3 +152,9 @@ spec:
         login: true
         superuser: false
         disablePassword: true
+
+      - name: sure
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
