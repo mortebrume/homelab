@@ -17,3 +17,4 @@ _.file = ["{{config_root}}/.secrets.env"]
 "aqua:mitsuhiko/minijinja" = "latest"
 "uv" = "latest"
 "pipx:flux-local" = "latest"
+"github:home-operations/flate" = "latest"
