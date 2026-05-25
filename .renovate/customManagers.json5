@@ -5,19 +5,19 @@
       customType: "regex",
       description: "Process annotated dependencies (value + optional digest)",
       managerFilePatterns: [
-        "\\.env(?:\\.j2)?$",
-        "\\.sh(?:\\.j2)?$",
-        "\\.ya?ml$",
+        "/\\.env(?:\\.j2)?$/",
+        "/\\.sh(?:\\.j2)?$/",
+        "/\\.ya?ml$/",
       ],
       matchStrings: [
         // # renovate: datasource=github-releases depName=foo/bar
         // foobar_version: v1.0.0
         // # renovate: datasource=docker depName=ghcr.io/foo/bar
         // FOOBAR_VERSION: v1.0.0@sha256:blabla
-        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s*\\n\\s*(?:\\w+[:=]\\s*)?[^:@\\s]+:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?",
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\\s*\\n\\s*\\w+\\s*[:=]\\s*[\"']?(?<currentValue>[^@\"'\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?[\"']?",
       ],
       datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
-      autoReplaceStringTemplate: "{{depName}}:{{#if newDigest}}{{{newDigest}}}{{else}}{{{newValue}}}{{/if}}",
+      versioningTemplate: "{{#if versioning}}{{{versioning}}}{{/if}}",
     },
     {
       customType: "regex",
