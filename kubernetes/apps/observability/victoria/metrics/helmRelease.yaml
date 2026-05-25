@@ -18,6 +18,11 @@ spec:
   values:
     nameOverride: vmks
 
+    defaultRules:
+      rules:
+        NodeMemoryHighUtilization:
+          create: false
+
     victoria-metrics-operator:
       enabled: false
 
@@ -163,6 +168,24 @@ spec:
                 expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
                 labels:
                   severity: critical
+      node-memory-zfs-rules:
+        groups:
+          - name: node-memory-zfs
+            rules:
+              # ZFS-ARC-aware replacement for the stock NodeMemoryHighUtilization.
+              # Adds reclaimable ARC (arc_size - arc_c_min) back to MemAvailable so
+              # cache that the kernel yields under pressure isn't counted as "used".
+              - alert: NodeMemoryHighUtilization
+                annotations:
+                  description: |
+                    Memory is filling up at {{ $labels.instance }}, has been above 90% for the last 15 minutes, is currently at {{ printf "%.2f" $value }}%. Reclaimable ZFS ARC is excluded from utilization.
+                  runbook_url: https://runbooks.prometheus-operator.dev/runbooks/node/nodememoryhighutilization
+                  summary: Host is running out of memory.
+                expr: |-
+                  (100 - ((node_memory_MemAvailable_bytes{job="node-exporter"} + node_zfs_arc_size{job="node-exporter"} - node_zfs_arc_c_min{job="node-exporter"}) / node_memory_MemTotal_bytes{job="node-exporter"} * 100)) > 90
+                for: 15m
+                labels:
+                  severity: warning
       zfs-rules:
         groups:
           - name: zfs
