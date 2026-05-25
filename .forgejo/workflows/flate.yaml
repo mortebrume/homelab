@@ -50,7 +50,7 @@ jobs:
           ref: ${{ forgejo.event.repository.default_branch }}
 
       - name: Install flate
-        uses: https://github.com/home-operations/flate/action@338bc690761d1c02d6a5d553a89486cb1d30b913 # 0.1.18
+        uses: https://github.com/home-operations/flate/action@2f9fea31061bc81dbc787ce15eb89efa46b735f6 # 0.1.21
         with:
           # renovate: datasource=github-tags depName=home-operations/flate
           version: 0.1.18
@@ -85,7 +85,7 @@ jobs:
           ref: ${{ forgejo.event.repository.default_branch }}
 
       - name: Install flate
-        uses: https://github.com/home-operations/flate/action@338bc690761d1c02d6a5d553a89486cb1d30b913 # 0.1.18
+        uses: https://github.com/home-operations/flate/action@2f9fea31061bc81dbc787ce15eb89efa46b735f6 # 0.1.21
         with:
           # renovate: datasource=github-tags depName=home-operations/flate
           version: 0.1.18
