@@ -1,0 +1,60 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive-crds
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/ai/toolhive/crds
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: ai
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive-operator
+spec:
+  dependsOn:
+    - name: toolhive-crds
+      namespace: ai
+  interval: 1h
+  path: ./kubernetes/apps/ai/toolhive/operator
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: ai
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: toolhive-config
+spec:
+  components:
+    - ../../../../components/oidc
+  dependsOn:
+    - name: toolhive-operator
+      namespace: ai
+  interval: 1h
+  path: ./kubernetes/apps/ai/toolhive/config
+  postBuild:
+    substitute:
+      APP: toolhive
+      NAMESPACE: ai
+      OIDC_CALLBACK: /oauth/callback
+      OIDC_DISABLE_PKCE: "true"
+      SUBDOMAIN: mcp
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: ai

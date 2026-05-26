@@ -1,0 +1,69 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/virtualmcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: VirtualMCPServer
+metadata:
+  name: mcp-gateway
+spec:
+  authServerConfig:
+    issuer: https://mcp.mortebrume.eu
+    hmacSecretRefs:
+      - name: vmcp-auth-server
+        key: hmacKey
+    signingKeySecretRefs:
+      - name: vmcp-auth-server
+        key: signingKey
+    tokenLifespans:
+      accessTokenLifespan: 1h
+      refreshTokenLifespan: 168h
+      authCodeLifespan: 10m
+    upstreamProviders:
+      - name: kanidm
+        type: oidc
+        oidcConfig:
+          issuerUrl: https://idm.mortebrume.eu/oauth2/openid/toolhive
+          clientId: toolhive
+          clientSecretRef:
+            name: kanidm-toolhive-oidc
+            key: client-secret
+          redirectUri: https://mcp.mortebrume.eu/oauth/callback
+          scopes:
+            - openid
+            - profile
+            - email
+  config:
+    aggregation:
+      conflictResolution: prefix
+      conflictResolutionConfig:
+        prefixFormat: "{workload}_"
+    operational:
+      failureHandling:
+        healthCheckInterval: 5m
+        statusReportingInterval: 5m
+  groupRef:
+    name: mcp-tools
+  incomingAuth:
+    type: oidc
+    oidcConfigRef:
+      name: external-oidc
+      audience: https://mcp.mortebrume.eu/mcp
+      resourceUrl: https://mcp.mortebrume.eu/mcp
+      scopes:
+        - openid
+        - profile
+        - email
+        - offline_access
+  outgoingAuth:
+    source: discovered
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: vmcp
+          env:
+            - name: INSECURE_DISABLE_URL_VALIDATION
+              value: "true"
+  sessionStorage:
+    provider: redis
+    address: dragonfly.database:6379
+  telemetryConfigRef:
+    name: vm

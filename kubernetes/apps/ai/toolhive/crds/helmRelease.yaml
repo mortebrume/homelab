@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: toolhive-crds
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: toolhive-crds
+  interval: 1h
