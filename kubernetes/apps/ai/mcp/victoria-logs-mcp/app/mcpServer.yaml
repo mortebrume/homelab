@@ -8,6 +8,8 @@ spec:
   image: ghcr.io/victoriametrics/mcp-victorialogs:v1.9.0
   transport: streamable-http
   mcpPort: 8081
+  toolConfigRef:
+    name: victoria-logs
   groupRef:
     name: mcp-tools
   permissionProfile:
