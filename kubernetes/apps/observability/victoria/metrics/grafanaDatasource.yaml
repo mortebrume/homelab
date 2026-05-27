@@ -9,14 +9,11 @@ spec:
     matchLabels:
       grafana.internal/instance: grafana
   datasource:
-    type: victoriametrics-metrics-datasource
+    type: prometheus
     name: victoriametrics
     access: proxy
     isDefault: true
     url: http://vmsingle-vmks.observability.svc.cluster.local:8428
-  plugins:
-    - name: victoriametrics-metrics-datasource
-      version: 0.24.0
 ---
 # yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadatasource_v1beta1.json
 apiVersion: grafana.integreatly.org/v1beta1
