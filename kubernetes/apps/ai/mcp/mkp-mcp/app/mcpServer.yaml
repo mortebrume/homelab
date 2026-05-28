@@ -5,7 +5,7 @@ kind: MCPServer
 metadata:
   name: mkp
 spec:
-  image: ghcr.io/stackloklabs/mkp/server:0.4.0
+  image: ghcr.io/stackloklabs/mkp/server:0.4.2
   transport: streamable-http
   mcpPort: 8080
   proxyPort: 8080
