@@ -53,7 +53,7 @@ jobs:
         uses: https://github.com/home-operations/flate/action@02a264ddeba1f36350b243b7ee4ff1af8497bfba # 0.1.28
         with:
           # renovate: datasource=github-tags depName=home-operations/flate
-          version: 0.1.28
+          version: 0.1.33
 
       - name: Run flate test
         run: flate test ${{ matrix.kind }} --path ./pull --path-orig ./default
@@ -88,7 +88,7 @@ jobs:
         uses: https://github.com/home-operations/flate/action@02a264ddeba1f36350b243b7ee4ff1af8497bfba # 0.1.28
         with:
           # renovate: datasource=github-tags depName=home-operations/flate
-          version: 0.1.28
+          version: 0.1.33
 
       - name: Run flate diff
         id: diff
