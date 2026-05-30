@@ -6,7 +6,7 @@ metadata:
   name: continuwuity
 spec:
   components:
-    - ../../../../components/volsync
+    - ../../../../components/volsync/cold
   interval: 1h
   path: ./kubernetes/apps/matrix/continuwuity/app
   postBuild:

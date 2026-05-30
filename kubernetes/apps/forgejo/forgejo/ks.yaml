@@ -9,7 +9,7 @@ spec:
     - ../../../../components/anubis
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync
+    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system

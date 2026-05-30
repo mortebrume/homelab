@@ -8,7 +8,7 @@ spec:
   components:
     - ../../../../components/oidc
     - ../../../../components/postgres/cert/
-    - ../../../../components/volsync
+    - ../../../../components/volsync/hot
   interval: 1h
   path: ./kubernetes/apps/selfhosted/gotosocial/server
   postBuild:

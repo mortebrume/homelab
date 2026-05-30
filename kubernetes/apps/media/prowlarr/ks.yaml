@@ -8,7 +8,7 @@ spec:
   components:
     - ../../../../components/oidc/envoy
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync
+    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system

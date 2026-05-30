@@ -6,7 +6,7 @@ metadata:
   name: jellyfin
 spec:
   components:
-    - ../../../../components/volsync
+    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
