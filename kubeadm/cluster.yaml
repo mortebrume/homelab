@@ -29,10 +29,6 @@ apiServer:
     - localhost
     - "::1"
   extraArgs:
-    - name: runtime-config
-      value: "admissionregistration.k8s.io/v1beta1=true"
-    - name: feature-gates
-      value: "MutatingAdmissionPolicy=true"
     - name: oidc-issuer-url
       value: "https://auth.mortebrume.eu/application/o/kubernetes/"
     - name: oidc-client-id
