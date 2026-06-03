@@ -1,0 +1,196 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: piefed
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: piefed
+  interval: 1h
+  values:
+    controllers:
+      piefed:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: &image
+              repository: registry.mortebrume.eu/piefed
+              tag: v1.6.27-0190602@sha256:b541b8f7a56694fe5c6a4a0765c3787dcad8f667218e00c1f153ff65dabfa22d
+            env: &env
+              CACHE_TYPE: RedisCache
+              CACHE_REDIS_URL: redis://dragonfly.database.svc:6379/9
+              CELERY_BROKER_URL: redis://dragonfly.database.svc:6379/10
+              DATABASE_URL: postgresql+psycopg2://piefed@pooler-rw.database.svc/piefed
+              GUNICORN_CMD_ARGS: --workers=2
+              NOTIF_SERVER: https://cie.mortebrume.eu
+              PGSSLCERT: /var/run/secrets/postgresql/tls.crt
+              PGSSLKEY: /var/run/secrets/postgresql/tls.key
+              PGSSLROOTCERT: /var/run/secrets/root-ca/ca.crt
+              PGSSLMODE: verify-full
+              SERVER_NAME: cie.mortebrume.eu
+            envFrom: &envFrom
+              - secretRef:
+                  name: piefed
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 5000
+                  periodSeconds: 30
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 5000
+                  periodSeconds: 15
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 5000
+                  periodSeconds: 10
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+          celery:
+            image: *image
+            command:
+              - /usr/bin/catatonit
+              - --
+              - celery
+              - -A
+              - celery_worker_docker.celery
+              - worker
+              - --concurrency=2
+              - --queues=celery,background,send
+            env: *env
+            envFrom: *envFrom
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 3Gi
+            securityContext: *securityContext
+          notifs:
+            image: *image
+            command:
+              - /usr/bin/catatonit
+              - --
+              - ./entrypoint_async.sh
+            env: *env
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8000
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8000
+                  initialDelaySeconds: 15
+                  periodSeconds: 15
+            resources:
+              requests:
+                cpu: 25m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            securityContext: *securityContext
+          cron:
+            image: *image
+            command:
+              - /usr/bin/catatonit
+              - --
+              - supercronic
+              - /app/crontab/crontab
+            envFrom: *envFrom
+            env: *env
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                memory: 384Mi
+            securityContext: *securityContext
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+    persistence:
+      crontab:
+        type: configMap
+        name: piefed-crontab
+        advancedMounts:
+          piefed:
+            cron:
+              - path: /app/crontab
+    route:
+      app:
+        parentRefs:
+          - name: envoy-external
+            namespace: network
+          - name: envoy-internal
+            namespace: network
+        hostnames:
+          - cie.mortebrume.eu
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /notifications
+            backendRefs:
+              - identifier: notifs
+                port: 8000
+          - backendRefs:
+              - name: piefed-anubis
+                port: 8080
+            filters:
+              - cors:
+                  allowOrigins:
+                    - "*"
+                  allowHeaders:
+                    - "*"
+                  allowMethods:
+                    - "*"
+                  maxAge: 86400
+                type: CORS
+            timeouts:
+              request: 300s
+    service:
+      app:
+        controller: piefed
+        forceRename: piefed
+        ports:
+          http:
+            port: 5000
+      notifs:
+        controller: piefed
+        ports:
+          http:
+            port: 8000

@@ -16,6 +16,7 @@ resources:
   - ./paperless/ks.yaml
   # - ./publish-k8s-dashboards/ks.yaml
   # - ./publish-k8s-schemas/ks.yaml
+  - ./piefed/ks.yaml
   - ./silverbullet/ks.yaml
   - ./sure/ks.yaml
   - ./webhook/ks.yaml

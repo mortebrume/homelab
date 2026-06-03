@@ -1,0 +1,4 @@
+5 2 * * * flask daily-maintenance
+5 4 * * 1 flask remove_orphan_files
+1 */6 * * * flask send_missed_notifs && flask clean_up_old_activities
+* * * * * flask send-queue

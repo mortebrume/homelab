@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: piefed
+spec:
+  components:
+    - ../../../../components/anubis
+    - ../../../../components/postgres/cert
+  interval: 1h
+  path: ./kubernetes/apps/selfhosted/piefed/server
+  postBuild:
+    substitute:
+      APP: piefed
+      ANUBIS_TARGET: http://piefed.selfhosted.svc:5000
+      NAMESPACE: selfhosted
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: selfhosted

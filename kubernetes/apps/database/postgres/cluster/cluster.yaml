@@ -129,6 +129,12 @@ spec:
         superuser: false
         disablePassword: true
 
+      - name: piefed
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
       - name: pooler-rw
         ensure: present
         login: true
