@@ -14,4 +14,4 @@ _.file = ["{{config_root}}/.secrets.env"]
 "uv" = "latest"
 "pipx:flux-local" = "latest"
 "github:home-operations/flate" = "latest"
-"github:home-operations/yayamlls" = "0.0.13"
+"github:home-operations/yayamlls" = "0.0.14"
