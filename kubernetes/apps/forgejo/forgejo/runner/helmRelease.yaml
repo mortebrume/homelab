@@ -27,7 +27,7 @@ spec:
         containers:
           k8s-plugin:
             image:
-              repository: git.erwanleboucher.dev/eleboucher/runner-k8s-plugin
+              repository: registry.mortebrume.eu/erwanleboucher.dev/eleboucher/runner-k8s-plugin
               tag: 12.10.4
             args:
               - --listen
@@ -44,7 +44,7 @@ spec:
               capabilities: {drop: ["ALL"]}
           runner:
             image:
-              repository: git.erwanleboucher.dev/eleboucher/runner
+              repository: registry.mortebrume.eu/erwanleboucher.dev/eleboucher/runner
               tag: 12.10.2
             command:
               - sh
