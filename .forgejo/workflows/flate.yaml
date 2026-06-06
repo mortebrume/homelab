@@ -40,7 +40,7 @@ jobs:
           persist-credentials: false
 
       - name: Install flate
-        uses: https://github.com/home-operations/flate/action@ff3803f19b3e933da5a90085e275def2d89ef17e # 0.2.6
+        uses: https://github.com/home-operations/flate/action@13917764cfe2966e22510118ccf2f77d3c4d74ba # 0.2.12
 
       - name: Run flate test
         run: flate test all --base ${{ forgejo.event.repository.default_branch }}
