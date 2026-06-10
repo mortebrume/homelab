@@ -153,7 +153,7 @@ spec:
       rootless: true
       registry: registry.mortebrume.eu
       repository: forgejo-dotgay
-      tag: 15.0.2-rootless
+      tag: 15.0.3-rootless
     persistence:
       create: false
       claimName: forgejo
