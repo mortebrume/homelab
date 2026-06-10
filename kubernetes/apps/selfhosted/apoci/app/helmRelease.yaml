@@ -18,11 +18,6 @@ spec:
               repository: registry.erwanleboucher.dev/eleboucher/apoci
               tag: 0.0.43@sha256:28c8c355c7241ba168da2dc1942c1b9273fa6642c0ebb358fb3d8bd14772b961
             env:
-              APOCI_ACCOUNT_DOMAIN: mortebrume.eu
-              APOCI_DATA_DIR: /data
-              APOCI_DB_DRIVER: postgres
-              APOCI_ENDPOINT: https://registry.mortebrume.eu
-              APOCI_FEDERATION_AUTO_ACCEPT: mutual
               APOCI_DB_DSN:
                 valueFrom:
                   secretKeyRef:
@@ -90,6 +85,12 @@ spec:
           - name: envoy-external
             namespace: network
     persistence:
+      config:
+        type: configMap
+        name: apoci-config
+        globalMounts:
+          - path: /apoci/config/apoci.yaml
+            subPath: apoci.yaml
       data:
         accessMode: ReadWriteOnce
         size: 15Gi

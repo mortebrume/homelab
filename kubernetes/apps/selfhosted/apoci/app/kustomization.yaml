@@ -6,3 +6,11 @@ resources:
   - ./externalSecret.yaml
   - ./helmRelease.yaml
   - ./ociRepository.yaml
+configMapGenerator:
+  - name: apoci-config
+    files:
+      - apoci.yaml=./resources/config.yaml
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
