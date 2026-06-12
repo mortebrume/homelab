@@ -29,18 +29,8 @@ apiServer:
     - localhost
     - "::1"
   extraArgs:
-    - name: oidc-issuer-url
-      value: "https://auth.mortebrume.eu/application/o/kubernetes/"
-    - name: oidc-client-id
-      value: "kubernetes"
-    - name: oidc-username-claim
-      value: "email"
-    - name: oidc-groups-claim
-      value: "groups"
-    - name: oidc-username-prefix
-      value: "oidc:"
-    - name: oidc-groups-prefix
-      value: "oidc:"
+    - name: event-ttl
+      value: 3h0m0s
 controllerManager:
   extraArgs:
     - name: bind-address
