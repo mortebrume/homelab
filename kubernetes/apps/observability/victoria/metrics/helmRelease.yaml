@@ -19,6 +19,11 @@ spec:
     nameOverride: vmks
 
     defaultRules:
+      groups:
+        # Idle single-node scheduler -> all-zero rate() -> histogram_quantile
+        # yields no samples -> perpetual RecordingRulesNoData flapping.
+        kubeScheduler:
+          create: false
       rules:
         NodeMemoryHighUtilization:
           create: false
