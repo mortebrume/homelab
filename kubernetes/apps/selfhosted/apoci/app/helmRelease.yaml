@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: registry.erwanleboucher.dev/eleboucher/apoci
-              tag: 0.0.45@sha256:1efddadc73eeaf717c749d5fe43e6b6233e66d61444397a9ce0a9c782e2f86b9
+              tag: 0.0.46@sha256:aabcb8d56c66076c7989e56393bf6160686723e17fd638c5ec275f7bb1fbef30
             env:
               APOCI_DB_DSN:
                 valueFrom:
