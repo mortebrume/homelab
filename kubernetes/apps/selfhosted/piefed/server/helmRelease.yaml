@@ -25,7 +25,7 @@ spec:
               CELERY_BROKER_URL: redis://dragonfly.database.svc:6379/10
               DATABASE_URL: postgresql+psycopg2://piefed@pooler-rw.database.svc/piefed
               ENABLE_ALPHA_API: true
-              GUNICORN_CMD_ARGS: --workers=2
+              GUNICORN_CMD_ARGS: --workers=1 --threads=4
               NOTIF_SERVER: https://cie.mortebrume.eu
               PGSSLCERT: /var/run/secrets/postgresql/tls.crt
               PGSSLKEY: /var/run/secrets/postgresql/tls.key
@@ -64,7 +64,7 @@ spec:
                 cpu: 100m
                 memory: 256Mi
               limits:
-                memory: 2Gi
+                memory: 1Gi
             securityContext: &securityContext
               allowPrivilegeEscalation: false
               capabilities: {drop: ["ALL"]}
@@ -77,8 +77,10 @@ spec:
               - -A
               - celery_worker_docker.celery
               - worker
-              - --concurrency=2
+              - --concurrency=1
               - --queues=celery,background,send
+              - --max-tasks-per-child=100
+              - --max-memory-per-child=300000
             env: *env
             envFrom: *envFrom
             resources:
@@ -86,7 +88,7 @@ spec:
                 cpu: 100m
                 memory: 256Mi
               limits:
-                memory: 3Gi
+                memory: 1Gi
             securityContext: *securityContext
           notifs:
             image: *image
@@ -134,7 +136,7 @@ spec:
                 cpu: 25m
                 memory: 64Mi
               limits:
-                memory: 384Mi
+                memory: 512Mi
             securityContext: *securityContext
     defaultPodOptions:
       securityContext:
