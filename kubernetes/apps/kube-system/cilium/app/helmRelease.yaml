@@ -62,7 +62,7 @@ spec:
       replicas: 1
       rollOutPods: true
     pmtuDiscovery:
-      enabled: false
+      enabled: true
     prometheus:
       enabled: true
       serviceMonitor:
