@@ -37,7 +37,7 @@
       automerge: true,
       matchUpdateTypes: ["minor", "patch"],
       matchPackageNames: [
-        "ghcr.io/renovatebot/renovate",
+        // "ghcr.io/renovatebot/renovate",
         "ghcr.io/emberstack/helm-charts/reflector",
         "ghcr.io/mogenius/helm-charts/renovate-operator",
         "ghcr.io/stakater/charts/reloader",
