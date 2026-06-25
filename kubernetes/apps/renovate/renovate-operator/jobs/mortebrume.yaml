@@ -15,12 +15,14 @@ spec:
       value: "['pnpm run bundle']"
     - name: RENOVATE_BASE_DIR
       value: /data
-    - name: RENOVATE_BRANCH_PREFIX
+    - name: RENOVATE_BRANCH_PR EFIX
       value: renovate-
     - name: RENOVATE_REDIS_URL
       value: "redis://dragonfly.database.svc:6379/4"
     - name: RENOVATE_REPOSITORY_CACHE
       value: "enabled"
+    - name: RENOVATE_GIT_AUTHOR
+      value: mistgazer[bot] <211370388+mistgazer[bot]@users.noreply.github.com>
   extraVolumes:
     - name: renovate-data
       persistentVolumeClaim:
