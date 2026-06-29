@@ -15,7 +15,7 @@ spec:
       value: "['pnpm run bundle']"
     - name: RENOVATE_BASE_DIR
       value: /data
-    - name: RENOVATE_BRANCH_PR EFIX
+    - name: RENOVATE_BRANCH_PREFIX
       value: renovate-
     - name: RENOVATE_REDIS_URL
       value: "redis://dragonfly.database.svc:6379/4"
@@ -28,7 +28,7 @@ spec:
   extraVolumeMounts:
     - name: renovate-data
       mountPath: /data
-  image: ghcr.io/renovatebot/renovate:43.222.1
+  image: ghcr.io/renovatebot/renovate:43.247.0
   parallelism: 5
   provider:
     name: forgejo
