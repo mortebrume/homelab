@@ -42,7 +42,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -126,7 +126,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "rate(toolhive_mcp_request_duration_seconds_count{job=\"ai/mcp-gateway\"}[5m])",
@@ -141,7 +141,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -225,7 +225,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum by (pod) (container_memory_working_set_bytes{namespace=\"ai\", pod=~\"mcp-gateway.*\", container=\"vmcp\"})",
@@ -241,7 +241,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -325,7 +325,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "max by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"ai\", pod=~\"mcp-gateway.*\", container=\"vmcp\"}[5m])) * 100",
@@ -341,7 +341,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -425,7 +425,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.95, rate(toolhive_mcp_request_duration_seconds_bucket{job=\"ai/mcp-gateway\"}[5m])) * 1000",
@@ -436,7 +436,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "histogram_quantile(0.50, rate(toolhive_mcp_request_duration_seconds_bucket{job=\"ai/mcp-gateway\"}[5m])) * 1000",
@@ -451,7 +451,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -506,7 +506,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum(rate(toolhive_mcp_request_duration_seconds_count{job=\"ai/mcp-gateway\"}[5m]))",
@@ -521,7 +521,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -580,7 +580,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "sum(rate(toolhive_mcp_request_duration_seconds_count{job=\"ai/mcp-gateway\",status!=\"success\"}[5m])) / sum(rate(toolhive_mcp_request_duration_seconds_count{job=\"ai/mcp-gateway\"}[5m]))",
@@ -595,7 +595,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -679,7 +679,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "toolhive_mcp_active_connections{job=\"ai/mcp-gateway\"}",
@@ -694,7 +694,7 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "$${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -778,7 +778,7 @@ spec:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "$${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "go_goroutines{job=\"ai/mcp-gateway\"}",

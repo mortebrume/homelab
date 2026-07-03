@@ -24,7 +24,7 @@ spec:
       DISPLAY_NAME: ${OIDC_DISPLAY_NAME:=${NAME:=${APP}}}
       ORIGIN: ${OIDC_ORIGIN:=/}
       CALLBACK: ${OIDC_CALLBACK:=/oauth2/callback}
-      EXTRA_CALLBACKS: ${q:='}${OIDC_EXTRA_CALLBACKS}${q:='}
+      EXTRA_CALLBACKS: ${q:='}${OIDC_EXTRA_CALLBACKS:=}${q:='}
 
       PUBLIC: ${q:="}${OIDC_PUBLIC_CLIENT:=false}${q:="}
       SHORT_USERNAME: ${q:="}${OIDC_SHORT_USERNAME:=false}${q:="}
@@ -34,11 +34,11 @@ spec:
       REDIRECT_URL: ${q:="}${OIDC_REDIRECT_URL:=true}${q:="}
 
       GROUP: ${OIDC_GROUP:=users}
-      SCOPES: ${q:='}${OIDC_SCOPES}${q:='}
+      SCOPES: ${q:='}${OIDC_SCOPES:=}${q:='}
 
-      SUP_SCOPE_MAPS: ${q:='}${OIDC_SUP_SCOPE_MAPS}${q:='}
-      CLAIM_MAPS: ${q:='}${OIDC_CLAIM_MAPS}${q:='}
-      CUSTOM_STATE: ${q:='}${OIDC_CUSTOM_STATE}${q:='}
+      SUP_SCOPE_MAPS: ${q:='}${OIDC_SUP_SCOPE_MAPS:=}${q:='}
+      CLAIM_MAPS: ${q:='}${OIDC_CLAIM_MAPS:=}${q:='}
+      CUSTOM_STATE: ${q:='}${OIDC_CUSTOM_STATE:=}${q:='}
 
       CLIENT_ID_KEY: ${OIDC_CLIENT_ID_KEY:=client-id}
       CLIENT_SECRET_KEY: ${OIDC_CLIENT_SECRET_KEY:=client-secret}
