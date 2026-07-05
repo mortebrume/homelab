@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kopiur
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kopiur
+  interval: 1h
+  values:
+    features:
+      credentialProjection:
+        enabled: true
+      kopiaUi:
+        enabled: true
+    grafanaDashboard:
+      enabled: true
+      grafanaOperator:
+        enabled: true
+        matchLabels:
+          grafana.internal/instance: grafana
+    installScope: cluster
+    metrics:
+      prometheusRule:
+        enabled: true
+      serviceMonitor:
+        enabled: true
+    podSecurityContext:
+      fsGroup: 1000
+      fsGroupChangePolicy: OnRootMismatch
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      seccompProfile:
+        type: RuntimeDefault
+    webhook:
+      serviceMonitor:
+        enabled: true
