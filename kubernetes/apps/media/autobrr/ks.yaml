@@ -6,6 +6,7 @@ metadata:
   name: autobrr
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
     - ../../../../components/volsync/hot

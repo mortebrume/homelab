@@ -6,6 +6,7 @@ metadata:
   name: jellyfin
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
@@ -17,6 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: jellyfin
+      KOPIUR_PVC: jellyfin-config
       VOLSYNC_CLAIM: jellyfin-config
   prune: true
   sourceRef:

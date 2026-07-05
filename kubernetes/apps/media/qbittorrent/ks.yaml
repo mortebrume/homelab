@@ -6,6 +6,7 @@ metadata:
   name: qbittorrent
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/oidc/envoy
     - ../../../../components/volsync/hot
   dependsOn:
@@ -18,6 +19,7 @@ spec:
   postBuild:
     substitute:
       APP: qbittorrent
+      KOPIUR_CAPACITY: 2Gi
       NAMESPACE: media
       OIDC_DISPLAY_NAME: qBittorrent
       OIDC_GROUP: admins

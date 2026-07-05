@@ -6,6 +6,7 @@ metadata:
   name: recyclarr
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
@@ -15,6 +16,7 @@ spec:
   postBuild:
     substitute:
       APP: recyclarr
+      KOPIUR_CAPACITY: 1Gi
       VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:

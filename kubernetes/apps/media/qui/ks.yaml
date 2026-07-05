@@ -6,6 +6,7 @@ metadata:
   name: qui
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/volsync/hot
   dependsOn:
@@ -18,6 +19,7 @@ spec:
   postBuild:
     substitute:
       APP: qui
+      KOPIUR_CAPACITY: 2Gi
       NAMESPACE: media
       OIDC_CALLBACK: /api/auth/oidc/callback
       OIDC_GROUP: admins

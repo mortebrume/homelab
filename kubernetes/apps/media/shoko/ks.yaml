@@ -6,6 +6,7 @@ metadata:
   name: shoko
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
@@ -15,6 +16,7 @@ spec:
   postBuild:
     substitute:
       APP: shoko
+      KOPIUR_PVC: shoko-config
       VOLSYNC_CLAIM: shoko-config
   prune: true
   sourceRef:

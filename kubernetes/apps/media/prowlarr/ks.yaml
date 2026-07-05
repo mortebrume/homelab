@@ -6,6 +6,7 @@ metadata:
   name: prowlarr
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/oidc/envoy
     - ../../../../components/postgres/cert
     - ../../../../components/volsync/hot
@@ -17,6 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: prowlarr
+      KOPIUR_CAPACITY: 1Gi
       NAMESPACE: media
       OIDC_DISPLAY_NAME: Prowlarr
       OIDC_GROUP: admins

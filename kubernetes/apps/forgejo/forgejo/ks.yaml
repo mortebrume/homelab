@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../../components/anubis
+    - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
     - ../../../../components/volsync/hot
@@ -19,6 +20,7 @@ spec:
     substitute:
       APP: forgejo
       ANUBIS_TARGET: "http://forgejo-http.forgejo.svc:3000"
+      KOPIUR_CAPACITY: 20Gi
       NAMESPACE: forgejo
       OIDC_CALLBACK: /user/oauth2/kanidm/callback
       OIDC_CLIENT_ID_KEY: key

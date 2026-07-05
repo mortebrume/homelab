@@ -6,6 +6,7 @@ metadata:
   name: silverbullet
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/oidc/envoy
     - ../../../../components/volsync/hot
   dependsOn:
@@ -16,6 +17,7 @@ spec:
   postBuild:
     substitute:
       APP: silverbullet
+      KOPIUR_CAPACITY: 10Gi
       NAMESPACE: selfhosted
       OIDC_DISPLAY_NAME: Silverbullet
       OIDC_GROUP: admins

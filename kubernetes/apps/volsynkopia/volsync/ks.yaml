@@ -19,22 +19,3 @@ spec:
     namespace: flux-system
   targetNamespace: volsynkopia
   wait: true
----
-# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: volsync-maintenance
-spec:
-  dependsOn:
-    - name: volsync
-      namespace: volsynkopia
-  interval: 1h
-  path: ./kubernetes/apps/volsynkopia/volsync/maintenance
-  prune: true
-  sourceRef:
-    kind: OCIRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: volsynkopia
-  wait: false

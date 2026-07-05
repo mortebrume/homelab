@@ -6,6 +6,7 @@ metadata:
   name: karakeep
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/volsync/hot
   dependsOn:
