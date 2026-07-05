@@ -9,7 +9,6 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc/envoy
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -23,7 +22,6 @@ spec:
       OIDC_DISPLAY_NAME: Prowlarr
       OIDC_GROUP: admins
       OIDC_SCOPES: '["openid", "profile"]'
-      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: OCIRepository

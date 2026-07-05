@@ -10,7 +10,6 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -29,7 +28,6 @@ spec:
       OIDC_SCOPES: '["openid", "profile", "email", "groups", "ssh_publickeys"]'
       OIDC_SHORT_USERNAME: "true"
       SUBDOMAIN: code
-      VOLSYNC_CAPACITY: 20Gi
   prune: true
   sourceRef:
     kind: OCIRepository

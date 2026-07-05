@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur
-    - ../../../../components/volsync/cold
   interval: 1h
   path: ./kubernetes/apps/matrix/continuwuity/app
   postBuild:
@@ -15,8 +14,6 @@ spec:
       APP: continuwuity
       KOPIUR_CAPACITY: 10Gi
       KOPIUR_STORAGECLASS: zfs-pv-db
-      VOLSYNC_CAPACITY: 10Gi
-      VOLSYNC_STORAGECLASS: zfs-pv-db
   prune: true
   sourceRef:
     kind: OCIRepository

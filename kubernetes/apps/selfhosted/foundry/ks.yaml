@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -17,8 +16,6 @@ spec:
     substitute:
       APP: foundry
       KOPIUR_CAPACITY: 20Gi
-      VOLSYNC_CAPACITY: 20Gi
-      VOLSYNC_DAILY_RETENTION: "2"
   prune: true
   sourceRef:
     kind: OCIRepository

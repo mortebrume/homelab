@@ -9,7 +9,6 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -24,7 +23,6 @@ spec:
       OIDC_DISPLAY_NAME: Mealie
       OIDC_LEGACY_CRYPTO: "true"
       OIDC_SHORT_USERNAME: "true"
-      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: OCIRepository

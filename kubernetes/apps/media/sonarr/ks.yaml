@@ -9,7 +9,6 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc/envoy
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system

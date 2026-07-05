@@ -8,7 +8,6 @@ spec:
   components:
     - ../../../../components/kopiur
     - ../../../../components/oidc/envoy
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -25,7 +24,6 @@ spec:
       OIDC_GROUP: admins
       OIDC_SCOPES: '["openid", "profile"]'
       SUBDOMAIN: qbittorrent
-      VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
     kind: OCIRepository

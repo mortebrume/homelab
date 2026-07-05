@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -17,7 +16,6 @@ spec:
     substitute:
       APP: recyclarr
       KOPIUR_CAPACITY: 1Gi
-      VOLSYNC_CAPACITY: 1Gi
   prune: true
   sourceRef:
     kind: OCIRepository

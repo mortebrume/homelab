@@ -9,7 +9,6 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
-    - ../../../../components/volsync/hot
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:
@@ -21,7 +20,6 @@ spec:
       OIDC_DISPLAY_NAME: Paperless
       OIDC_IMAGE_NAME: paperless-ngx
       SUBDOMAIN: docs
-      VOLSYNC_CAPACITY: 15Gi
   prune: true
   sourceRef:
     kind: OCIRepository

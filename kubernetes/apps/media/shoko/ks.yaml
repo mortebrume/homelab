@@ -7,7 +7,6 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -17,7 +16,6 @@ spec:
     substitute:
       APP: shoko
       KOPIUR_PVC: shoko-config
-      VOLSYNC_CLAIM: shoko-config
   prune: true
   sourceRef:
     kind: OCIRepository

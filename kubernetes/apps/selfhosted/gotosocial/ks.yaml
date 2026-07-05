@@ -9,7 +9,6 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert/
-    - ../../../../components/volsync/hot
   interval: 1h
   path: ./kubernetes/apps/selfhosted/gotosocial/server
   postBuild:
@@ -21,7 +20,6 @@ spec:
       OIDC_DISABLE_PKCE: "true"
       OIDC_DISPLAY_NAME: GoToSocial
       SUBDOMAIN: social
-      VOLSYNC_CAPACITY: 10Gi
   prune: true
   sourceRef:
     kind: OCIRepository

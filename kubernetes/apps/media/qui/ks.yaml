@@ -8,7 +8,6 @@ spec:
   components:
     - ../../../../components/kopiur
     - ../../../../components/oidc
-    - ../../../../components/volsync/hot
   dependsOn:
     - name: openebs
       namespace: openebs-system
@@ -26,7 +25,6 @@ spec:
       OIDC_LEGACY_CRYPTO: "true"
       OIDC_SHORT_USERNAME: "true"
       SUBDOMAIN: torrent
-      VOLSYNC_CAPACITY: 2Gi
   prune: true
   sourceRef:
     kind: OCIRepository
