@@ -9,3 +9,4 @@ spec:
     name: "${APP}"
   schedule:
     cron: H * * * *
+    jitter: 5m
