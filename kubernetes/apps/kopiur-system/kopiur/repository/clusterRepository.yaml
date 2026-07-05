@@ -16,6 +16,8 @@ spec:
       bucket: homelab
       endpoint: 90ff6e0c7550a1d9899554d31f77ed04.r2.cloudflarestorage.com
       region: auto
+  catalog:
+    periodicRefresh: true
   credentialProjection:
     allowed: true
   encryption:
