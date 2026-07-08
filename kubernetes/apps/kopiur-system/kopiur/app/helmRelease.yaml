@@ -15,14 +15,14 @@ spec:
         enabled: true
       kopiaUi:
         enabled: true
-    grafanaDashboard:
-      enabled: true
-      grafanaOperator:
-        enabled: true
-        matchLabels:
-          grafana.internal/instance: grafana
     installScope: cluster
-    metrics:
+    monitoring:
+      dashboards:
+        enabled: true
+        grafanaOperator:
+          enabled: true
+          matchLabels:
+            grafana.internal/instance: grafana
       prometheusRule:
         enabled: true
       serviceMonitor:
