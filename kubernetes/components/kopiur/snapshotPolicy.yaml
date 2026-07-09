@@ -5,6 +5,8 @@ kind: SnapshotPolicy
 metadata:
   name: "${APP}"
 spec:
+  compression:
+    compressor: zstd
   credentialProjection:
     enabled: true
   repository:
