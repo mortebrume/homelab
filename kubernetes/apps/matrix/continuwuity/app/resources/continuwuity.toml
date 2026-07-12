@@ -38,19 +38,6 @@ lockdown_public_room_directory = true
 require_auth_for_profile_requests = true
 trusted_servers = ["codestorm.net", "starstruck.systems", "unredacted.org"]
 
-[global.ldap]
-enable = true
-ldap_only = false
-disable_tls_verification = true
-uri = "ldaps://kanidm.kanidm.svc.cluster.local:3636"
-base_dn = "dc=idm,dc=mortebrume,dc=eu"
-bind_dn = "dn=token"
-bind_password_file = "/secrets/ldap-bind-password"
-filter = "(memberOf=spn=users@idm.mortebrume.eu,dc=idm,dc=mortebrume,dc=eu)"
-admin_filter = "(memberOf=spn=admins@idm.mortebrume.eu,dc=idm,dc=mortebrume,dc=eu)"
-uid_attribute = "displayname"
-name_attribute = "displayname"
-
 [global.well_known]
 client = "https://matrix.mortebrume.eu"
 server = "matrix.mortebrume.eu:443"
