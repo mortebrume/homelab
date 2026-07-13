@@ -12,4 +12,4 @@ _.file = ["{{config_root}}/.secrets.env"]
 "aqua:mitsuhiko/minijinja" = "latest"
 "uv" = "latest"
 "github:home-operations/flate" = "latest"
-"github:home-operations/yayamlls" = "0.1.12"
+"github:home-operations/yayamlls" = "0.1.13"
