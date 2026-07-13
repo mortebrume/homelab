@@ -12,5 +12,8 @@ configMapGenerator:
   - name: continuwuity-configmap
     files:
       - continuwuity.toml=./resources/continuwuity.toml
+  - name: unbound-configmap
+    files:
+      - unbound.conf=./resources/unbound.conf
 generatorOptions:
   disableNameSuffixHash: true
