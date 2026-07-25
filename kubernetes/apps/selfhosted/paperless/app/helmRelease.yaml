@@ -37,6 +37,7 @@ spec:
               PAPERLESS_ACCOUNT_ALLOW_SIGNUPS: "false"
               PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "true"
               PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
+              S6_YES_I_WANT_A_WORLD_WRITABLE_RUN_BECAUSE_KUBERNETES: "1"
               USERMAP_GID: "1000"
               USERMAP_UID: "1000"
             envFrom:
