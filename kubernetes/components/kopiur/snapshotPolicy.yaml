@@ -14,7 +14,6 @@ spec:
     name: ${KOPIUR_REPOSITORY:=cloudflare}
   retention:
     keepDaily: 7
-    keepHourly: 24
   sources:
     - pvc:
         name: ${KOPIUR_PVC:=${APP}}
