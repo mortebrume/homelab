@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur
+    - ../../../../components/oidc
   interval: 1h
   path: ./kubernetes/apps/matrix/continuwuity/app
   postBuild:
@@ -14,6 +15,10 @@ spec:
       APP: continuwuity
       KOPIUR_CAPACITY: 10Gi
       KOPIUR_STORAGECLASS: zfs-pv-db
+      NAMESPACE: matrix
+      OIDC_CALLBACK: /_continuwuity/oidc/complete
+      OIDC_DISPLAY_NAME: Continuwuity
+      SUBDOMAIN: matrix
   prune: true
   sourceRef:
     kind: OCIRepository

@@ -38,6 +38,12 @@ lockdown_public_room_directory = true
 require_auth_for_profile_requests = true
 trusted_servers = ["codestorm.net", "starstruck.systems", "unredacted.org"]
 
+[global.oauth.oidc]
+discovery_url = "https://idm.mortebrume.eu/oauth2/openid/continuwuity"
+client_id = "continuwuity"
+client_secret_file = "/etc/continuwuity/oidc_secret"
+prompt_for_localpart = true
+
 [global.well_known]
 client = "https://matrix.mortebrume.eu"
 server = "matrix.mortebrume.eu:443"

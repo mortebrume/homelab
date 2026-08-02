@@ -160,6 +160,15 @@ spec:
           continuwuity:
             app:
               - path: /backups
+      oidc:
+        type: secret
+        name: kanidm-continuwuity-oidc
+        advancedMounts:
+          continuwuity:
+            app:
+              - path: /etc/continuwuity/oidc_secret
+                subPath: client-secret
+                readOnly: true
       config:
         type: configMap
         name: continuwuity-configmap
