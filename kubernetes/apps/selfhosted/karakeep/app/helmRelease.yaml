@@ -70,13 +70,13 @@ spec:
             image:
               repository: ghcr.io/karakeep-app/karakeep-chrome
               tag: 151.0.7922.47-r1@sha256:5b19bbb160e9ff60681a3abd97e1c4ec9f64212301410de658c3900ab7ef31e7
-            command:
-              - chromium-browser
             args:
               - --headless
               - --disable-gpu
               - --disable-dev-shm-usage
               - --hide-scrollbars
+              - --disable-blink-features=AutomationControlled
+              - --window-size=1440,900
             resources:
               requests:
                 cpu: 10m
