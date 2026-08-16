@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: dock.mau.dev/mautrix/slack
-              tag: v26.07@sha256:36e05f31f6c6e74385766cb3bda620f6082b936c0f7ec3415157a2cdf2f3a773
+              tag: v26.08@sha256:77610eaaaa368829bcc3b78b8c79bb981832803a903991a48c6b9d2d70ff243d
             command:
               - "/usr/bin/mautrix-slack"
             args:
