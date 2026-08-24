@@ -30,10 +30,6 @@ spec:
       mountPath: /data
   image: ghcr.io/renovatebot/renovate:44.39.3
   parallelism: 5
-  policy:
-    enabled: true
-    allowedHosts:
-      - code.mortebrume.eu
   provider:
     name: forgejo
     endpoint: https://code.mortebrume.eu/api/v1

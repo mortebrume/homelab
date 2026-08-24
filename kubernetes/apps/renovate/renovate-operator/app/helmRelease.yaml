@@ -17,6 +17,10 @@ spec:
         enabled: true
       dashboard:
         enabled: true
+    policy:
+      enabled: true
+      allowedHosts:
+        - code.mortebrume.eu
     route:
       enabled: true
       hostnames:
