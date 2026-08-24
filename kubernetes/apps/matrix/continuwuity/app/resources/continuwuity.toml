@@ -38,6 +38,9 @@ lockdown_public_room_directory = true
 require_auth_for_profile_requests = true
 trusted_servers = ["codestorm.net", "starstruck.systems", "unredacted.org"]
 
+[global.oauth]
+compatibility_mode = "hybrid"
+
 [global.oauth.oidc]
 discovery_url = "https://idm.mortebrume.eu/oauth2/openid/continuwuity"
 client_id = "continuwuity"
