@@ -5,8 +5,17 @@ kind: Kustomization
 metadata:
   name: blocky
 spec:
+  components:
+    - ../../../../components/postgres/cert
   interval: 1h
   path: ./kubernetes/apps/network/blocky/app
+  postBuild:
+    substitute:
+      APP: blocky
+      DATABASE_EXTENSIONS: |
+        [
+          { name: timescaledb }
+        ]
   prune: true
   sourceRef:
     kind: OCIRepository
