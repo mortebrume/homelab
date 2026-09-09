@@ -1,0 +1,108 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: blocky
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: blocky
+  interval: 1h
+  values:
+    controllers:
+      blocky:
+        strategy: RollingUpdate
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 0
+        containers:
+          app:
+            image:
+              repository: ghcr.io/0xerr0r/blocky
+              tag: v0.35.0@sha256:4f165b63db0d76c96ecc47c7a8f57caeedc003a912bdce29abb0e283ce02e16b
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec: &pSpec
+                  exec:
+                    command:
+                      - /app/blocky
+                      - healthcheck
+                      - -p
+                      - "5353"
+              readiness: *probe
+              startup:
+                <<: *probe
+                spec:
+                  <<: *pSpec
+                  failureThreshold: 10
+            resources:
+              limits:
+                cpu: 1
+                memory: 1Gi
+              requests:
+                cpu: 10m
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
+    persistence:
+      config:
+        type: configMap
+        name: blocky-config
+        globalMounts:
+          - path: /app/config.yml
+            subPath: config.yml
+    service:
+      app:
+        forceRename: blocky
+        ports:
+          http:
+            primary: true
+            port: 80
+            targetPort: 4000
+          dns-tcp:
+            port: 53
+            targetPort: 5353
+            protocol: TCP
+          dns-udp:
+            port: 53
+            targetPort: 5353
+            protocol: UDP
+      ts:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        internalTrafficPolicy: Cluster
+        ipFamilyPolicy: PreferDualStack
+        externalIPs:
+          - 100.115.152.117
+          - fd7a:115c:a1e0::b901:9883
+        ports:
+          dns-tcp:
+            port: 53
+            targetPort: 5353
+            protocol: TCP
+          dns-udp:
+            port: 53
+            targetPort: 5353
+            protocol: UDP
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s

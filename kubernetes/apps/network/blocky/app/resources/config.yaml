@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/0xERR0R/blocky/main/docs/config.schema.json
+
+bootstrapDns:
+  - upstream: https://dns.quad9.net/dns-query
+    ips:
+      - 2620:fe::fe
+      - 2620:fe::9
+  - upstream: https://base.dns.mullvad.net/dns-query
+    ips:
+      - 194.242.2.4
+      - 2a07:e340::4
+
+blocking:
+  clientGroupsBlock:
+    default:
+      - hagezi
+  denylists:
+    hagezi:
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.txt
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh.txt
+  loading:
+    downloads:
+      timeout: 5m
+
+caching:
+  prefetching: true
+  minTime: 60s
+
+clientLookup:
+  upstream: 100.100.100.100
+
+conditional:
+  mapping:
+    100.in-addr.arpa: 100.100.100.100
+    0.e.1.a.c.5.1.1.a.7.d.f.ip6.arpa: 100.100.100.100
+
+ports:
+  dns: 5353
+  http: 4000
+
+prometheus:
+  enable: true
+
+redis:
+  address: dragonfly.database.svc:6379
+  connectionAttempts: 10
+  connectionCooldown: 3s
+  database: 7
+
+upstreams:
+  groups:
+    default:
+      - https://dns.quad9.net/dns-query
+      - https://base.dns.mullvad.net/dns-query
