@@ -50,7 +50,7 @@ spec:
     pg_ident:
       - pooler-map pooler-rw all
     shared_preload_libraries:
-      - "vchord"
+      - "vchord.so"
       - "timescaledb"
     parameters:
       timescaledb.telemetry_level: "off"
@@ -61,17 +61,17 @@ spec:
         ld_library_path:
           - system
         image:
-          reference: ghcr.io/cloudnative-pg/postgis-extension-testing:3.6.0-18-trixie@sha256:ec21540f5799561a9b05ca188fd28ce32852a826f48d80329260940855f5f558
+          reference: ghcr.io/cloudnative-pg/postgis-extension:3.6.4-18-trixie@sha256:4bdfebf86a7d4e9b186efd74b24ee60798007ffda0f10a5c919eb3ef120e1521
       - name: vchord
         image:
-          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v0.5.3@sha256:c310ede47f7f82bd257c3e53806d60680d5899c318ca946fb313efad9a90a78e
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1@sha256:bdea43bed2a414e21bbf71767bf6f0739747ac480b267b51772dc214ac28dcb3
         dynamic_library_path:
-          - /usr/lib/postgresql/18/lib/
+          - /usr/lib/postgresql/18/lib
         extension_control_path:
           - /usr/share/postgresql/18/
       - name: timescaledb
         image:
-          reference: ghcr.io/shusaan/timescaledb-testing:2.23.1-18-trixie@sha256:4709935bed4cce5977bc4b1858a94e2e80f22f0303217163a9e97b8898e33ee2
+          reference: ghcr.io/m00nwtchr/timescaledb:2.29.1@sha256:6519fe914d543f12080f9667d9a7d2b16733bad3de92dc49c5791730fd211cb7
 
   managed:
     roles:
