@@ -17,3 +17,44 @@ spec:
       value: "http:\\/\\/blocky.network.svc.cluster.local"
   grafanaCom:
     id: 13768
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: blocky-postgres
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasources:
+    - datasourceName: blocky-postgres
+      inputName: DS_POSTGRES
+  url: https://0xerr0r.github.io/blocky/latest/blocky-query-grafana-postgres.json
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/grafana.integreatly.org/grafanadatasource_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: blocky-postgres
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  datasource:
+    type: grafana-postgresql-datasource
+    name: blocky-postgres
+    access: proxy
+    jsonData:
+      connMaxLifetime: 14400
+      database: blocky
+      timescaledb: true
+      postgresVersion: 1800
+      sslCertFile: /var/run/secrets/postgresql/tls.crt
+      sslKeyFile: /var/run/secrets/postgresql/tls.key
+      sslmode: verify-full
+      sslRootCertFile: /var/run/secrets/root-ca/ca.crt
+    url: pooler-rw.database.svc:5432
+    user: grafana-read

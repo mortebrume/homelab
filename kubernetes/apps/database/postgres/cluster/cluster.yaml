@@ -75,6 +75,12 @@ spec:
 
   managed:
     roles:
+      - name: grafana-read
+        ensure: present
+        login: true
+        superuser: false
+        disablePassword: true
+
       - name: pooler-rw
         ensure: present
         login: true
