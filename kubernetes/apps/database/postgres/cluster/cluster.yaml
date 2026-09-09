@@ -20,7 +20,7 @@ spec:
     replicationTLSSecret: postgres-replication-cert
 
   storage:
-    size: 8Gi
+    size: 15Gi
     storageClass: zfs-pv-db
 
   bootstrap:
