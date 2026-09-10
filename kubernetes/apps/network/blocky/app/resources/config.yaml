@@ -19,7 +19,10 @@ blocking:
     hagezi:
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.txt
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt
-      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh.txt
+  allowlists:
+    hagezi:
+      - |
+        *.sentry.io
   loading:
     downloads:
       timeout: 5m
