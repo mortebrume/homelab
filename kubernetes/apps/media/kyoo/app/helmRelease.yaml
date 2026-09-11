@@ -1,0 +1,353 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kyoo
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kyoo
+  interval: 1h
+  values:
+    controllers:
+      api:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_api
+              tag: 5.2.1@sha256:6049a91aa3cc85cf172b8798c0080c21937606adce8e9b426756adfdd7fd72f3
+            env:
+              <<: &pg
+                PGDATABASE: kyoo
+                PGHOST: pooler-rw.database.svc
+                PGPORT: "5432"
+                PGSSLCERT: /var/run/secrets/postgresql/tls.crt
+                PGSSLKEY: /var/run/secrets/postgresql/tls.key
+                PGSSLMODE: verify-full
+                PGSSLROOTCERT: /var/run/secrets/root-ca/ca.crt
+                PGUSER: kyoo
+              AUTH_SERVER: http://kyoo-auth:4568
+              IMAGES_PATH: /images
+              JWT_ISSUER: &url https://kyoo.mortebrume.eu
+              TRANSCODER_SERVER: http://kyoo-transcoder:7666
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: &apiPort 3567
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/ready
+                    port: *apiPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 1Gi
+              limits:
+                memory: 4Gi
+            securityContext: &sc
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+              readOnlyRootFilesystem: true
+      auth:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_auth
+              tag: 5.2.1@sha256:2654f232cc3b135cc1a2aa23ca469a08732cb4cba5ff048d385fb36e5a417e1e
+            env:
+              <<: *pg
+              EXTRA_CLAIMS: '{"permissions": ["core.read", "core.play"], "verified": false}'
+              EXTRA_OIDC_REDIRECT_URLS: kyoo
+              FIRST_USER_CLAIMS: '{"permissions": ["users.read", "users.write", "apikeys.read", "apikeys.write", "users.delete", "core.read", "core.write", "core.play", "scanner.trigger", "scanner.guess", "scanner.search", "scanner.add"], "verified": true}'
+              GUEST_CLAIMS: '{"permissions": ["core.read"], "verified": true}'
+              KEIBI_APIKEY_SCANNER: &apikey
+                valueFrom:
+                  secretKeyRef:
+                    name: kyoo
+                    key: SCANNER_APIKEY
+              KEIBI_APIKEY_SCANNER_CLAIMS: '{"permissions": ["core.read", "core.write"]}'
+              OIDC_KANIDM_AUTHORIZATION: https://idm.mortebrume.eu/ui/oauth2
+              OIDC_KANIDM_CLIENTID:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-kyoo-oidc
+                    key: client-id
+              OIDC_KANIDM_LOGO: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/kanidm.svg
+              OIDC_KANIDM_NAME: Kanidm
+              OIDC_KANIDM_PROFILE: https://idm.mortebrume.eu/oauth2/openid/kyoo/userinfo
+              OIDC_KANIDM_SCOPE: openid profile email
+              OIDC_KANIDM_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-kyoo-oidc
+                    key: client-secret
+              OIDC_KANIDM_TOKEN: https://idm.mortebrume.eu/oauth2/token
+              PROFILE_PICTURE_PATH: /profile_pictures
+              PROTECTED_CLAIMS: permissions,verified
+              PUBLIC_URL: *url
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /auth/health
+                    port: &authPort 4568
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /auth/ready
+                    port: *authPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext: *sc
+      front:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_front
+              tag: 5.2.1@sha256:4c437289429167d93ba773e32e9a2476dde4198374e946461d92f8e110a3c9d3
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+            securityContext: *sc
+      scanner:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_scanner
+              tag: 5.2.1@sha256:457191a6dd05caf4178bf1384feedea4eebee088d5b4b38210e81292703300f4
+            env:
+              <<: *pg
+              JWKS_URL: &jwks http://kyoo-auth:4568/.well-known/jwks.json
+              JWT_ISSUER: *url
+              KYOO_APIKEY: *apikey
+              KYOO_URL: https://kyoo.mortebrume.eu/api
+              LIBRARY_IGNORE_PATTERN: ".*/[dD]ownloads?/.*"
+              SCANNER_LIBRARY_ROOT: &library /storage/medialibrary
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &scannerPort 4389
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: *scannerPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+            securityContext: *sc
+      transcoder:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/zoriya/kyoo_transcoder
+              tag: 5.2.1@sha256:04b69ec2300682df0e354284be69f8e13f9c07a667e98dc8ccbda9bc745ffbe8
+            env:
+              <<: *pg
+              GOCODER_CACHE_ROOT: /cache
+              GOCODER_HWACCEL: disabled
+              GOCODER_METADATA_ROOT: /metadata
+              GOCODER_PRESET: fast
+              GOCODER_SAFE_PATH: *library
+              JWKS_URL: *jwks
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /video/health
+                    port: &transcoderPort 7666
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /video/ready
+                    port: *transcoderPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 4Gi
+            securityContext: *sc
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      api:
+        controller: api
+        ports:
+          http:
+            port: *apiPort
+      auth:
+        controller: auth
+        ports:
+          http:
+            port: *authPort
+      front:
+        controller: front
+        ports:
+          http:
+            port: &frontPort 8901
+      scanner:
+        controller: scanner
+        ports:
+          http:
+            port: *scannerPort
+      transcoder:
+        controller: transcoder
+        ports:
+          http:
+            port: *transcoderPort
+    route:
+      app:
+        hostnames:
+          - "kyoo.mortebrume.eu"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - name: api
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /api/
+            backendRefs:
+              - identifier: api
+                port: *apiPort
+          - name: video
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /video
+            backendRefs:
+              - identifier: transcoder
+                port: *transcoderPort
+          - name: scanner
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /scanner/
+            backendRefs:
+              - identifier: scanner
+                port: *scannerPort
+          - name: swagger
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /swagger
+            backendRefs:
+              - identifier: api
+                port: *apiPort
+          - name: auth
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /auth/
+              - path:
+                  type: PathPrefix
+                  value: /.well-known/
+            backendRefs:
+              - identifier: auth
+                port: *authPort
+          - name: front
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: front
+                port: *frontPort
+    persistence:
+      images:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 3Gi
+        advancedMounts:
+          api:
+            app:
+              - path: /images
+      profile-pictures:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 512Mi
+        advancedMounts:
+          auth:
+            app:
+              - path: /profile_pictures
+      metadata:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 3Gi
+        advancedMounts:
+          transcoder:
+            app:
+              - path: /metadata
+      media:
+        existingClaim: media-library
+        advancedMounts:
+          scanner:
+            app:
+              - path: *library
+                subPath: medialibrary
+                readOnly: true
+          transcoder:
+            app:
+              - path: *library
+                subPath: medialibrary
+                readOnly: true
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+        advancedMounts:
+          front:
+            app:
+              - path: /run
+                subPath: run
+              - path: /var/cache/nginx
+                subPath: nginx
+          transcoder:
+            app:
+              - path: /cache
+                subPath: cache

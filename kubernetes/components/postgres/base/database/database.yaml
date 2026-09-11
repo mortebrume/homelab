@@ -9,4 +9,5 @@ spec:
   owner: ${OWNER}
   cluster:
     name: postgres
+  schemas: ${SCHEMAS:=${emptyArray}}
   extensions: ${EXTENSIONS:=${emptyArray}}

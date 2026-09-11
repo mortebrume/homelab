@@ -46,6 +46,10 @@ spec:
       set:
         - name: X-Real-Ip
           value: "%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%"
+        - name: X-Forwarded-Method
+          value: "%REQ(:METHOD)%"
+        - name: X-Forwarded-Uri
+          value: "%REQ(:PATH)%"
   http2:
     initialStreamWindowSize: 2Mi
     initialConnectionWindowSize: 32Mi
