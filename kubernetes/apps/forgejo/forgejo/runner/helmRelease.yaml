@@ -28,7 +28,7 @@ spec:
           k8s-plugin:
             image:
               repository: registry.erwanleboucher.dev/eleboucher/runner-k8s-plugin
-              tag: 12.10.9
+              tag: 13.1.0
             args:
               - --listen
               - unix:///plugin/forgejo-runner-k8s.sock
@@ -44,8 +44,8 @@ spec:
               capabilities: {drop: ["ALL"]}
           runner:
             image:
-              repository: registry.erwanleboucher.dev/eleboucher/runner
-              tag: 12.13.0
+              repository: data.forgejo.org/forgejo/runner
+              tag: 13.1.0
             command:
               - sh
               - -ec
@@ -60,7 +60,7 @@ spec:
                 cpu: 5m
                 memory: 256Mi
               limits:
-                memory: 512Mi
+                memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
