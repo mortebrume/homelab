@@ -50,12 +50,12 @@ kind: Gateway
 metadata:
   name: envoy-internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: "100.115.152.117,fd7a:115c:a1e0::b901:9883"
+    external-dns.kubernetes.io/target: "100.115.152.117,fd7a:115c:a1e0::b901:9883"
 spec:
   gatewayClassName: envoy-internal
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: mortebrume.eu
+      external-dns.kubernetes.io/hostname: mortebrume.eu
   addresses:
     - type: IPAddress
       value: "100.115.152.117"

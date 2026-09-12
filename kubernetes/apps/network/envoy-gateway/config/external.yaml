@@ -51,12 +51,12 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: "168.119.32.22,2a01:4f8:242:4691::1"
+    external-dns.kubernetes.io/target: "168.119.32.22,2a01:4f8:242:4691::1"
 spec:
   gatewayClassName: envoy-external
   infrastructure:
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: mortebrume.eu
+      external-dns.kubernetes.io/hostname: mortebrume.eu
   addresses:
     - type: IPAddress
       value: 168.119.32.22
