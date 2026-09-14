@@ -1,0 +1,20 @@
+---
+containers:
+  - env:
+      - name: DEBIAN_FRONTEND
+        value: noninteractive
+      - name: CARGO_BUILD_JOBS
+        value: "4"
+      - name: MAKEFLAGS
+        value: "-j4"
+    image: ghcr.io/bjw-s-labs/forgejo-runner:ubuntu-24.04@sha256:d3f142f768c72e6f54443a07275889ee5b6c1e6560613be12a903744d6835c53
+    imagePullPolicy: IfNotPresent
+    name: main
+    resources:
+      limits:
+        cpu: "6"
+        memory: 12Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+restartPolicy: Never
