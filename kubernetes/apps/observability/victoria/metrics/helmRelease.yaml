@@ -88,7 +88,7 @@ spec:
             cpu: 100m
           limits:
             memory: 2Gi
-        retentionPeriod: 1y
+        retentionPeriod: 6M
         storage:
           accessModes:
             - ReadWriteOnce
