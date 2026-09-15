@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: forgejo.ellis.link/continuwuation/continuwuity
-              tag: main-maxperf@sha256:9ee6682e381bfe4f0e8fec2a0f3c14e83ee8a52bbce12db14c538219a85fd6ab
+              tag: main-maxperf@sha256:17addf896aaed94cc115c78bb3c1dd8f64fb3628c208dadcf3ea40e59d448020
             env:
               CONDUWUIT_CONFIG: "/config/continuwuity.toml"
               CONDUWUIT_PORT: &port 8008
