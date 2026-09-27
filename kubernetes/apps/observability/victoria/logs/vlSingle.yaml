@@ -7,6 +7,12 @@ metadata:
 spec:
   extraArgs:
     enableTCP6: "true"
+  resources:
+    requests:
+      cpu: 10m
+      memory: 1Gi
+    limits:
+      memory: 1536Mi
   retentionPeriod: 30d
   retentionMaxDiskSpaceUsageBytes: 20GB
   storage:

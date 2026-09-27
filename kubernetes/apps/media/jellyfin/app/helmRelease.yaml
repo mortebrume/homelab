@@ -39,8 +39,8 @@ spec:
                 enabled: false
             resources:
               requests:
-                cpu: 100m
-                memory: 512Mi
+                cpu: 10m
+                memory: 1228Mi
               limits:
                 memory: 8Gi
     defaultPodOptions:

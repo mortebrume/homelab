@@ -46,8 +46,8 @@ spec:
               capabilities: {drop: ["ALL"]}
             resources:
               requests:
-                cpu: "1"
-                memory: 2Gi
+                cpu: 500m
+                memory: 2355Mi
               limits:
                 memory: 8Gi
         initContainers:

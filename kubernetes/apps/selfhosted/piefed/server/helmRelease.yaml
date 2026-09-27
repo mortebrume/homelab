@@ -61,8 +61,8 @@ spec:
                   failureThreshold: 60
             resources:
               requests:
-                cpu: 100m
-                memory: 256Mi
+                cpu: 10m
+                memory: 400Mi
               limits:
                 memory: 1Gi
             securityContext: &securityContext
@@ -85,8 +85,8 @@ spec:
             envFrom: *envFrom
             resources:
               requests:
-                cpu: 100m
-                memory: 256Mi
+                cpu: 30m
+                memory: 512Mi
               limits:
                 memory: 1Gi
             securityContext: *securityContext
@@ -133,8 +133,8 @@ spec:
             env: *env
             resources:
               requests:
-                cpu: 25m
-                memory: 64Mi
+                cpu: 75m
+                memory: 300Mi
               limits:
                 memory: 512Mi
             securityContext: *securityContext

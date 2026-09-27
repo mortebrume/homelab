@@ -76,8 +76,8 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 100m
-                memory: 256Mi
+                cpu: 10m
+                memory: 400Mi
               limits:
                 memory: 1Gi
             securityContext: &sec
@@ -112,8 +112,8 @@ spec:
                   name: sure
             resources:
               requests:
-                cpu: 100m
-                memory: 256Mi
+                cpu: 10m
+                memory: 512Mi
               limits:
                 memory: 1Gi
             securityContext: *sec

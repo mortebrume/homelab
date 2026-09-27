@@ -40,8 +40,8 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 100m
-                memory: 1Gi
+                cpu: 10m
+                memory: 1434Mi
               limits:
                 memory: 5Gi
       proxy:

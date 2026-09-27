@@ -70,7 +70,8 @@ spec:
           enableTCP6: "true"
         resources:
           requests:
-            cpu: 150m
+            cpu: 60m
+            memory: 768Mi
           limits:
             memory: 1Gi
         selectAllByDefault: true
@@ -89,9 +90,10 @@ spec:
           enableTCP6: "true"
         resources:
           requests:
-            cpu: 100m
-          limits:
+            cpu: 110m
             memory: 2Gi
+          limits:
+            memory: 3Gi
         retentionPeriod: 6M
         storage:
           accessModes:

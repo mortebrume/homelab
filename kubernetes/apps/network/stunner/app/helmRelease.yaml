@@ -13,6 +13,23 @@ spec:
     standardCrds:
       enabled: false
     stunnerGatewayOperator:
+      deployment:
+        container:
+          manager:
+            resources:
+              requests:
+                cpu: 10m
+                memory: 384Mi
+              limits:
+                cpu: 1000m
+                memory: 512Mi
       dataplane:
         spec:
           enableMetricsEndpoint: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 2
+              memory: 512Mi

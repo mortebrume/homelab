@@ -32,9 +32,10 @@ spec:
                   failureThreshold: 5
             resources:
               requests:
-                cpu: 100m
+                cpu: 40m
+                memory: 160Mi
               limits:
-                memory: 4Gi
+                memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

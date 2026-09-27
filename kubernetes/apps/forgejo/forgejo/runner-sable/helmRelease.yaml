@@ -57,7 +57,7 @@ spec:
                 --token-url file:///etc/forgejo-runner-secret/token
             resources:
               requests:
-                cpu: 5m
+                cpu: 200m
                 memory: 256Mi
               limits:
                 memory: 1Gi
