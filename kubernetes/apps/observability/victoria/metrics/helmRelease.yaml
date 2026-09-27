@@ -27,6 +27,10 @@ spec:
       rules:
         NodeMemoryHighUtilization:
           create: false
+        RecordingRulesNoData:
+          create: false
+        NodeMemoryMajorPagesFaults:
+          create: false
 
     victoria-metrics-operator:
       enabled: false
