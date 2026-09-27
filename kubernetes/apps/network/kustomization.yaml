@@ -11,5 +11,6 @@ resources:
   - ./envoy-gateway/ks.yaml
   - ./external-dns/ks.yaml
   - ./gpg/ks.yaml
+  - ./k8s-gateway/ks.yaml
   - ./stunner/ks.yaml
   - ./websites/ks.yaml

@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: k8s-gateway
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: k8s-gateway
+  interval: 1h
+  values:
+    fullnameOverride: k8s-gateway
+    domain: mortebrume.eu
+    ttl: 1
+    fallthrough:
+      enabled: true
+    service:
+      type: ClusterIP
+      clusterIP: 10.40.0.20
+      port: 53
+    watchedResources:
+      - HTTPRoute
+      - TLSRoute
+      - Service
+    filters:
+      gatewayClasses:
+        - envoy-internal
+    extraZonePlugins:
+      - name: log
+      - name: errors
+      - name: health
+        configBlock: lameduck 5s
+      - name: ready
+      - name: prometheus
+        parameters: 0.0.0.0:9153
+      - name: forward
+        parameters: mortebrue.eu tls://1.1.1.1 tls://1.0.0.1 tls://2606:4700:4700::1111 tls://2606:4700:4700::1001
+        configBlock: |-
+          tls_servername one.one.one.one
+      - name: forward
+        parameters: ". tls://2620:fe::fe tls://2620:fe::9"
+        configBlock: |-
+          tls_servername dns.quad9.net
+      - name: loop
+      - name: reload
+      - name: loadbalance
