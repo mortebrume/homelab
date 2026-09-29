@@ -23,8 +23,6 @@ spec:
   labels:
     role: master
 
-  networkPolicyEnabled: false # surely one day i'll use proper netpols
-
   env:
     - name: MAX_MEMORY
       valueFrom:
