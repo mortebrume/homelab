@@ -13,17 +13,29 @@ spec:
     controllers:
       shoko:
         type: statefulset # SQLite DB
+        initContainers:
+          # v6 writes plugin thumbnails next to the plugin dll; give it a writable copy
+          plugins:
+            image:
+              repository: ghcr.io/shokoanime/server
+              tag: daily@sha256:ff5f5de262f8239637c4b28d39721a95ff2e9ee9a97bf58eb6084369db75c622
+            command: ["cp", "-r","/usr/src/app/build/plugins/.", "/plugins/"]
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
         containers:
           app:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: v5.3.3@sha256:b841f8249c9edfba102e4072e2b2a3eae4179e5dd553f29e11b9898a44f1e836
+              tag: daily@sha256:ff5f5de262f8239637c4b28d39721a95ff2e9ee9a97bf58eb6084369db75c622
             command:
               - "/usr/src/app/build/Shoko.CLI" # Entrypoint needs root
             env:
               PUID: "1000"
               PGID: "1000"
               TZ: Europe/Paris
+              SHOKO_HOME: /.shoko/Shoko.CLI
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
@@ -64,6 +76,14 @@ spec:
         suffix: metadata
         globalMounts:
           - path: /.shoko/Shoko.CLI/images
+      plugins:
+        type: emptyDir
+        advancedMounts:
+          shoko:
+            plugins:
+              - path: /plugins
+            app:
+              - path: /usr/src/app/build/plugins
       media:
         existingClaim: media-library
         globalMounts:
