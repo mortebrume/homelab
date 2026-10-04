@@ -8,7 +8,7 @@ metadata:
 allowVolumeExpansion: true
 parameters:
   compression: "zstd"
-  dedup: "on"
+  dedup: "off"
   fstype: "zfs"
   poolname: "cell/kube"
   shared: "yes"
