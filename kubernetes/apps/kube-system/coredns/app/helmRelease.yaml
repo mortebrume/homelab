@@ -35,8 +35,6 @@ spec:
             configBlock: |-
               lameduck 5s
           - name: ready
-          - name: rewrite
-            parameters: name exact kyoo.mortebrume.eu envoy-internal.network.svc.cluster.local answer auto
           - name: kubernetes
             parameters: cluster.local in-addr.arpa ip6.arpa
             configBlock: |-
