@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: ghcr.io/jjgadgets/phanpy
-              tag: rolling@sha256:a1ebbb30d55f27895c2b0ef145cb54e91136763635344002f26dd5fd6ff9836e
+              tag: rolling@sha256:936e029c98efb4fe7c5c9a04436d2aa8dcb0e430fc4baf7b15edd758a157bf01
             env:
               PHANPY_WEBSITE: https://phanpy.mortebrume.eu
               PHANPY_DEFAULT_INSTANCE: mortebrume.eu
