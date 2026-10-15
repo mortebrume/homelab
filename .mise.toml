@@ -12,4 +12,4 @@ _.file = ["{{config_root}}/.secrets.env"]
 "aqua:mitsuhiko/minijinja" = "latest"
 "github:home-operations/flate" = "latest"
 "github:home-operations/yayamlls" = "0.3.2"
-"github:robusta-dev/krr" = "v1.30.0"
+"github:robusta-dev/krr" = "v1.31.0"
