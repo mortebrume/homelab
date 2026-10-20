@@ -34,6 +34,7 @@ spec:
               PGSSLCERT: /var/run/secrets/postgresql/tls.crt
               PGSSLKEY: /var/run/secrets/postgresql/tls.key
               PGSSLMODE: verify-full
+              SONARR__SERVER__ALLOWEDHOSTS: "*"
               SONARR__SERVER__PORT: &port 8989
               SONARR__UPDATE__BRANCH: develop
               TZ: Europe/Paris
