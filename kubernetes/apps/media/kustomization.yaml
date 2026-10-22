@@ -8,6 +8,7 @@ resources:
   - ./namespace.yaml
   - ./autobrr/ks.yaml
   - ./jellyfin/ks.yaml
+  - ./nzbhydra/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./qui/ks.yaml

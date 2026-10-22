@@ -1,0 +1,77 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nzbhydra
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: nzbhydra
+  interval: 1h
+  values:
+    controllers:
+      nzbhydra:
+        type: statefulset # SQLite DB
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/nzbhydra2
+              tag: 9.1.1@sha256:bbd00749480c48416c7ca382e9da33256a5935f9a32a1e8d23dcf4ef07a6285e
+            env:
+              JAVA_TOOL_OPTIONS: -Xmx768M
+              NZBHYDRA_DISABLE_WRAPPER_CHECK: "true"
+            envFrom:
+              - secretRef:
+                  name: nzbhydra
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  periodSeconds: 10
+                  failureThreshold: 60
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: 5076
+    route:
+      app:
+        hostnames:
+          - nzbhydra.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      config:
+        existingClaim: nzbhydra
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+            subPath: logs
+          - path: /tmp
+            subPath: tmp
