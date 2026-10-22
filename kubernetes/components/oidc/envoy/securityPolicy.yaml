@@ -17,3 +17,4 @@ spec:
       name: "kanidm-${APP}-oidc"
     redirectURL: "https://${SUBDOMAIN:=${APP}}.mortebrume.eu/oauth2/callback"
     logoutPath: "/logout"
+    refreshToken: false
