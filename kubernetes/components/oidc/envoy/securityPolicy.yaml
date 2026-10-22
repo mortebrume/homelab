@@ -12,9 +12,17 @@ spec:
   oidc:
     provider:
       issuer: "https://idm.mortebrume.eu/oauth2/openid/${APP}"
+      # avoid discovery through this gateway during Kanidm TLS-secret rollouts
+      authorizationEndpoint: "https://idm.mortebrume.eu/ui/oauth2"
+      tokenEndpoint: "https://idm.mortebrume.eu/oauth2/token"
     clientID: *app
     clientSecret:
       name: "kanidm-${APP}-oidc"
     redirectURL: "https://${SUBDOMAIN:=${APP}}.mortebrume.eu/oauth2/callback"
     logoutPath: "/logout"
-    refreshToken: false
+    # non-navigation requests get a 401 instead of an OIDC redirect
+    denyRedirect:
+      headers:
+        - name: Sec-Fetch-Mode
+          type: RegularExpression
+          value: "^(cors|no-cors|same-origin|websocket)$"
