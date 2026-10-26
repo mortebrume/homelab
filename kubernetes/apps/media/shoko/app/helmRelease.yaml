@@ -18,7 +18,7 @@ spec:
           plugins:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: daily@sha256:84ee12de73bdbe95cfdc59fec3247b30c6bfa376007119f5cd29809ac267b8d2
+              tag: daily@sha256:acd9a2dc27e78e97d4856fcc21568743b025ecaf0a5cca3dc5317aebdcf9611a
             command:
               - "cp"
               - "-r"
@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/shokoanime/server
-              tag: daily@sha256:84ee12de73bdbe95cfdc59fec3247b30c6bfa376007119f5cd29809ac267b8d2
+              tag: daily@sha256:acd9a2dc27e78e97d4856fcc21568743b025ecaf0a5cca3dc5317aebdcf9611a
             command:
               - "/usr/src/app/build/Shoko.CLI" # Entrypoint needs root
             env:
