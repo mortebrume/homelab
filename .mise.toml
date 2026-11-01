@@ -11,5 +11,5 @@ _.file = ["{{config_root}}/.secrets.env"]
 "aqua:mikefarah/yq" = "latest"
 "aqua:mitsuhiko/minijinja" = "latest"
 "github:home-operations/flate" = "latest"
-"github:home-operations/yayamlls" = "0.3.2"
+"github:home-operations/yayamlls" = "0.3.3"
 "github:robusta-dev/krr" = "v1.31.1"
