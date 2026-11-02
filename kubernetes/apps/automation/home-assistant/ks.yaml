@@ -6,6 +6,7 @@ metadata:
   name: home-assistant
 spec:
   components:
+    - ../../../../components/postgres/cert
     - ../../../../components/kopiur
     - ../../../../components/oidc
   interval: 1h
@@ -13,9 +14,10 @@ spec:
   postBuild:
     substitute:
       APP: home-assistant
+      DATABASE_OWNER: hass
       KOPIUR_CAPACITY: 10Gi
       NAMESPACE: automation
-      OIDC_CALLBACK: /auth/openid/callback
+      OIDC_CALLBACK: /auth/oidc/callback
       OIDC_DISPLAY_NAME: Home Assistant
       OIDC_SHORT_USERNAME: "true"
       SUBDOMAIN: home

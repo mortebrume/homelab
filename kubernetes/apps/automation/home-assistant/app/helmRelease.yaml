@@ -12,12 +12,25 @@ spec:
   values:
     controllers:
       home-assistant:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
               tag: 2026.10.4@sha256:81271a8bbe2a6019659e9d5cde98b884dd0d67fad6819bb4ab177dceb0c1c5e1
             env:
+              HASS_OPENID_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: kanidm-home-assistant-oidc
+                    key: client-secret
+              HASS_RECORDER_DB_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-postgres
+                    key: url
               TZ: Europe/Paris
             securityContext:
               allowPrivilegeEscalation: false
@@ -41,6 +54,13 @@ spec:
           http:
             appProtocol: kubernetes.io/ws
             port: 8123
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http
+            scheme: http
+            path: /api/prometheus
+            interval: 1m
     route:
       app:
         hostnames:
@@ -57,7 +77,15 @@ spec:
           - path: /config/.venv
             subPath: .venv
       config:
+        type: configMap
+        name: home-assistant-config
+        globalMounts:
+          - path: /config/configuration.yaml
+            subPath: configuration.yaml
+      data:
         existingClaim: home-assistant
+        globalMounts:
+          - path: /config
       tmpfs:
         type: emptyDir
         globalMounts:
