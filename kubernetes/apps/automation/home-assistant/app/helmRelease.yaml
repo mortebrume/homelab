@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: home-assistant
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: home-assistant
+  interval: 1h
+  values:
+    controllers:
+      home-assistant:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-operations/home-assistant
+              tag: 2026.10.4@sha256:81271a8bbe2a6019659e9d5cde98b884dd0d67fad6819bb4ab177dceb0c1c5e1
+            env:
+              TZ: Europe/Paris
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: {drop: ["ALL"]}
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 2Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            appProtocol: kubernetes.io/ws
+            port: 8123
+    route:
+      app:
+        hostnames:
+          - home.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      cache:
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        suffix: cache
+        globalMounts:
+          - path: /config/.venv
+            subPath: .venv
+      config:
+        existingClaim: home-assistant
+      tmpfs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+            subPath: logs
+          - path: /tmp
+            subPath: tmp
