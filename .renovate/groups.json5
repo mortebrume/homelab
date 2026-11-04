@@ -12,17 +12,6 @@
       minimumGroupSize: 2,
     },
     {
-      description: "Authentik Group",
-      groupName: "authentik",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/goauthentik/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      prBodyNotes: "Changelog link: https://docs.goauthentik.io/docs/releases/{{newMajor}}.{{newMinor}}#fixed-in-{{newMajor}}{{newMinor}}{{newPatch}}",
-      minimumGroupSize: 2,
-    },
-    {
       description: "Flux Operator Group",
       groupName: "flux-operator",
       matchDatasources: ["docker"],
@@ -53,16 +42,6 @@
       groupName: "toolhive",
       matchDatasources: ["docker"],
       matchPackageNames: ["/toolhive-operator/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-      minimumGroupSize: 2,
-    },
-    {
-      description: "Your Spotify Group",
-      groupName: "your-spotify",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/your_spotify/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
