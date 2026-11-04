@@ -7,9 +7,40 @@
       changelogUrl: "https://github.com/1Password/connect/blob/main/CHANGELOG.md",
     },
     {
-      description: "Changelog URL for Authentik",
-      matchPackageNames: ["/goauthentik/"],
-      changelogUrl: "https://github.com/goauthentik/authentik/releases/tag/version%2F{{newVersion}}",
+      description: "Source URL for images without an OCI source label",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/^ghcr\\.io\\/stacklok\\/toolhive\\//"],
+      sourceUrl: "https://github.com/stacklok/toolhive",
+    },
+    {
+      description: "Source URL for images without an OCI source label",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["docker.io/kanidm/server"],
+      sourceUrl: "https://github.com/kanidm/kanidm",
+    },
+    {
+      description: "Source URL for images inheriting a Chainguard base-image label",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/techarohq/anubis"],
+      sourceUrl: "https://github.com/TecharoHQ/anubis",
+    },
+    {
+      description: "Source URL for images pointing at their packaging repo",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/jellyfin/jellyfin"],
+      sourceUrl: "https://github.com/jellyfin/jellyfin",
+    },
+    {
+      description: "Source URL for charts pointing at the app repo instead of the chart repo",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/coredns/charts/coredns"],
+      sourceUrl: "https://github.com/coredns/helm",
+    },
+    {
+      description: "Reloader chart releases are tagged chart-vX.Y.Z",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/stakater/charts/reloader"],
+      extractVersion: "^(?:chart-v)?(?<version>\\d+\\.\\d+\\.\\d+)$",
     },
   ],
 }
