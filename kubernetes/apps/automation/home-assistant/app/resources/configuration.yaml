@@ -43,6 +43,10 @@ auth_oidc:
 frontend:
   themes: !include_dir_merge_named themes
 
+versatile_thermostat:
+  safety_mode:
+    check_outdoor_sensor: false
+
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
