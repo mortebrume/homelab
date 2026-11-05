@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ha-linky
+spec:
+  dependsOn:
+    - name: home-assistant
+      namespace: automation
+  interval: 1h
+  path: ./kubernetes/apps/automation/ha-linky/app
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: automation

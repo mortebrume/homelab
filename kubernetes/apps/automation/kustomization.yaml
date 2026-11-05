@@ -6,5 +6,6 @@ namespace: automation
 
 resources:
   - ./namespace.yaml
+  - ./ha-linky/ks.yaml
   - ./home-assistant/ks.yaml
   - ./mosquitto/ks.yaml
