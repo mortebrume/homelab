@@ -90,10 +90,33 @@ spec:
             namespace: network
           - name: envoy-external
             namespace: network
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /ui/oauth2
+              - path:
+                  type: PathPrefix
+                  value: /ui/login
+              - path:
+                  type: PathPrefix
+                  value: /ui/reset
+            backendRefs:
+              - identifier: app
+                port: *port
+            filters:
+              - type: ResponseHeaderModifier
+                responseHeaderModifier:
+                  remove:
+                    - Cross-Origin-Opener-Policy
+          - backendRefs:
+              - identifier: app
+                port: *port
     persistence:
       config:
         type: configMap
         name: kanidm-config
+        defaultMode: 0400
         advancedMounts:
           kanidm:
             app:
