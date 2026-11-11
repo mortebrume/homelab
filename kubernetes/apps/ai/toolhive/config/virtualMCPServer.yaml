@@ -13,9 +13,17 @@ spec:
     signingKeySecretRefs:
       - name: vmcp-auth-server
         key: signingKey
+    storage:
+      type: redis
+      redis:
+        addr: dragonfly.database:6379
+        aclUserConfig:
+          passwordSecretRef:
+            name: vmcp-auth-server
+            key: redisPassword
     tokenLifespans:
       accessTokenLifespan: 1h
-      refreshTokenLifespan: 168h
+      refreshTokenLifespan: 720h
       authCodeLifespan: 10m
     upstreamProviders:
       - name: kanidm
