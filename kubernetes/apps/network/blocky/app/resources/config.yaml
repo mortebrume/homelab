@@ -45,6 +45,9 @@ ports:
   dns: 5353
   http: 4000
 
+pprof:
+  enable: false
+
 prometheus:
   enable: true
 
