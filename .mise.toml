@@ -10,6 +10,6 @@ _.file = ["{{config_root}}/.secrets.env"]
 "aqua:helmfile/helmfile" = "latest"
 "aqua:mikefarah/yq" = "latest"
 "aqua:mitsuhiko/minijinja" = "latest"
-"github:home-operations/flate" = "latest"
+"github:home-operations/flate" = "0.6.5"
 "github:home-operations/yayamlls" = "0.3.3"
 "github:robusta-dev/krr" = "v1.31.3"
