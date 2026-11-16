@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: kguardian
+spec:
+  image: ghcr.io/kguardian-dev/kguardian/llm-bridge:v1.13.2
+  transport: streamable-http
+  mcpPort: 8090
+  proxyPort: 8080
+  groupRef:
+    name: mcp-tools
+  permissionProfile:
+    type: builtin
+    name: network
+  env:
+    - name: PORT
+      value: "8090"
+    - name: NODE_ENV
+      value: production
+    - name: BROKER_URL
+      value: http://kguardian-broker.observability.svc.cluster.local:9090
+    - name: MCP_ENABLED
+      value: "true"
