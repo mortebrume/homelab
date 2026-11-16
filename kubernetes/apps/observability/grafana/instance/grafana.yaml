@@ -7,6 +7,7 @@ metadata:
   labels:
     grafana.internal/instance: grafana
 spec:
+  version: docker.io/grafana/grafana:13.3.1@sha256:0615ec4fbd4072004b7d86b46ded63013a74b7d6eb1119273dd89e8fa25c13cf
   config:
     analytics:
       check_for_updates: "false"
@@ -41,8 +42,6 @@ spec:
     plugins:
       plugin_admin_enabled: "false"
       disable_plugins: "grafana-lokiexplore-app,grafana-metricsdrilldown-app,grafana-pyroscope-app,grafana-exploretraces-app,loki"
-    security:
-      angular_support_enabled: "true"
     server:
       enable_gzip: "true"
       root_url: https://grafana.mortebrume.eu
@@ -62,8 +61,6 @@ spec:
                     secretKeyRef:
                       name: kanidm-grafana-oidc
                       key: client-secret
-                - name: GF_INSTALL_PLUGINS_FORCE
-                  value: "true"
                 - name: GF_DATE_FORMATS_USE_BROWSER_LOCALE
                   value: "true"
                 - name: GF_SECURITY_COOKIE_SAMESITE

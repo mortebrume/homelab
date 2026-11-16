@@ -40,6 +40,15 @@
 			datasourceTemplate: "custom.grafana-plugins",
 			versioningTemplate: "semver-coerced",
 		},
+		{
+			description: "Process Grafana instance image (grafana-operator spec.version)",
+			customType: "regex",
+			managerFilePatterns: ["/\\.ya?ml$/"],
+			matchStrings: [
+				"\\n\\s*version:\\s*[\"']?(?<depName>[^:@\\s\"']+\\/[^:@\\s\"']+):(?<currentValue>[^@\\s\"']+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?[\"']?",
+			],
+			datasourceTemplate: "docker",
+		},
 	],
 	packageRules: [
 		{
