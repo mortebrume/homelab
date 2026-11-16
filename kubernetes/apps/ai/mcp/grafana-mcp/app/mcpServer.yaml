@@ -12,6 +12,8 @@ spec:
   args:
     - --transport
     - streamable-http
+    - --allowed-hosts
+    - mcp-grafana:8000
   groupRef:
     name: mcp-tools
   permissionProfile:
