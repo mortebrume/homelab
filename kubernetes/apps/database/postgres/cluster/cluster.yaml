@@ -71,7 +71,7 @@ spec:
           - /usr/share/postgresql/18/
       - name: timescaledb
         image:
-          reference: ghcr.io/m00nwtchr/timescaledb:2.29.1@sha256:6519fe914d543f12080f9667d9a7d2b16733bad3de92dc49c5791730fd211cb7
+          reference: ghcr.io/m00nwtchr/timescaledb:2.29.2@sha256:0d78b1054eb7f51749e378197a4b7d0aee4c63ced6be18a60d63ab1b6b481528
 
   managed:
     roles:
