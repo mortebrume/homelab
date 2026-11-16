@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - .forgejo/labels.yaml
+      - .forgejo/scripts/label-sync.sh
       # schedule:
       #   - cron: 0 0 * * *
 
@@ -21,10 +22,11 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          sparse-checkout: .forgejo/labels.yaml
+          sparse-checkout: .forgejo
 
       - name: Sync Labels
-        uses: https://github.com/EndBug/label-sync@52074158190acb45f3077f9099fea818aa43f97a # v2.3.3
-        with:
-          config-file: .forgejo/labels.yaml
-          delete-other-labels: true
+        env:
+          FORGEJO_API_URL: ${{ forgejo.api_url }}
+          FORGEJO_REPOSITORY: ${{ forgejo.repository }}
+          FORGEJO_TOKEN: ${{ secrets.MISTGAZER_TOKEN }}
+        run: bash .forgejo/scripts/label-sync.sh .forgejo/labels.yaml
