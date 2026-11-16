@@ -1,0 +1,57 @@
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kguardian-chart
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: extract
+  ref:
+    tag: 1.29.2
+  url: oci://ghcr.io/kguardian-dev/charts/kguardian
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kguardian-crds
+spec:
+  interval: 1h
+  path: ./kguardian/crds
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: kguardian-chart
+    namespace: observability
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kguardian
+spec:
+  components:
+    - ../../../../components/oidc/envoy
+    - ../../../../components/postgres/cert
+  dependsOn:
+    - name: kguardian-crds
+      namespace: observability
+  interval: 1h
+  path: ./kubernetes/apps/observability/kguardian/app
+  postBuild:
+    substitute:
+      APP: kguardian
+      NAMESPACE: observability
+      OIDC_DISPLAY_NAME: kguardian
+      OIDC_GROUP: admins
+      OIDC_SCOPES: '["openid", "profile"]'
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: observability
+  wait: false

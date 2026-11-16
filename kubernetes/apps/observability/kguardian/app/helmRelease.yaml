@@ -1,0 +1,394 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kguardian
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: kguardian
+  interval: 1h
+  values:
+    controllers:
+      broker:
+        serviceAccount:
+          name: default
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kguardian-dev/kguardian/broker
+              tag: v1.20.1@sha256:abc3d2a6c9de26909f42eae5b2de7c2ecb3e7795d76867eb0c0d030779b400a3
+            env:
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: kguardian-postgres
+                    key: url
+              EVALUATOR_URL: http://kguardian-evaluator.observability.svc.cluster.local:8082
+              LEADER_ELECTION_ENABLED: "false"
+              TELEMETRY_ENABLED: "false"
+              BROKER_MEMORY_LIMIT_MB:
+                valueFrom:
+                  resourceFieldRef:
+                    containerName: app
+                    resource: limits.memory
+                    divisor: 1Mi
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &brokerPort 9090
+                  periodSeconds: 20
+                  timeoutSeconds: 10
+                  failureThreshold: 10
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *brokerPort
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 6
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+            securityContext: &securityContext
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+      controller:
+        type: daemonset
+        pod:
+          automountServiceAccountToken: true
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
+          securityContext:
+            seccompProfile: {type: RuntimeDefault}
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+        serviceAccount:
+          identifier: controller
+        initContainers:
+          wait-broker:
+            image: &controllerImage
+              repository: ghcr.io/kguardian-dev/kguardian/controller
+              tag: v1.17.2@sha256:fd46983aa7854868d53efd73ff974f2b139f5174cd885ad44df08071f34a5b76
+            command:
+              - bash
+              - -c
+              - |
+                until (exec 3<>/dev/tcp/kguardian-broker.observability.svc.cluster.local/9090; printf 'GET /health HTTP/1.0\r\n\r\n' >&3; head -n1 <&3) | grep -q ' 200 '; do sleep 5; done
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 65534
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: {drop: ["ALL"]}
+        containers:
+          app:
+            image: *controllerImage
+            env:
+              API_ENDPOINT: http://kguardian-broker.observability.svc.cluster.local:9090
+              CURRENT_NODE:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
+              EXCLUDED_NAMESPACES: kube-system
+              IGNORE_DAEMONSET_TRAFFIC: "true"
+              RUST_LOG: info
+              SECCOMP_DENIAL_CAPTURE: "true"
+              SYSCALL_CAPTURE_LEVEL: full
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              privileged: true
+              readOnlyRootFilesystem: true
+      evaluator:
+        pod:
+          automountServiceAccountToken: true
+        serviceAccount:
+          identifier: evaluator
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kguardian-dev/kguardian/evaluator
+              tag: v0.5.2@sha256:6bc7bd40c281722958a340d508c6eb7c17a601c6dcbfb4dc65f1722ede886e3a
+            env:
+              LISTEN_ADDR: :8082
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &evaluatorPort 8082
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: *evaluatorPort
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+            securityContext: *securityContext
+      frontend:
+        serviceAccount:
+          name: default
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1337
+            runAsGroup: 1337
+            seccompProfile: {type: RuntimeDefault}
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kguardian-dev/kguardian/frontend
+              tag: v1.21.1@sha256:9b1b93399627485b62939bc06b351b4177f1e6d4d02ea25f0699f50b6fd210ef
+            env:
+              ALLOWED_HOSTS: kguardian.mortebrume.eu
+              VITE_API_URL: http://kguardian-broker.observability.svc.cluster.local:9090
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            securityContext: *securityContext
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: {type: RuntimeDefault}
+    serviceAccount:
+      controller: {}
+      evaluator: {}
+    rbac:
+      roles:
+        controller:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - namespaces
+                - pods
+                - services
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - ""
+              resources:
+                - nodes
+              verbs:
+                - get
+            - apiGroups:
+                - apps
+              resources:
+                - deployments
+                - replicasets
+                - statefulsets
+                - daemonsets
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - batch
+              resources:
+                - jobs
+              verbs:
+                - get
+        evaluator:
+          type: ClusterRole
+          rules:
+            - apiGroups:
+                - ""
+              resources:
+                - pods
+                - namespaces
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - networking.k8s.io
+              resources:
+                - networkpolicies
+              verbs:
+                - list
+                - watch
+            - apiGroups:
+                - kguardian.dev
+              resources:
+                - auditnetworkpolicies
+                - auditclusternetworkpolicies
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - kguardian.dev
+              resources:
+                - auditnetworkpolicies/status
+                - auditclusternetworkpolicies/status
+              verbs:
+                - get
+                - update
+                - patch
+            - apiGroups:
+                - ""
+              resources:
+                - events
+              verbs:
+                - create
+                - patch
+      bindings:
+        controller:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: controller
+          subjects:
+            - identifier: controller
+        evaluator:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: evaluator
+          subjects:
+            - identifier: evaluator
+    service:
+      broker:
+        controller: broker
+        ports:
+          http:
+            port: *brokerPort
+      evaluator:
+        controller: evaluator
+        ports:
+          http:
+            port: *evaluatorPort
+      frontend:
+        controller: frontend
+        ports:
+          http:
+            port: &frontendPort 5173
+    serviceMonitor:
+      broker:
+        service:
+          identifier: broker
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+    persistence:
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          frontend:
+            app:
+              - path: /tmp
+      bpffs:
+        type: hostPath
+        hostPath: /sys/fs/bpf
+        hostPathType: Directory
+        advancedMounts:
+          controller:
+            app:
+              - path: /sys/fs/bpf
+                readOnly: true
+      cgroupfs:
+        type: hostPath
+        hostPath: /sys/fs/cgroup
+        hostPathType: Directory
+        advancedMounts:
+          controller:
+            app:
+              - path: /sys/fs/cgroup
+                readOnly: true
+      containerd-bundle:
+        type: hostPath
+        hostPath: /run/containerd/io.containerd.runtime.v2.task
+        advancedMounts:
+          controller:
+            app:
+              - path: /run/containerd/io.containerd.runtime.v2.task
+                readOnly: true
+      containerd-sock:
+        type: hostPath
+        hostPath: /run/containerd/containerd.sock
+        hostPathType: Socket
+        advancedMounts:
+          controller:
+            app:
+              - path: /run/containerd/containerd.sock
+                readOnly: true
+      debugfs:
+        type: hostPath
+        hostPath: /sys/kernel/debug
+        advancedMounts:
+          controller:
+            app:
+              - path: /sys/kernel/debug
+                readOnly: true
+      hostproc:
+        type: hostPath
+        hostPath: /proc
+        hostPathType: Directory
+        advancedMounts:
+          controller:
+            app:
+              - path: /proc
+                readOnly: true
+      tracefs:
+        type: hostPath
+        hostPath: /sys/kernel/tracing
+        hostPathType: Directory
+        advancedMounts:
+          controller:
+            app:
+              - path: /sys/kernel/tracing
+                readOnly: true
+    route:
+      app:
+        hostnames:
+          - kguardian.mortebrume.eu
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+        rules:
+          - backendRefs:
+              - identifier: frontend
+                port: *frontendPort

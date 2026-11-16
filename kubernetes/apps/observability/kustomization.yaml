@@ -9,4 +9,5 @@ resources:
   - ./fluent-bit/ks.yaml
   - ./grafana/ks.yaml
   - ./headlamp/ks.yaml
+  - ./kguardian/ks.yaml
   - ./victoria/ks.yaml
