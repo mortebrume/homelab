@@ -3,35 +3,43 @@
   packageRules: [
     {
       matchUpdateTypes: ["major"],
-      labels: ["type/major"],
+      addLabels: ["type/major"],
     },
     {
       matchUpdateTypes: ["minor"],
-      labels: ["type/minor"],
+      addLabels: ["type/minor"],
     },
     {
       matchUpdateTypes: ["patch"],
-      labels: ["type/patch"],
+      addLabels: ["type/patch"],
     },
     {
       matchUpdateTypes: ["digest"],
-      labels: ["type/digest"],
+      addLabels: ["type/digest"],
     },
     {
       matchDatasources: ["docker"],
-      addLabels: ["renovate/container"],
+      labels: ["renovate/container"],
     },
     {
       matchDatasources: ["helm"],
-      addLabels: ["renovate/helm"],
+      labels: ["renovate/helm"],
+    },
+    {
+      matchDepTypes: ["HelmChart"],
+      labels: ["renovate/helm"],
+    },
+    {
+      matchManagers: ["helmfile"],
+      labels: ["renovate/helm"],
     },
     {
       matchManagers: ["github-actions"],
-      addLabels: ["renovate/github-action"],
+      labels: ["renovate/github-action"],
     },
     {
       matchDatasources: ["github-releases"],
-      addLabels: ["renovate/github-release"],
+      labels: ["renovate/github-release"],
     },
   ],
 }

@@ -1,9 +1,8 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:recommended",
-    "docker:enableMajor",
-    "helpers:pinGitHubActionDigests",
+    "github>home-operations/renovate-presets#11.0.0",
+    "github>home-operations/renovate-presets//apps/cnpg.json5#11.0.0",
     "local>mortebrume/homelab//.renovate/autoMerge.json5",
     "local>mortebrume/homelab//.renovate/changelogs.json5",
     "local>mortebrume/homelab//.renovate/customManagers.json5",
@@ -11,26 +10,20 @@
     "local>mortebrume/homelab//.renovate/groups.json5",
     "local>mortebrume/homelab//.renovate/labels.json5",
     "local>mortebrume/homelab//.renovate/overrides.json5",
-    "local>mortebrume/homelab//.renovate/semanticCommits.json5",
     ":automergePr",
-    ":disableRateLimiting",
-    ":dependencyDashboard",
     ":semanticCommits",
     ":timezone(Europe/Paris)",
   ],
-  dependencyDashboardTitle: "Renovate Dashboard",
+  dependencyDashboard: {
+    title: "Renovate Dashboard",
+  },
+  rebaseWhen: "conflicted",
   suppressNotifications: [
     "prEditedNotification",
     "prIgnoreNotification",
   ],
   ignorePaths: [],
-  flux: {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
   "helm-values": {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
-  },
-  kubernetes: {
-    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
+    managerFilePatterns: ["/(^|/)helmRelease\\.ya?ml(?:\\.j2)?$/"],
   },
 }
