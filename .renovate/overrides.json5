@@ -19,5 +19,10 @@
       semanticCommitScope: "helm",
       commitMessageTopic: "chart {{depName}}",
     },
+    {
+      description: "Workflows run on Forgejo Actions",
+      matchManagers: ["github-actions"],
+      semanticCommitScope: "forgejo-action",
+    },
   ],
 }

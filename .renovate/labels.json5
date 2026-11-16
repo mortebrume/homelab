@@ -35,7 +35,7 @@
     },
     {
       matchManagers: ["github-actions"],
-      labels: ["renovate/github-action"],
+      labels: ["renovate/forgejo-action"],
     },
     {
       matchDatasources: ["github-releases"],
