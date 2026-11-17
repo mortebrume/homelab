@@ -76,6 +76,12 @@ bridge:
   # These contain the same data that can be posted to an external HTTP server using homeserver -> status_endpoint.
   # Allowed values: none, errors, all
   bridge_status_notices: errors
+  # How long should TRANSIENT_DISCONNECT and CONNECTING states be held back before being reported?
+  # If another state update occurs while waiting, the previous state won't be reported at all.
+  transient_state_debounce: 10s
+  # When an outgoing message can't be sent because the login is not connected (e.g. mid-reconnect),
+  # wait this long for it to reconnect before failing the message.
+  send_reconnect_wait: 30s
   # How long after an unknown error should the bridge attempt a full reconnect?
   # Must be at least 1 minute. The bridge will add an extra ±20% jitter to this value.
   unknown_error_auto_reconnect: null
@@ -99,6 +105,8 @@ bridge:
   mute_only_on_create: true
   # Should the bridge check the db to ensure that incoming events haven't been handled before
   deduplicate_matrix_messages: false
+  # Size of the portal event buffer. Don't touch if you don't know what it means.
+  portal_event_buffer: 512
   # Should cross-room reply metadata be bridged?
   # Most Matrix clients don't support this and servers may reject such messages too.
   cross_room_replies: false
@@ -257,6 +265,11 @@ homeserver:
   websocket: false
   # How often should the websocket be pinged? Pinging will be disabled if this is zero.
   ping_interval_seconds: 0
+  # When requests to the homeserver fail with a 502/503/504/429 status or a network error,
+  # how many times should the bridge retry the request before giving up?
+  retry_limit: 7
+  # Maximum number of parallel connections to the homeserver. Zero means unlimited.
+  max_connections: 0
 
 # Application service host/registration related details.
 # Changing these values requires regeneration of the registration (except when noted otherwise)
