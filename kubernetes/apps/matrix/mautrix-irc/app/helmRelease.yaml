@@ -20,7 +20,7 @@ spec:
             image:
               repository: dock.mau.dev/mautrix/irc
               # No tagged version yet
-              tag: latest@sha256:f141fc675c2847db804eb539c02591a0f2535bb7f70fb708c4357cf8a7be77fb
+              tag: latest@sha256:0ccd7446ec4c291e4474f380981dfbe9dc3277b98010f5a8b3a4d72ecd0fe92d
             command:
               - "/usr/bin/mautrix-irc"
             args:
