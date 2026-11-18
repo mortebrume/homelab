@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/nzbhydra2
-              tag: 9.3.1@sha256:11a2865933f54ec3fe5950b1c2f28cda94562248bb54fbf8bd96f971938d79a4
+              tag: 9.3.2@sha256:f3c998e2c0433e53dcb3c4f667f94c854bb175183fa4df1f4c13a10727610cbd
             env:
               JAVA_TOOL_OPTIONS: -Xmx768M
               NZBHYDRA_DISABLE_WRAPPER_CHECK: "true"
