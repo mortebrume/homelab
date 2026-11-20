@@ -6,10 +6,15 @@ metadata:
   name: github-mcp
 spec:
   image: ghcr.io/github/github-mcp-server:v2.2.0
-  transport: stdio
+  transport: streamable-http
+  mcpPort: 8082
+  proxyPort: 8080
+  args:
+    - "http"
+    - "--port"
+    - "8082"
+    - "--read-only"
   groupRef:
     name: mcp-tools
-  secrets:
-    - name: github-mcp
-      key: token
-      targetEnvName: GITHUB_PERSONAL_ACCESS_TOKEN
+  externalAuthConfigRef:
+    name: github-pat
