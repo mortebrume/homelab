@@ -15,18 +15,14 @@ spec:
         `| top N by (field)`. Stream selectors `{k_namespace_name="ns"}` plus
         bareword / "phrase" / regex filters narrow before aggregation. If a
         result is large, add `| stats`/filters rather than paginating raw output.
-      annotations:
-        readOnlyHint: true
     stats_query:
       description: >-
         Instant LogsQL stats query (single point in time). Use `| stats`
         aggregations — count(), sum(), avg(), quantile(), uniq() — grouped
         `by (field)`. Prefer this over querying raw logs and counting client-side.
-      annotations:
-        readOnlyHint: true
+        The `time` argument is required despite the schema: pass the current
+        time in RFC3339.
     stats_query_range:
       description: >-
         Range LogsQL stats query returning a time series of `| stats`
         aggregations across [start, end] at a step. For trends/rates over time.
-      annotations:
-        readOnlyHint: true
