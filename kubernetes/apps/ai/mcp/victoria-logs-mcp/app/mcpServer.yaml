@@ -23,6 +23,6 @@ spec:
     - name: MCP_LOG_FORMAT
       value: json
     - name: MCP_LOG_LEVEL
-      value: info
+      value: warn
     - name: VL_INSTANCE_ENTRYPOINT
       value: http://vlsingle-vl.observability.svc.cluster.local:9428
