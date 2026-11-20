@@ -82,8 +82,7 @@ spec:
             targetPort: 5353
             protocol: UDP
       ts:
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
+        type: ClusterIP
         internalTrafficPolicy: Cluster
         ipFamilyPolicy: PreferDualStack
         externalIPs:
