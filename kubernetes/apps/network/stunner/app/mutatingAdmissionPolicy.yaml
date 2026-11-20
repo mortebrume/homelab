@@ -1,0 +1,32 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: stunner-externalips
+spec:
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["services"]
+    objectSelector:
+      matchLabels:
+        stunner.l7mp.io/owned-by: stunner
+  matchConditions:
+    - name: has-gateway-address
+      expression: "has(object.spec.loadBalancerIP) && object.spec.loadBalancerIP != ''"
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >-
+          [JSONPatch{op: "add", path: "/spec/externalIPs", value: [object.spec.loadBalancerIP]}]
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: stunner-externalips
+spec:
+  policyName: stunner-externalips

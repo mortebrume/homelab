@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./helmRelease.yaml
   - ./helmRepository.yaml
+  - ./mutatingAdmissionPolicy.yaml

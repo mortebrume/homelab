@@ -5,6 +5,8 @@ kind: Gateway
 metadata:
   name: stunner
   annotations:
+    external-dns.kubernetes.io/hostname: turn.mortebrume.eu
+    external-dns.kubernetes.io/target: "168.119.32.22"
     stunner.l7mp.io/enable-mixed-protocol-lb: "true"
     stunner.l7mp.io/service-type: ClusterIP
 spec:
