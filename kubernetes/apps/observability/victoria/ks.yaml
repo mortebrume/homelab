@@ -56,3 +56,19 @@ spec:
     namespace: flux-system
   targetNamespace: observability
   timeout: 5m
+---
+# yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: victoria-logs-collector
+spec:
+  interval: 1h
+  path: "./kubernetes/apps/observability/victoria/collector"
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: observability
+  timeout: 5m

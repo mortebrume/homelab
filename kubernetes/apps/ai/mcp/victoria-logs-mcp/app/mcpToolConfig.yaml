@@ -12,9 +12,14 @@ spec:
         sorting and field projection IN the query with pipes — do not fetch raw
         logs and post-process them. Pipes: `| stats by (field) count() as c`,
         `| fields _time, msg`, `| sort by (_time)`, `| limit N`, `| uniq by (x)`,
-        `| top N by (field)`. Stream selectors `{k_namespace_name="ns"}` plus
-        bareword / "phrase" / regex filters narrow before aggregation. If a
-        result is large, add `| stats`/filters rather than paginating raw output.
+        `| top N by (field)`. Stream fields are `kubernetes.pod_namespace`,
+        `kubernetes.pod_name`, `kubernetes.container_name`, e.g.
+        `{kubernetes.pod_namespace="ns"}`; pod labels are under
+        `kubernetes.pod_labels.*`. Logs older than 2026-11-20 use
+        `k_namespace_name`, `k_pod_name`, `k_container_name` instead. Stream
+        selectors plus bareword / "phrase" / regex filters narrow before
+        aggregation. If a result is large, add `| stats`/filters rather than
+        paginating raw output.
     stats_query:
       description: >-
         Instant LogsQL stats query (single point in time). Use `| stats`
