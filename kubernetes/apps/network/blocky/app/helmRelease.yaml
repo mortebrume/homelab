@@ -83,7 +83,7 @@ spec:
             protocol: UDP
       ts:
         type: LoadBalancer
-        externalTrafficPolicy: Local
+        externalTrafficPolicy: Cluster
         internalTrafficPolicy: Cluster
         ipFamilyPolicy: PreferDualStack
         externalIPs:
