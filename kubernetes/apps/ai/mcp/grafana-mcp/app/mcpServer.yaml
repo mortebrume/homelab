@@ -14,6 +14,8 @@ spec:
     - streamable-http
     - --allowed-hosts
     - mcp-grafana:8000
+    - --enabled-tools
+    - search,datasource,dashboard,folder,navigation,docs,sql
   groupRef:
     name: mcp-tools
   env:
