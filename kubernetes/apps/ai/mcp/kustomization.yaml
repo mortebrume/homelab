@@ -10,3 +10,4 @@ resources:
   - ./kguardian-mcp/ks.yaml
   - ./kubernetes-mcp/ks.yaml
   - ./victoria-logs-mcp/ks.yaml
+  - ./victoria-metrics-mcp/ks.yaml

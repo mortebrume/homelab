@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcptoolconfig_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPToolConfig
+metadata:
+  name: victoria-metrics
+spec:
+  toolsOverride:
+    query:
+      description: >-
+        Instant PromQL/MetricsQL query against VictoriaMetrics. Aggregate IN the
+        query so only the series you need come back: `sum by (namespace) (...)`,
+        `topk(10, ...)`, `max_over_time(...[1h])`, label filters `{namespace="x"}`.
+        Never query a bare high-cardinality selector and filter client-side.
+    query_range:
+      description: >-
+        Range PromQL/MetricsQL query over [start, end] at a step. Aggregate in
+        the query (`sum by`, `topk`, `quantile_over_time`) and pick a step that
+        keeps points per series small (e.g. 5m for 24h, 1h for 7d). Use `query`
+        with `*_over_time` instead when you only need one number per series.
+    series:
+      description: >-
+        List time series matching a selector. Always pass a narrow `match`
+        and a `limit`; prefer `labels`/`label_values` or `tsdb_status` to
+        explore cardinality.
+    metrics:
+      description: >-
+        List metric names. Pass `match` and a `limit` to keep the result small;
+        use `metrics_metadata` for type/help of a known metric.

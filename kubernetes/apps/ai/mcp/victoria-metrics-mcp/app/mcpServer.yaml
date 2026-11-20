@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: victoria-metrics
+spec:
+  image: ghcr.io/victoriametrics/mcp-victoriametrics:v1.21.0
+  transport: streamable-http
+  mcpPort: 8080
+  proxyPort: 8080
+  toolConfigRef:
+    name: victoria-metrics
+  groupRef:
+    name: mcp-tools
+  env:
+    - name: MCP_SERVER_MODE
+      value: http
+    - name: MCP_LISTEN_ADDR
+      value: :8080
+    - name: MCP_LOG_FORMAT
+      value: json
+    - name: MCP_LOG_LEVEL
+      value: warn
+    - name: MCP_DISABLE_RESOURCES
+      value: "true"
+    - name: VM_INSTANCE_TYPE
+      value: single
+    - name: VM_INSTANCE_ENTRYPOINT
+      value: http://vmsingle-vmks.observability.svc.cluster.local:8428
