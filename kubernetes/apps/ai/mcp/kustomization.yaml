@@ -9,5 +9,4 @@ resources:
   - ./home-assistant-mcp/ks.yaml
   - ./kguardian-mcp/ks.yaml
   - ./kubernetes-mcp/ks.yaml
-  - ./mkp-mcp/ks.yaml
   - ./victoria-logs-mcp/ks.yaml
