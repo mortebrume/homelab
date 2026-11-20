@@ -1,0 +1,11 @@
+port = "8080"
+stateless = true
+read_only = true
+cluster_auth_mode = "kubeconfig"
+toolsets = ["core"]
+list_output = "table"
+
+[[denied_resources]]
+group = ""
+version = "v1"
+kind = "Secret"

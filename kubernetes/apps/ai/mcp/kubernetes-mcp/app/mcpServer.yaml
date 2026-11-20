@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: kubernetes
+spec:
+  image: quay.io/containers/kubernetes_mcp_server:v0.1.3
+  transport: streamable-http
+  mcpPort: 8080
+  proxyPort: 8080
+  args:
+    - --config
+    - /etc/kubernetes-mcp/config.toml
+  groupRef:
+    name: mcp-tools
+  serviceAccount: kubernetes-mcp
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          volumeMounts:
+            - name: config
+              mountPath: /etc/kubernetes-mcp
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: kubernetes-mcp-config
