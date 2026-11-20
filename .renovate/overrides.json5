@@ -13,6 +13,12 @@
       extractVersion: "^(?:chart-v)?(?<version>\\d+\\.\\d+\\.\\d+)$",
     },
     {
+      description: "Stray 1.120.1 tags with no release (VictoriaMetrics/mcp-victoriametrics#249)",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/victoriametrics/mcp-victoriametrics"],
+      allowedVersions: "!/^v?1\\.120\\.1$/",
+    },
+    {
       description: "Helmfile OCI charts are charts, not container images",
       matchManagers: ["helmfile"],
       matchDatasources: ["docker"],
