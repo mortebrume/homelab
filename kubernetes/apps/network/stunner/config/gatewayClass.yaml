@@ -5,7 +5,8 @@ kind: GatewayConfig
 metadata:
   name: stunner
 spec:
-  logLevel: "all:DEBUG,turn:INFO"
+  authType: ephemeral
+  logLevel: "all:INFO"
   realm: stunner.l7mp.io
   authRef:
     name: stunner-auth
