@@ -23,14 +23,8 @@ spec:
             limits:
               memory: 1Gi
       envoyService:
-        type: ClusterIP
-        patch:
-          type: StrategicMerge
-          value:
-            spec:
-              externalIPs:
-                - "100.115.152.117"
-                - "fd7a:115c:a1e0::b901:9883"
+        type: LoadBalancer
+        allocateLoadBalancerNodePorts: false
   shutdown:
     drainTimeout: 180s
   telemetry:
@@ -64,6 +58,11 @@ spec:
   infrastructure:
     annotations:
       external-dns.kubernetes.io/hostname: mortebrume.eu
+  addresses:
+    - type: IPAddress
+      value: "100.115.152.117"
+    - type: IPAddress
+      value: "fd7a:115c:a1e0::b901:9883"
   listeners:
     - name: http
       protocol: HTTP
