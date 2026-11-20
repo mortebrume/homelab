@@ -6,11 +6,15 @@ metadata:
   name: context7
 spec:
   image: ghcr.io/stacklok/dockyard/npx/context7:4.7.3
-  transport: stdio
+  transport: streamable-http
+  mcpPort: 3000
   proxyPort: 8080
+  args:
+    - --transport
+    - http
+    - --port
+    - "3000"
   groupRef:
     name: mcp-tools
-  secrets:
-    - name: context7-api-key
-      key: token
-      targetEnvName: CONTEXT7_API_KEY
+  externalAuthConfigRef:
+    name: context7-key
