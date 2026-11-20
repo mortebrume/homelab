@@ -16,9 +16,6 @@ spec:
     - mcp-grafana:8000
   groupRef:
     name: mcp-tools
-  permissionProfile:
-    type: builtin
-    name: network
   env:
     - name: GRAFANA_URL
       value: http://grafana-service.observability.svc.cluster.local:3000

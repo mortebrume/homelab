@@ -12,9 +12,6 @@ spec:
     name: victoria-logs
   groupRef:
     name: mcp-tools
-  permissionProfile:
-    type: builtin
-    name: network
   env:
     - name: MCP_SERVER_MODE
       value: http

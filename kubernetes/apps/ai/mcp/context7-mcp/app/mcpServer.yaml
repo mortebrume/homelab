@@ -10,9 +10,6 @@ spec:
   proxyPort: 8080
   groupRef:
     name: mcp-tools
-  permissionProfile:
-    type: builtin
-    name: network
   secrets:
     - name: context7-api-key
       key: token

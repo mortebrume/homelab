@@ -11,7 +11,4 @@ spec:
   proxyPort: 8080
   groupRef:
     name: mcp-tools
-  permissionProfile:
-    type: builtin
-    name: network
   serviceAccount: mkp-mcp

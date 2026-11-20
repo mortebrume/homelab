@@ -13,9 +13,6 @@ spec:
     - ha-mcp-web
   groupRef:
     name: mcp-tools
-  permissionProfile:
-    type: builtin
-    name: network
   env:
     - name: HOMEASSISTANT_URL
       value: http://home-assistant.automation.svc.cluster.local:8123

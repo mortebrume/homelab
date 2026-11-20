@@ -9,9 +9,6 @@ spec:
   transport: stdio
   groupRef:
     name: mcp-tools
-  permissionProfile:
-    type: builtin
-    name: network
   secrets:
     - name: github-mcp
       key: token
