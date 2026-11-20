@@ -46,7 +46,7 @@ spec:
         prefixFormat: "{workload}_"
     operational:
       failureHandling:
-        healthCheckInterval: 5m
+        healthCheckInterval: 1m
         statusReportingInterval: 5m
   groupRef:
     name: mcp-tools
