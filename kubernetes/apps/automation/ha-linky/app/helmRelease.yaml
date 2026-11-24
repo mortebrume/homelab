@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: registry.mortebrume.eu/ha-linky
-              tag: 1.9.0-e106dfc@sha256:8778e2834244289800421cbe4475c7a8006b59b9ba232e7f31bdadc391bb9753
+              tag: 1.9.0@sha256:b77db672b4ac0853da86841cb4a7bba62f93ef450bf01cfb6f243a20abbfd0b8
             env:
               TZ: Europe/Paris
               WS_URL: ws://home-assistant.automation.svc:8123/api/websocket
