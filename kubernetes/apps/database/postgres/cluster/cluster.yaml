@@ -58,7 +58,7 @@ spec:
     extensions:
       - name: timescaledb
         image:
-          reference: registry.mortebrume.eu/timescaledb:2.29.2-pg18@sha256:4400d3377014e00b707e584b79f1c3f612a059c64ed7788434368fdd97edb65e
+          reference: registry.mortebrume.eu/timescaledb:2.32.1-pg18@sha256:ae3948cf37263dc79c208b1482d345dd9804d3af467c91af572c4ec34c2169e9
 
   managed:
     roles:
