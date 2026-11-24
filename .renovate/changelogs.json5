@@ -52,12 +52,6 @@
       sourceUrl: "https://github.com/apache/tika-docker",
     },
     {
-      description: "Source URL for images pointing at their packaging repo",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/m00nwtchr/timescaledb"],
-      sourceUrl: "https://github.com/timescale/timescaledb",
-    },
-    {
       description: "Source URL for charts without a source",
       matchDatasources: ["docker"],
       matchPackageNames: ["ghcr.io/grafana/helm-charts/grafana-operator"],
