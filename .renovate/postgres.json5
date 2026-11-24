@@ -1,0 +1,37 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  description: [
+    "CloudNativePG upgrade guardrails.",
+    "Postgres majors can't be grouped with their extensions (the major is part of each extension tag), so major PRs never automerge and carry a checklist.",
+    "Extension image bumps don't update the SQL objects, so their PRs carry an ALTER EXTENSION reminder.",
+    "Add your own extension images to matchPackageNames in the second rule.",
+  ],
+  packageRules: [
+    {
+      description: "Postgres majors: never automerge, show a checklist",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/^ghcr\\.io\\/cloudnative-pg\\/(?:postgresql|postgis)$/"],
+      matchUpdateTypes: ["major"],
+      automerge: false,
+      prBodyNotes: [
+        "> [!WARNING]\n> **Postgres major upgrade (PG{{{newMajor}}}).** Extension images are built for one Postgres major, they need to be updated in this PR.\n>\n> - [ ] Before: update each extension to a version that also supports PG{{{newMajor}}} and run `ALTER EXTENSION ... UPDATE`\n> - [ ] On this branch: switch each extension image to the PG{{{newMajor}}} build of that same version (usually a tag suffix, e.g. `-pg{{{newMajor}}}` or `-{{{newMajor}}}-trixie`)\n> - [ ] Check `shared_preload_libraries`",
+      ],
+    },
+    {
+      description: "Extension image bumps: remind to run ALTER EXTENSION UPDATE",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/-extension$/",
+        "/timescaledb/",
+        "/vchord/",
+        "/pgvector/",
+        "/postgis/",
+        "!/^ghcr\\.io\\/cloudnative-pg\\/postgis$/",
+      ],
+      matchUpdateTypes: ["major", "minor", "patch"],
+      prBodyNotes: [
+        "> [!IMPORTANT]\n> **Extension update.** After the rollout, run in each database that uses it:\n>\n> `kubectl cnpg psql <cluster> -n <namespace> -- -X -d <database> -c 'ALTER EXTENSION <extension> UPDATE'`\n>\n> TimescaleDB fails queries until this runs.",
+      ],
+    },
+  ],
+}
