@@ -50,25 +50,12 @@ spec:
     pg_ident:
       - pooler-map pooler-rw all
     shared_preload_libraries:
-      - "vchord.so"
       - "timescaledb"
     parameters:
       timescaledb.telemetry_level: "off"
       max_locks_per_transaction: "128"
 
     extensions:
-      - name: postgis
-        ld_library_path:
-          - system
-        image:
-          reference: ghcr.io/cloudnative-pg/postgis-extension:3.7.0-18-trixie@sha256:63b769dd03a69e456530e79d4f8191c5051330903e7244dbe7b3cbd36e58c6c8
-      - name: vchord
-        image:
-          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1@sha256:bdea43bed2a414e21bbf71767bf6f0739747ac480b267b51772dc214ac28dcb3
-        dynamic_library_path:
-          - /usr/lib/postgresql/18/lib
-        extension_control_path:
-          - /usr/share/postgresql/18/
       - name: timescaledb
         image:
           reference: ghcr.io/m00nwtchr/timescaledb:2.29.2@sha256:0d78b1054eb7f51749e378197a4b7d0aee4c63ced6be18a60d63ab1b6b481528
