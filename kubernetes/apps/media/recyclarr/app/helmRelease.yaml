@@ -12,24 +12,52 @@ spec:
   values:
     controllers:
       recyclarr:
-        type: cronjob
-        cronjob:
-          schedule: 0 0 * * *
-          backoffLimit: 0
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 1
-          ttlSecondsAfterFinished: 86400
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 9.0.0@sha256:4973d11b18b5ef09fb226f4161eecb16434ff7e6b43c56d50fceb52fb22c66c7
+            env:
+              RECYCLARR_DATA_DIR: /data
+              TZ: Europe/Paris
             envFrom:
               - secretRef:
                   name: recyclarr
-            args:
-              - sync
+              - secretRef:
+                  name: recyclarr-api-key
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /livez
+                    port: &managementPort 7983
+                  periodSeconds: 10
+                  failureThreshold: 60
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /livez
+                    port: *managementPort
+                  periodSeconds: 30
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: *managementPort
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -38,9 +66,7 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 128Mi
-        pod:
-          restartPolicy: Never
+                memory: 256Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -48,6 +74,18 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: 7982
+          management:
+            port: *managementPort
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: management
+            path: /metrics
     persistence:
       config:
         existingClaim: recyclarr
@@ -57,5 +95,14 @@ spec:
         globalMounts:
           - path: /config/recyclarr.yml
             subPath: recyclarr.yml
+            readOnly: true
+          - path: /config/settings.yml
+            subPath: settings.yml
+            readOnly: true
       tmp:
         type: emptyDir
+        globalMounts:
+          - path: /tmp
+            subPath: tmp
+          - path: /data
+            subPath: data
