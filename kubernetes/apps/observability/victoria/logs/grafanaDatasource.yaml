@@ -15,6 +15,3 @@ spec:
     jsonData:
       maxLines: 250
     url: http://vlsingle-vl.observability.svc.cluster.local:9428
-  plugins:
-    - name: victoriametrics-logs-datasource
-      version: 0.34.0

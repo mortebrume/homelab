@@ -65,6 +65,10 @@ spec:
                   value: "true"
                 - name: GF_SECURITY_COOKIE_SAMESITE
                   value: grafana
+                - name: GF_PLUGINS_PREINSTALL_SYNC
+                  value: victoriametrics-logs-datasource@0.34.0
+                - name: GF_INSTALL_PLUGINS
+                  value: ""
               envFrom:
                 - secretRef:
                     name: grafana
