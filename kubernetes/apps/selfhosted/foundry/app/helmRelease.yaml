@@ -49,7 +49,7 @@ spec:
           app:
             image:
               repository: ghcr.io/mrprimate/ddb-proxy
-              tag: 7.0.26@sha256:edf3c3647a7db219019ff532f661460b7c4c67b686c9f18d28b62bbcf98f9845
+              tag: 0.0.28@sha256:243a51d6c1537f054c19c9401bc1568a17d7c3c67cb34a69bc27974ae0a94be7
             probes:
               liveness:
                 enabled: true
