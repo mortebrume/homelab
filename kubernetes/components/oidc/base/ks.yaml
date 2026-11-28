@@ -49,9 +49,10 @@ spec:
       emptyArray: "[]"
       defaultScopes: '["openid", "profile", "email", "groups"]'
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: OCIRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: kanidm
-  wait: false
+  timeout: 5m

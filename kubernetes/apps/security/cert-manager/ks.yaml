@@ -5,25 +5,11 @@ kind: Kustomization
 metadata:
   name: cert-manager
 spec:
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: cert-manager
-      namespace: security
-    - apiVersion: &apiVersion cert-manager.io/v1
-      kind: &kind ClusterIssuer
-      name: letsencrypt
-    - apiVersion: *apiVersion
-      kind: *kind
-      name: selfsigned
-    - apiVersion: *apiVersion
-      kind: *kind
-      name: cluster-ca
   healthCheckExprs:
-    - apiVersion: *apiVersion
-      kind: *kind
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+    - apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      failed: status.conditions.exists(e, e.type == 'Ready' && e.status == 'False')
+      current: status.conditions.exists(e, e.type == 'Ready' && e.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/security/cert-manager/app
   prune: true

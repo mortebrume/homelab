@@ -13,7 +13,6 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: observability
-  wait: true
 ---
 # yaml-language-server: $schema=https://schemas.mortebrume.eu/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -27,6 +26,10 @@ spec:
     - name: grafana-operator
     - name: openebs
       namespace: openebs-system
+  healthCheckExprs:
+    - apiVersion: grafana.integreatly.org/v1beta1
+      kind: Grafana
+      current: status.conditions.exists(e, e.type == 'GrafanaReady' && e.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/observability/grafana/instance
   postBuild:
@@ -51,4 +54,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: observability
-  wait: false

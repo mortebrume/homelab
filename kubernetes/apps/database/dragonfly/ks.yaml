@@ -5,15 +5,13 @@ kind: Kustomization
 metadata:
   name: dragonfly
 spec:
-  components: []
   dependsOn:
     - name: dragonfly-operator
       namespace: dragonfly-system
-  healthChecks:
+  healthCheckExprs:
     - apiVersion: dragonflydb.io/v1alpha1
       kind: Dragonfly
-      name: dragonfly
-      namespace: database
+      current: has(status.phase) && status.phase == 'Ready'
   interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
   prune: true
@@ -22,4 +20,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: database
-  wait: false

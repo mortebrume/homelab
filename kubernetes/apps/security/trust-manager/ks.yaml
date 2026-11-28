@@ -8,11 +8,6 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: security
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: trust-manager
-      namespace: security
   interval: 1h
   path: ./kubernetes/apps/security/trust-manager/app
   prune: true

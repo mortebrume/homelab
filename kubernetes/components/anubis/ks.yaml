@@ -24,4 +24,3 @@ spec:
     namespace: flux-system
   targetNamespace: ${NAMESPACE:=${APP}}
   timeout: 5m
-  wait: false

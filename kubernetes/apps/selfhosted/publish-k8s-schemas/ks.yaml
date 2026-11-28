@@ -5,7 +5,6 @@ kind: Kustomization
 metadata:
   name: publish-k8s-schemas
 spec:
-  components: []
   interval: 1h
   path: ./kubernetes/apps/selfhosted/publish-k8s-schemas/app
   prune: true
@@ -14,4 +13,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: selfhosted
-  wait: false

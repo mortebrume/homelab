@@ -9,11 +9,13 @@ spec:
   dependsOn:
     - name: cnpg
       namespace: cnpg-system
-  healthChecks:
+  healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Database
-      name: postgres-${APP}
-      namespace: *namespace
+      current: has(status.applied) && status.applied
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: DatabaseRole
+      current: has(status.applied) && status.applied
   interval: 1h
   path: ./kubernetes/components/postgres/base/database
   postBuild:
@@ -31,4 +33,3 @@ spec:
     namespace: flux-system
   targetNamespace: *namespace
   timeout: 5m
-  wait: false

@@ -5,11 +5,10 @@ kind: Kustomization
 metadata:
   name: postgres-cluster
 spec:
-  healthChecks:
+  healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
-      name: postgres
-      namespace: database
+      current: status.conditions.exists(e, e.type == 'Ready' && e.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/database/postgres/cluster
   postBuild:
@@ -23,4 +22,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: database
-  wait: false
