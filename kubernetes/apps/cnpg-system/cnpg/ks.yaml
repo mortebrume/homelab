@@ -23,6 +23,8 @@ spec:
   dependsOn:
     - name: cnpg
       namespace: cnpg-system
+    - name: cert-manager
+      namespace: security
   interval: 1h
   path: ./kubernetes/apps/cnpg-system/cnpg/plugin-barman-cloud
   prune: true

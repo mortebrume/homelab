@@ -9,6 +9,11 @@ spec:
     - ../../../../components/postgres/cert
     - ../../../../components/kopiur
     - ../../../../components/oidc
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/automation/home-assistant/app
   postBuild:

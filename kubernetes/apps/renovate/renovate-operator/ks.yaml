@@ -22,6 +22,9 @@ metadata:
 spec:
   dependsOn:
     - name: renovate-operator
+      namespace: renovate
+    - name: openebs
+      namespace: openebs-system
   interval: 1h
   path: ./kubernetes/apps/renovate/renovate-operator/jobs
   prune: true

@@ -12,6 +12,8 @@ spec:
       namespace: openebs-system
     - name: media-storage
       namespace: media
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/media/jellyfin/app
   postBuild:

@@ -13,6 +13,8 @@ spec:
   dependsOn:
     - name: openebs
       namespace: openebs-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/forgejo/forgejo/app
   postBuild:

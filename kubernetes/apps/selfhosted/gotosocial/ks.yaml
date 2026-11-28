@@ -9,6 +9,11 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert/
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/selfhosted/gotosocial/server
   postBuild:

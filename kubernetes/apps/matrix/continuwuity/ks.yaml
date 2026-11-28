@@ -8,6 +8,11 @@ spec:
   components:
     - ../../../../components/kopiur
     - ../../../../components/oidc
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/matrix/continuwuity/app
   postBuild:

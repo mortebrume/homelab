@@ -10,6 +10,11 @@ spec:
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
     - ../../../../components/dragonfly
+  dependsOn:
+    - name: openebs
+      namespace: openebs-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:

@@ -24,6 +24,7 @@ spec:
     - ../../../../components/oidc
   dependsOn:
     - name: grafana-operator
+      namespace: observability
     - name: openebs
       namespace: openebs-system
   healthCheckExprs:

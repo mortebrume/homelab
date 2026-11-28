@@ -5,6 +5,17 @@ kind: Kustomization
 metadata:
   name: postgres-cluster
 spec:
+  dependsOn:
+    - name: cnpg
+      namespace: cnpg-system
+    - name: plugin-barman-cloud
+      namespace: cnpg-system
+    - name: openebs
+      namespace: openebs-system
+    - name: cert-manager
+      namespace: security
+    - name: trust-manager-config
+      namespace: security
   healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
@@ -15,7 +26,7 @@ spec:
     substituteFrom:
       - kind: Secret
         name: barman-r2
-        optional: false
+        optional: true
   prune: true
   sourceRef:
     kind: OCIRepository
