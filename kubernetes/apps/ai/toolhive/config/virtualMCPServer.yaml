@@ -70,6 +70,10 @@ spec:
           env:
             - name: INSECURE_DISABLE_URL_VALIDATION
               value: "true"
+          ports:
+            - name: metrics
+              containerPort: 9464
+              protocol: TCP
   sessionStorage:
     provider: redis
     address: dragonfly.database:6379

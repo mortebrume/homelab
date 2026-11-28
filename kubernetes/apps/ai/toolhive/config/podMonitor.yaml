@@ -13,6 +13,6 @@ spec:
     matchNames:
       - ai
   podMetricsEndpoints:
-    - port: http
+    - port: metrics
       path: /metrics
       interval: 15s
