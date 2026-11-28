@@ -11,6 +11,38 @@ spec:
   interval: 1h
   values:
     gitea:
+      podAnnotations:
+        k8s.ksgate.org/postgres-ready: |
+          {
+            "apiVersion": "postgresql.cnpg.io/v1",
+            "kind": "Cluster",
+            "name": "postgres",
+            "namespace": "database",
+            "expression": "resource.status.readyInstances >= 1"
+          }
+        k8s.ksgate.org/postgres-service: |
+          {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "name": "pooler-rw",
+            "namespace": "database"
+          }
+        k8s.ksgate.org/database-applied: |
+          {
+            "apiVersion": "postgresql.cnpg.io/v1",
+            "kind": "Database",
+            "name": "postgres-forgejo",
+            "namespace": "database",
+            "expression": "resource.status.applied"
+          }
+        k8s.ksgate.org/dragonfly-ready: |
+          {
+            "apiVersion": "dragonflydb.io/v1alpha1",
+            "kind": "Dragonfly",
+            "name": "dragonfly",
+            "namespace": "database",
+            "expression": "has(resource.status.phase) && resource.status.phase == 'Ready'"
+          }
       admin:
         username: ""
       config:

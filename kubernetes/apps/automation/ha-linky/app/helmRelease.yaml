@@ -37,6 +37,15 @@ spec:
               limits:
                 memory: 256Mi
     defaultPodOptions:
+      annotations:
+        k8s.ksgate.org/home-assistant-ready: |
+          {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "name": "home-assistant",
+            "namespace": "automation",
+            "expression": "has(resource.status.readyReplicas) && resource.status.readyReplicas >= 1"
+          }
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

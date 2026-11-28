@@ -9,6 +9,7 @@ spec:
     - ../../../../components/kopiur
     - ../../../../components/oidc
     - ../../../../components/postgres/cert
+    - ../../../../components/dragonfly
   interval: 1h
   path: ./kubernetes/apps/selfhosted/paperless/app
   postBuild:

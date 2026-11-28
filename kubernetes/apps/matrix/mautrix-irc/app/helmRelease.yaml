@@ -55,6 +55,15 @@ spec:
               limits:
                 memory: 500Mi
     defaultPodOptions:
+      annotations:
+        k8s.ksgate.org/continuwuity-ready: |
+          {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "name": "continuwuity",
+            "namespace": "matrix",
+            "expression": "has(resource.status.readyReplicas) && resource.status.readyReplicas >= 1"
+          }
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

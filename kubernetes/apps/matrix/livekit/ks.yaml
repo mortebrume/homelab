@@ -5,6 +5,8 @@ kind: Kustomization
 metadata:
   name: livekit
 spec:
+  components:
+    - ../../../../components/dragonfly
   interval: 1h
   path: ./kubernetes/apps/matrix/livekit/app
   prune: true

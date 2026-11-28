@@ -10,6 +10,16 @@ spec:
     name: ${APP}-anubis
   interval: 1h
   values:
+    defaultPodOptions:
+      annotations:
+        k8s.ksgate.org/dragonfly-ready: |
+          {
+            "apiVersion": "dragonflydb.io/v1alpha1",
+            "kind": "Dragonfly",
+            "name": "dragonfly",
+            "namespace": "database",
+            "expression": "has(resource.status.phase) && resource.status.phase == 'Ready'"
+          }
     controllers:
       anubis:
         annotations:

@@ -5,7 +5,6 @@ kind: Kustomization
 metadata:
   name: ksgate
 spec:
-  components: []
   interval: 1h
   path: ./kubernetes/apps/kube-system/ksgate/app
   prune: true
@@ -14,4 +13,3 @@ spec:
     name: flux-system
     namespace: flux-system
   targetNamespace: kube-system
-  wait: false
